@@ -1,0 +1,137 @@
+diff --git a/.gitignore b/.gitignore
+index 56caa89..dacc1dc 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -114,3 +114,4 @@ __cmake_systeminformation/
+ 
+ # Ignore YouCompleteMe symlinks
+ .ycm_extra_conf.py
++/Index
+diff --git a/Source/JavaScriptCore/API/JSContextRef.cpp b/Source/JavaScriptCore/API/JSContextRef.cpp
+index a8065ca..5437977 100644
+--- a/Source/JavaScriptCore/API/JSContextRef.cpp
++++ b/Source/JavaScriptCore/API/JSContextRef.cpp
+@@ -298,6 +298,61 @@ private:
+     mutable unsigned m_remainingCapacityForFrameCapture;
+ };
+ 
++class DTX_BacktraceFunctor {
++public:
++    DTX_BacktraceFunctor(std::string& builder, unsigned remainingCapacityForFrameCapture)
++    : m_builder(builder)
++    , m_remainingCapacityForFrameCapture(remainingCapacityForFrameCapture)
++    {
++    }
++    
++    StackVisitor::Status operator()(StackVisitor& visitor) const
++    {
++        if (m_remainingCapacityForFrameCapture) {
++            // If callee is unknown, but we've not added any frame yet, we should
++            // still add the frame, because something called us, and gave us arguments.
++            if (visitor->callee().isCell()) {
++                JSCell* callee = visitor->callee().asCell();
++                if (!callee && visitor->index())
++                    return StackVisitor::Done;
++            }
++            
++            std::string& builder = m_builder;
++            
++            if (builder.length() > 0)
++            {
++                builder.append("\n");
++            }
++            
++            builder.append("#");
++            builder.append(std::to_string(visitor->index()));
++            
++            builder.append(" ");
++            builder.append((const char*)visitor->functionName().characters8());
++            builder.append("() at ");
++            builder.append((const char*)visitor->sourceURL().characters8());
++            if (visitor->hasLineAndColumnInfo()) {
++                builder.append(":");
++                unsigned lineNumber;
++                unsigned unusedColumn;
++                visitor->computeLineAndColumn(lineNumber, unusedColumn);
++                builder.append(std::to_string(lineNumber));
++            }
++            
++            if (!visitor->callee().rawPtr())
++                return StackVisitor::Done;
++            
++            m_remainingCapacityForFrameCapture--;
++            return StackVisitor::Continue;
++        }
++        return StackVisitor::Done;
++    }
++    
++private:
++    std::string& m_builder;
++    mutable unsigned m_remainingCapacityForFrameCapture;
++};
++
+ JSStringRef JSContextCreateBacktrace(JSContextRef ctx, unsigned maxStackSize)
+ {
+     if (!ctx) {
+@@ -317,6 +372,23 @@ JSStringRef JSContextCreateBacktrace(JSContextRef ctx, unsigned maxStackSize)
+     return OpaqueJSString::create(builder.toString()).leakRef();
+ }
+ 
++const char* JSContextCreateBacktrace_unsafe(JSContextRef ctx, unsigned maxStackSize)
++{
++    if (!ctx) {
++        ASSERT_NOT_REACHED();
++        return 0;
++    }
++    ExecState* exec = toJS(ctx);
++    std::string builder;
++    CallFrame* frame = exec->vm().topCallFrame;
++    
++    ASSERT(maxStackSize);
++    DTX_BacktraceFunctor functor(builder, maxStackSize);
++    frame->iterate(functor);
++
++    return strdup(builder.c_str());
++}
++
+ bool JSGlobalContextGetRemoteInspectionEnabled(JSGlobalContextRef ctx)
+ {
+     if (!ctx) {
+diff --git a/Source/JavaScriptCore/API/JSContextRefPrivate.h b/Source/JavaScriptCore/API/JSContextRefPrivate.h
+index 19604ea..9783010 100644
+--- a/Source/JavaScriptCore/API/JSContextRefPrivate.h
++++ b/Source/JavaScriptCore/API/JSContextRefPrivate.h
+@@ -45,7 +45,7 @@ extern "C" {
+ @result A string containing the backtrace
+ */
+ JS_EXPORT JSStringRef JSContextCreateBacktrace(JSContextRef ctx, unsigned maxStackSize) CF_AVAILABLE(10_6, 7_0);
+-    
++JS_EXPORT const char* JSContextCreateBacktrace_unsafe(JSContextRef ctx, unsigned maxStackSize);
+ 
+ /*! 
+ @typedef JSShouldTerminateCallback
+diff --git a/Source/JavaScriptCore/JavaScriptCorePrefix.h b/Source/JavaScriptCore/JavaScriptCorePrefix.h
+index 21d6204..aecbe32 100644
+--- a/Source/JavaScriptCore/JavaScriptCorePrefix.h
++++ b/Source/JavaScriptCore/JavaScriptCorePrefix.h
+@@ -34,3 +34,10 @@
+ #undef try
+ #undef catch
+ 
++#define JSContext JSContext_DTX
++#define JSValue JSValue_DTX
++#define JSManagedValue JSManagedValue_DTX
++#define JSVirtualMachine JSVirtualMachine_DTX
++#define JSVMWrapperCache JSVMWrapperCache_DTX
++#define JSObjCClassInfo JSObjCClassInfo_DTX
++#define JSWrapperMap JSWrapperMap_DTX
+diff --git a/Source/WTF/config.h b/Source/WTF/config.h
+index ddc4f10..98efd6d 100644
+--- a/Source/WTF/config.h
++++ b/Source/WTF/config.h
+@@ -38,3 +38,5 @@
+ #else
+ #define SKIP_STATIC_CONSTRUCTORS_ON_GCC 1
+ #endif
++
++#define JSWTFMainThreadCaller JSWTFMainThreadCaller_DTX
