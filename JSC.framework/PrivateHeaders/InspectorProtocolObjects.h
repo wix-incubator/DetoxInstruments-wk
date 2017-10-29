@@ -247,8 +247,6 @@ namespace DOM {
 typedef int NodeId;
 /* Unique DOM node identifier used to reference a node that may not have been pushed to the front-end. */
 typedef int BackendNodeId;
-/* Unique event listener identifier. */
-typedef int EventListenerId;
 /* An array of quad vertices, x immediately followed by y for each point, points clock-wise. */
 typedef Inspector::Protocol::Array<double> Quad;
 } // DOM
@@ -2720,13 +2718,12 @@ class EventListener : public Inspector::InspectorObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
-        EventListenerIdSet = 1 << 0,
-        TypeSet = 1 << 1,
-        UseCaptureSet = 1 << 2,
-        IsAttributeSet = 1 << 3,
-        NodeIdSet = 1 << 4,
-        HandlerBodySet = 1 << 5,
-        AllFieldsSet = (EventListenerIdSet | TypeSet | UseCaptureSet | IsAttributeSet | NodeIdSet | HandlerBodySet)
+        TypeSet = 1 << 0,
+        UseCaptureSet = 1 << 1,
+        IsAttributeSet = 1 << 2,
+        NodeIdSet = 1 << 3,
+        HandlerBodySet = 1 << 4,
+        AllFieldsSet = (TypeSet | UseCaptureSet | IsAttributeSet | NodeIdSet | HandlerBodySet)
     };
 
     template<int STATE>
@@ -2746,13 +2743,6 @@ public:
         }
         friend class EventListener;
     public:
-
-        Builder<STATE | EventListenerIdSet>& setEventListenerId(int value)
-        {
-            COMPILE_ASSERT(!(STATE & EventListenerIdSet), property_eventListenerId_already_set);
-            m_result->setInteger(ASCIILiteral("eventListenerId"), value);
-            return castState<EventListenerIdSet>();
-        }
 
         Builder<STATE | TypeSet>& setType(const String& value)
         {
@@ -2802,7 +2792,6 @@ public:
     /*
      * Synthetic constructor:
      * Ref<EventListener> result = EventListener::create()
-     *     .setEventListenerId(...)
      *     .setType(...)
      *     .setUseCapture(...)
      *     .setIsAttribute(...)
@@ -2838,11 +2827,6 @@ public:
     void setOnce(bool value)
     {
         InspectorObjectBase::setBoolean(ASCIILiteral("once"), value);
-    }
-
-    void setDisabled(bool value)
-    {
-        InspectorObjectBase::setBoolean(ASCIILiteral("disabled"), value);
     }
 };
 

@@ -119,7 +119,6 @@ public:
     virtual void enable(ErrorString&) = 0;
     virtual void disable(ErrorString&) = 0;
     virtual void clearMessages(ErrorString&) = 0;
-    virtual void setMonitoringXHREnabled(ErrorString&, bool in_enabled) = 0;
 protected:
     virtual ~ConsoleBackendDispatcherHandler();
 };
@@ -137,7 +136,6 @@ public:
     virtual void setAttributesAsText(ErrorString&, int in_nodeId, const String& in_text, const String* const opt_in_name) = 0;
     virtual void removeAttribute(ErrorString&, int in_nodeId, const String& in_name) = 0;
     virtual void getEventListenersForNode(ErrorString&, int in_nodeId, const String* const opt_in_objectGroup, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::DOM::EventListener>>& out_listeners) = 0;
-    virtual void setEventListenerDisabled(ErrorString&, int in_eventListenerId, bool in_disabled) = 0;
     virtual void getAccessibilityPropertiesForNode(ErrorString&, int in_nodeId, RefPtr<Inspector::Protocol::DOM::AccessibilityProperties>& out_properties) = 0;
     virtual void getOuterHTML(ErrorString&, int in_nodeId, String* out_outerHTML) = 0;
     virtual void setOuterHTML(ErrorString&, int in_nodeId, const String& in_outerHTML) = 0;
@@ -500,7 +498,6 @@ private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
     void clearMessages(long requestId, RefPtr<InspectorObject>&& parameters);
-    void setMonitoringXHREnabled(long requestId, RefPtr<InspectorObject>&& parameters);
 #if ENABLE(INSPECTOR_ALTERNATE_DISPATCHERS)
 public:
     void setAlternateDispatcher(AlternateConsoleBackendDispatcher* alternateDispatcher) { m_alternateDispatcher = alternateDispatcher; }
@@ -528,7 +525,6 @@ private:
     void setAttributesAsText(long requestId, RefPtr<InspectorObject>&& parameters);
     void removeAttribute(long requestId, RefPtr<InspectorObject>&& parameters);
     void getEventListenersForNode(long requestId, RefPtr<InspectorObject>&& parameters);
-    void setEventListenerDisabled(long requestId, RefPtr<InspectorObject>&& parameters);
     void getAccessibilityPropertiesForNode(long requestId, RefPtr<InspectorObject>&& parameters);
     void getOuterHTML(long requestId, RefPtr<InspectorObject>&& parameters);
     void setOuterHTML(long requestId, RefPtr<InspectorObject>&& parameters);

@@ -101,7 +101,6 @@ InspectorBackend.registerEvent("Console.heapSnapshot", ["timestamp", "snapshotDa
 InspectorBackend.registerCommand("Console.enable", [], []);
 InspectorBackend.registerCommand("Console.disable", [], []);
 InspectorBackend.registerCommand("Console.clearMessages", [], []);
-InspectorBackend.registerCommand("Console.setMonitoringXHREnabled", [{"name": "enabled", "type": "boolean", "optional": false}], []);
 InspectorBackend.activateDomain("Console");
 InspectorBackend.workerSupportedDomain("Console");
 
@@ -143,7 +142,6 @@ InspectorBackend.registerCommand("DOM.setAttributeValue", [{"name": "nodeId", "t
 InspectorBackend.registerCommand("DOM.setAttributesAsText", [{"name": "nodeId", "type": "number", "optional": false}, {"name": "text", "type": "string", "optional": false}, {"name": "name", "type": "string", "optional": true}], []);
 InspectorBackend.registerCommand("DOM.removeAttribute", [{"name": "nodeId", "type": "number", "optional": false}, {"name": "name", "type": "string", "optional": false}], []);
 InspectorBackend.registerCommand("DOM.getEventListenersForNode", [{"name": "nodeId", "type": "number", "optional": false}, {"name": "objectGroup", "type": "string", "optional": true}], ["listeners"]);
-InspectorBackend.registerCommand("DOM.setEventListenerDisabled", [{"name": "eventListenerId", "type": "number", "optional": false}, {"name": "disabled", "type": "boolean", "optional": false}], []);
 InspectorBackend.registerCommand("DOM.getAccessibilityPropertiesForNode", [{"name": "nodeId", "type": "number", "optional": false}], ["properties"]);
 InspectorBackend.registerCommand("DOM.getOuterHTML", [{"name": "nodeId", "type": "number", "optional": false}], ["outerHTML"]);
 InspectorBackend.registerCommand("DOM.setOuterHTML", [{"name": "nodeId", "type": "number", "optional": false}, {"name": "outerHTML", "type": "string", "optional": false}], []);
@@ -310,7 +308,7 @@ InspectorBackend.registerNetworkDispatcher = InspectorBackend.registerDomainDisp
 InspectorBackend.registerEnum("Network.ResponseSource", {Unknown: "unknown", Network: "network", MemoryCache: "memory-cache", DiskCache: "disk-cache"});
 InspectorBackend.registerEnum("Network.MetricsPriority", {Low: "low", Medium: "medium", High: "high"});
 InspectorBackend.registerEnum("Network.InitiatorType", {Parser: "parser", Script: "script", Other: "other"});
-InspectorBackend.registerEvent("Network.requestWillBeSent", ["requestId", "frameId", "loaderId", "documentURL", "request", "timestamp", "initiator", "redirectResponse", "type", "targetId"]);
+InspectorBackend.registerEvent("Network.requestWillBeSent", ["requestId", "frameId", "loaderId", "documentURL", "request", "timestamp", "walltime", "initiator", "redirectResponse", "type", "targetId"]);
 InspectorBackend.registerEvent("Network.responseReceived", ["requestId", "frameId", "loaderId", "timestamp", "type", "response"]);
 InspectorBackend.registerEvent("Network.dataReceived", ["requestId", "timestamp", "dataLength", "encodedDataLength"]);
 InspectorBackend.registerEvent("Network.loadingFinished", ["requestId", "timestamp", "sourceMapURL", "metrics"]);

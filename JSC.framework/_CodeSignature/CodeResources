@@ -64,6 +64,10 @@
 		<data>
 		Q8t5Mx2xS10Cpuc1nKHqUGa+gIE=
 		</data>
+		<key>Info.plist</key>
+		<data>
+		MIV6XcuGHwXZUkuhMg9UFKA+SSs=
+		</data>
 		<key>PrivateHeaders/A64DOpcode.h</key>
 		<data>
 		TjoPMRlKANdTrfTfauHkEgkmzNM=
@@ -198,7 +202,7 @@
 		</data>
 		<key>PrivateHeaders/AssemblyHelpers.h</key>
 		<data>
-		NDGpQFjfgh2HQ7CcsPrqgVk9Sho=
+		s0LB5lyFCJjVHu60Fz5gWUFplvg=
 		</data>
 		<key>PrivateHeaders/AsyncIteratorPrototype.h</key>
 		<data>
@@ -243,6 +247,10 @@
 		<key>PrivateHeaders/BooleanObject.h</key>
 		<data>
 		X0l6hkB1sF09papihPnUeQrsS30=
+		</data>
+		<key>PrivateHeaders/BooleanPrototype.h</key>
+		<data>
+		1Z9MXzbj0h1HNBTzF4piN3JLDoc=
 		</data>
 		<key>PrivateHeaders/Breakpoint.h</key>
 		<data>
@@ -342,7 +350,7 @@
 		</data>
 		<key>PrivateHeaders/CallFrame.h</key>
 		<data>
-		LvXXyLXxR2DIvK18w4XZFRi23EU=
+		ILnA8ScvfnK01WE8+c44gRI72Ec=
 		</data>
 		<key>PrivateHeaders/CallFrameShuffleData.h</key>
 		<data>
@@ -398,7 +406,7 @@
 		</data>
 		<key>PrivateHeaders/CodeBlock.h</key>
 		<data>
-		spCzz+RBrEQqPbNp9qTvdsCV7bI=
+		zHBmCPDfwehb9NyDS2MxaodmDh8=
 		</data>
 		<key>PrivateHeaders/CodeBlockHash.h</key>
 		<data>
@@ -446,7 +454,7 @@
 		</data>
 		<key>PrivateHeaders/CombinedDomains.json</key>
 		<data>
-		9s4VqD9RJsdYf8Uvf0koTKB5Ims=
+		pHMB2820CEJ54o1zb+5Rh5PXFjo=
 		</data>
 		<key>PrivateHeaders/CommonIdentifiers.h</key>
 		<data>
@@ -922,7 +930,7 @@
 		</data>
 		<key>PrivateHeaders/FrameTracers.h</key>
 		<data>
-		mv+mdtaeWnST2lwQiTIzfS2TopM=
+		nlNyZTTbuZqpoapIP62jtWwyqH0=
 		</data>
 		<key>PrivateHeaders/FreeList.h</key>
 		<data>
@@ -1230,11 +1238,11 @@
 		</data>
 		<key>PrivateHeaders/InspectorAlternateBackendDispatchers.h</key>
 		<data>
-		Xt1t6vhl3gudTsTwAmEEBNL6waI=
+		gpCthtbSW4UlyEBOSRQvph+P9as=
 		</data>
 		<key>PrivateHeaders/InspectorBackendCommands.js</key>
 		<data>
-		O5rUfGpdBJ7PNIOOCVs9VAvajKA=
+		y6DUGXPwuXa0+zSO06t9UEcRmdg=
 		</data>
 		<key>PrivateHeaders/InspectorBackendDispatcher.h</key>
 		<data>
@@ -1242,11 +1250,11 @@
 		</data>
 		<key>PrivateHeaders/InspectorBackendDispatchers.h</key>
 		<data>
-		llL+zmIZpBHHNjSvd/KpzGG1QoA=
+		1xw5C+xH9P/Q+mHpwyTJ6G1r2m8=
 		</data>
 		<key>PrivateHeaders/InspectorConsoleAgent.h</key>
 		<data>
-		bcNohwfmAzfSBoShcKPwDa9CTig=
+		FQWSkSxzQ5h36BxrwR/e7glT2PY=
 		</data>
 		<key>PrivateHeaders/InspectorDebuggerAgent.h</key>
 		<data>
@@ -1262,7 +1270,7 @@
 		</data>
 		<key>PrivateHeaders/InspectorFrontendDispatchers.h</key>
 		<data>
-		gTdCm8wELCb07iTZ/EhzONI82Hc=
+		ppvYEikGQnSmVFiraps3v31OZFI=
 		</data>
 		<key>PrivateHeaders/InspectorFrontendRouter.h</key>
 		<data>
@@ -1278,7 +1286,7 @@
 		</data>
 		<key>PrivateHeaders/InspectorProtocolObjects.h</key>
 		<data>
-		PcqJkxG7OZE46ykS34v7WJ63o+U=
+		ptzHg/SXs0G6pnv/aR/J+X+ll4c=
 		</data>
 		<key>PrivateHeaders/InspectorProtocolTypes.h</key>
 		<data>
@@ -1326,7 +1334,7 @@
 		</data>
 		<key>PrivateHeaders/Intrinsic.h</key>
 		<data>
-		bMC4rhKMW6BD6wPW/GbkiP0GGgU=
+		xu/nFKVhSxBqemEkdRi5xLUHGqc=
 		</data>
 		<key>PrivateHeaders/IterationKind.h</key>
 		<data>
@@ -1378,7 +1386,7 @@
 		</data>
 		<key>PrivateHeaders/JITOperations.h</key>
 		<data>
-		Z4nqC79HVlE7xNHwNNozk2zGbI8=
+		41T286Ru2kgJOOwd0CYn9fTeL0U=
 		</data>
 		<key>PrivateHeaders/JITStubRoutine.h</key>
 		<data>
@@ -1478,7 +1486,7 @@
 		</data>
 		<key>PrivateHeaders/JSContextRefPrivate.h</key>
 		<data>
-		Tst4PNFppP3h6XUWbKFtuo0SyNQ=
+		xobKFBS5ge+ydwh7SkHtmvkXxi0=
 		</data>
 		<key>PrivateHeaders/JSDataView.h</key>
 		<data>
@@ -1562,11 +1570,11 @@
 		</data>
 		<key>PrivateHeaders/JSGlobalObject.h</key>
 		<data>
-		lTlhjiulrGiVJyfXudU1Ayl/FWQ=
+		vbzLihDPl3Wam85iCI3mUBqArzQ=
 		</data>
 		<key>PrivateHeaders/JSGlobalObjectInlines.h</key>
 		<data>
-		8A4ercc6AWpQJzlT7rDC60VIHVY=
+		dYmAV7JXFI4lJy/TZpjSPsEd8Yg=
 		</data>
 		<key>PrivateHeaders/JSHeapFinalizerPrivate.h</key>
 		<data>
@@ -1646,11 +1654,11 @@
 		</data>
 		<key>PrivateHeaders/JSObject.h</key>
 		<data>
-		2GgkZVA1ZLl/rBml24e9MS7mXJw=
+		8ozOMcLPUJxICnPaDgDdVzpWVXY=
 		</data>
 		<key>PrivateHeaders/JSObjectInlines.h</key>
 		<data>
-		/PIv2Wv8tFn2ADtfcKETshRadDE=
+		cD1lFNQueIo4CNSf7dHdApPgfPU=
 		</data>
 		<key>PrivateHeaders/JSObjectRefPrivate.h</key>
 		<data>
@@ -1658,7 +1666,7 @@
 		</data>
 		<key>PrivateHeaders/JSPromise.h</key>
 		<data>
-		FRDLA8IsJeV/X3PhAlZ5ct2Tr2k=
+		ZlzlW1gDlwuWnr4bgZVs7nMEbXU=
 		</data>
 		<key>PrivateHeaders/JSPromiseConstructor.h</key>
 		<data>
@@ -1748,6 +1756,10 @@
 		<data>
 		HLtOQX9ussBzOY9OKg4NbmX3p4s=
 		</data>
+		<key>PrivateHeaders/JSToWasm.h</key>
+		<data>
+		ZCZa4e8APrvevUEKFCQdDg/rU1c=
+		</data>
 		<key>PrivateHeaders/JSType.h</key>
 		<data>
 		uQsmN0FcZva8R1F+59HlJlEGFjE=
@@ -1812,9 +1824,13 @@
 		<data>
 		T2kt0jglqqUpV1P8skGe2sYxw+w=
 		</data>
+		<key>PrivateHeaders/JSWebAssembly.h</key>
+		<data>
+		uQuIIcukocIX7jHGZwW2ENZyVx0=
+		</data>
 		<key>PrivateHeaders/JSWebAssemblyCodeBlock.h</key>
 		<data>
-		rbsi2zL5yLRhSZ8VFDOn4Pdh4Rs=
+		rx51tZZC2GBbC4AJsBfimr42y6s=
 		</data>
 		<key>PrivateHeaders/JSWebAssemblyCodeBlockSubspace.h</key>
 		<data>
@@ -1830,7 +1846,7 @@
 		</data>
 		<key>PrivateHeaders/JSWebAssemblyModule.h</key>
 		<data>
-		cM+dRz0YvCvY807XkNxooVIU6Gk=
+		5f5H3piJAoCwZi4cZrwVpdq4sy4=
 		</data>
 		<key>PrivateHeaders/JSWithScope.h</key>
 		<data>
@@ -2130,7 +2146,7 @@
 		</data>
 		<key>PrivateHeaders/Options.h</key>
 		<data>
-		TYYIsQ5qeVChcLn47c4hcglL1/8=
+		PiaEW/5coenRop6KKfD3tNCezbU=
 		</data>
 		<key>PrivateHeaders/PCToCodeOriginMap.h</key>
 		<data>
@@ -2290,7 +2306,7 @@
 		</data>
 		<key>PrivateHeaders/PropertyOffset.h</key>
 		<data>
-		0UjxyS6eyiP3caLBmlAQ8k4xHW4=
+		gTh8kq/BrE0jtnP/nv5XOSjbW88=
 		</data>
 		<key>PrivateHeaders/PropertySlot.h</key>
 		<data>
@@ -2394,11 +2410,11 @@
 		</data>
 		<key>PrivateHeaders/RegisterSet.h</key>
 		<data>
-		RrrNrsRKd+EQT+d4mz7ji4WNb7Q=
+		z9mUm2oVHu3MA3oeKl5eNDtq4UM=
 		</data>
 		<key>PrivateHeaders/RegisterState.h</key>
 		<data>
-		N8unzwoietMpnhCGpEon2A9d7QU=
+		gXu1ipfOdhVyh68zmjqtZzPgBRo=
 		</data>
 		<key>PrivateHeaders/RegularExpression.h</key>
 		<data>
@@ -2626,7 +2642,7 @@
 		</data>
 		<key>PrivateHeaders/StackVisitor.h</key>
 		<data>
-		8YXbXD9RzhOVaY1tKBRJQQA5VPU=
+		Ncg7DI7Hgo8QupkNqLxuKejeEIo=
 		</data>
 		<key>PrivateHeaders/StaticPropertyAnalysis.h</key>
 		<data>
@@ -2658,7 +2674,7 @@
 		</data>
 		<key>PrivateHeaders/Structure.h</key>
 		<data>
-		pS87DzDa4/EDfWT1oRkR2vTblVs=
+		S3gfnZ8RGcz64FiPQtL6OzZ/Ldk=
 		</data>
 		<key>PrivateHeaders/StructureCache.h</key>
 		<data>
@@ -2678,7 +2694,7 @@
 		</data>
 		<key>PrivateHeaders/StructureInlines.h</key>
 		<data>
-		BEsMSgawcy3UY+JI9NXpURUOHVo=
+		/TvGcqIU8gTo7JDZ3byTlfZn8WY=
 		</data>
 		<key>PrivateHeaders/StructureRareData.h</key>
 		<data>
@@ -2870,7 +2886,7 @@
 		</data>
 		<key>PrivateHeaders/UnlinkedCodeBlock.h</key>
 		<data>
-		JMGdNkJq11YYc9mjzIB0GnfuwM8=
+		cK2W/I6kX6zEy8Nr0FZnlH+V8qc=
 		</data>
 		<key>PrivateHeaders/UnlinkedEvalCodeBlock.h</key>
 		<data>
@@ -2910,11 +2926,11 @@
 		</data>
 		<key>PrivateHeaders/VM.h</key>
 		<data>
-		whBeNbAVnHjBEvnFLmqnSM2SrrI=
+		YD2CLT7qnSS9iLaEn3oPV2m1u54=
 		</data>
 		<key>PrivateHeaders/VMEntryRecord.h</key>
 		<data>
-		Y0MR7hlUkoVG8+d6+KpUVW/nOmQ=
+		axb6bxZKsmg7i3Vy3PyNnzqfP0c=
 		</data>
 		<key>PrivateHeaders/VMEntryScope.h</key>
 		<data>
@@ -2970,23 +2986,35 @@
 		</data>
 		<key>PrivateHeaders/WasmCodeBlock.h</key>
 		<data>
-		Vi0elu/D7Vhnmxr30laBEGGizQQ=
+		bbbCNV7JizKS7unY4GzyYnaRfoo=
 		</data>
 		<key>PrivateHeaders/WasmContext.h</key>
 		<data>
-		tjggNGQxKv8HVFLG6597IX0gbvQ=
+		XQidOXPNWCHbuBhtzNbPUQZhzQw=
+		</data>
+		<key>PrivateHeaders/WasmEmbedder.h</key>
+		<data>
+		FiMYDDfsdVCsal22UYWgR2oK+9A=
+		</data>
+		<key>PrivateHeaders/WasmExceptionType.h</key>
+		<data>
+		fjQn8wRDwgmxSxHcJcbiTc1B9W0=
 		</data>
 		<key>PrivateHeaders/WasmFaultSignalHandler.h</key>
 		<data>
-		57TWVygdCyCApXlptX/5/9joT9g=
+		ZYTH4CAXS7/4wxGwQs1dmVyPDfg=
 		</data>
 		<key>PrivateHeaders/WasmFormat.h</key>
 		<data>
-		IxsIAc2WnyE16VfI4bx3FqwFZik=
+		teC5MDDLs37DPnLCTejwbwWdpu4=
 		</data>
 		<key>PrivateHeaders/WasmIndexOrName.h</key>
 		<data>
 		oVpOTMH72rudus62G0LtLQEju18=
+		</data>
+		<key>PrivateHeaders/WasmInstance.h</key>
+		<data>
+		iRZFhta72QQjJUgyMsPXFavxPh8=
 		</data>
 		<key>PrivateHeaders/WasmLimits.h</key>
 		<data>
@@ -2994,15 +3022,19 @@
 		</data>
 		<key>PrivateHeaders/WasmMemory.h</key>
 		<data>
-		51YYwhN1K0V09oWVoGe+aC0o53M=
+		xy3Qsvxiq8PQIkcrCj1lfaFbeqk=
 		</data>
 		<key>PrivateHeaders/WasmMemoryInformation.h</key>
 		<data>
-		CX0kyUIHRgrpAhi+Bh90bDnHKQk=
+		Suvtzupfy3u96tjm78S+aID8u4Q=
+		</data>
+		<key>PrivateHeaders/WasmMemoryMode.h</key>
+		<data>
+		1UmrNAYX8PuTGVnAW7AWFl7BTZg=
 		</data>
 		<key>PrivateHeaders/WasmModule.h</key>
 		<data>
-		VtKN9dhZUPQdvyMwnAo4j1ELH8I=
+		ct9ZZMu/Apyx1I8ihk1ifswfFls=
 		</data>
 		<key>PrivateHeaders/WasmName.h</key>
 		<data>
@@ -3014,19 +3046,27 @@
 		</data>
 		<key>PrivateHeaders/WasmPageCount.h</key>
 		<data>
-		J0ERiPfw4vIZoUtqPCDx7QWI30E=
+		zM5bIq8yO9i6ehoisKWg+XnXuRw=
 		</data>
 		<key>PrivateHeaders/WasmSignature.h</key>
 		<data>
-		Qq5j+WprDAdrWhkg/3bW7GH7/iU=
+		XhDSniI+sZwLaryG08JpL0tFxZc=
+		</data>
+		<key>PrivateHeaders/WasmTable.h</key>
+		<data>
+		R73m2DnblUbozOwk5r8thtWMwBA=
 		</data>
 		<key>PrivateHeaders/WasmThunks.h</key>
 		<data>
-		HIOy/mia8ferP0aM2TB253pX4tc=
+		g03uh+7KcmataT0s6nMu8bJZBIg=
 		</data>
 		<key>PrivateHeaders/WasmTierUpCount.h</key>
 		<data>
 		JcuCs07gY8Q7ZyqqTqSAObHM7gg=
+		</data>
+		<key>PrivateHeaders/WasmToJS.h</key>
+		<data>
+		WU/cDcxrldyFakYp+Ju3Ksaohik=
 		</data>
 		<key>PrivateHeaders/Watchdog.h</key>
 		<data>
@@ -3855,11 +3895,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			NDGpQFjfgh2HQ7CcsPrqgVk9Sho=
+			s0LB5lyFCJjVHu60Fz5gWUFplvg=
 			</data>
 			<key>hash2</key>
 			<data>
-			v/wbw+hYFwUM3M4d0khhZG1yVIsRLlP44+1ZM/eCWOM=
+			UJm3zKWiUV1T80kmbacOkb6S7KIhEx+8nRj24htTo5k=
 			</data>
 		</dict>
 		<key>PrivateHeaders/AsyncIteratorPrototype.h</key>
@@ -3981,6 +4021,17 @@
 			<key>hash2</key>
 			<data>
 			xBO/PQfeOSvjWUiM86WO8zoc10GMcrsJ00+GIEbHHz4=
+			</data>
+		</dict>
+		<key>PrivateHeaders/BooleanPrototype.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1Z9MXzbj0h1HNBTzF4piN3JLDoc=
+			</data>
+			<key>hash2</key>
+			<data>
+			hmXWrJ5HSkqbuJTxwpZnRJInSa3SXxnRU+HLQIKWKdY=
 			</data>
 		</dict>
 		<key>PrivateHeaders/Breakpoint.h</key>
@@ -4251,11 +4302,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			LvXXyLXxR2DIvK18w4XZFRi23EU=
+			ILnA8ScvfnK01WE8+c44gRI72Ec=
 			</data>
 			<key>hash2</key>
 			<data>
-			yCqrRe0WdjNT/SBGpMAjUzad+7w4lS0TJ8M2ufiofD4=
+			DMfjOw8VJqQ534fneTqZBmX63CJEdRe0K3pdEOrQoLI=
 			</data>
 		</dict>
 		<key>PrivateHeaders/CallFrameShuffleData.h</key>
@@ -4405,11 +4456,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			spCzz+RBrEQqPbNp9qTvdsCV7bI=
+			zHBmCPDfwehb9NyDS2MxaodmDh8=
 			</data>
 			<key>hash2</key>
 			<data>
-			bzB+AP+oGDF7+Hrb58DI1I9JCuLLypFVkYR1FmsyV3c=
+			nT9y2DuRYTubnPtQSthV0+l3SvB5dgGykc0CzB+Xe8E=
 			</data>
 		</dict>
 		<key>PrivateHeaders/CodeBlockHash.h</key>
@@ -4537,11 +4588,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9s4VqD9RJsdYf8Uvf0koTKB5Ims=
+			pHMB2820CEJ54o1zb+5Rh5PXFjo=
 			</data>
 			<key>hash2</key>
 			<data>
-			blTYRuiVSBX13oIPB9JNyKPiNGXJyUsFkkF4OMLq2Lc=
+			WpUkRjAN2s8GRxkHFsXaW9cHZrJBTujwM4joicjzI7U=
 			</data>
 		</dict>
 		<key>PrivateHeaders/CommonIdentifiers.h</key>
@@ -5846,11 +5897,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mv+mdtaeWnST2lwQiTIzfS2TopM=
+			nlNyZTTbuZqpoapIP62jtWwyqH0=
 			</data>
 			<key>hash2</key>
 			<data>
-			cvXJX3Dqr2Eo3yqigRGpmjhwb+lDWbE5ETKYP/ECmHw=
+			9a5FXIjWFtoCHlpz0fwgrZxXAuWemfJzLeI6iA0dNQ8=
 			</data>
 		</dict>
 		<key>PrivateHeaders/FreeList.h</key>
@@ -6693,22 +6744,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Xt1t6vhl3gudTsTwAmEEBNL6waI=
+			gpCthtbSW4UlyEBOSRQvph+P9as=
 			</data>
 			<key>hash2</key>
 			<data>
-			nxr/XecRcF/PJcVBRM7N4P8hQEPGaW+48cilFyXFx8w=
+			KHxjPfYojw70mykKQt1py//b+GbY9bN6wBRGpx/ODIo=
 			</data>
 		</dict>
 		<key>PrivateHeaders/InspectorBackendCommands.js</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			O5rUfGpdBJ7PNIOOCVs9VAvajKA=
+			y6DUGXPwuXa0+zSO06t9UEcRmdg=
 			</data>
 			<key>hash2</key>
 			<data>
-			cywGozxoN3SWgY5GRzTR3Vk7PUsChNS+jYstyL8YHFU=
+			4cDc7r8bSoqH+NKS0iFvl7cvnDzCDNBPuawGK8CwlxE=
 			</data>
 		</dict>
 		<key>PrivateHeaders/InspectorBackendDispatcher.h</key>
@@ -6726,22 +6777,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			llL+zmIZpBHHNjSvd/KpzGG1QoA=
+			1xw5C+xH9P/Q+mHpwyTJ6G1r2m8=
 			</data>
 			<key>hash2</key>
 			<data>
-			RTeBK1N3MHvtjOKAgMXC7FQzrPn3LNe7f95d40zZmtg=
+			8b7BeLAQFYVu4fPWrAbTv8PI5xBiDoRn6Fb7bn01C+w=
 			</data>
 		</dict>
 		<key>PrivateHeaders/InspectorConsoleAgent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			bcNohwfmAzfSBoShcKPwDa9CTig=
+			FQWSkSxzQ5h36BxrwR/e7glT2PY=
 			</data>
 			<key>hash2</key>
 			<data>
-			XA31AgvOYG2xZIjcPEjkvUPrQzp8T3Xj9WkSOs4MDVI=
+			H634Iw1fXT0Wv1NaO/ZlkeIyMvijPvNdKMGV6bEnlEU=
 			</data>
 		</dict>
 		<key>PrivateHeaders/InspectorDebuggerAgent.h</key>
@@ -6781,11 +6832,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gTdCm8wELCb07iTZ/EhzONI82Hc=
+			ppvYEikGQnSmVFiraps3v31OZFI=
 			</data>
 			<key>hash2</key>
 			<data>
-			HNdruo+y0HhodMmKzsqO3U8QqX8wqWR86iDySB9hDIc=
+			oP12IsnJp4Gza5A3rzfF7mHXdYeHSd0WT/3XBZaDfMg=
 			</data>
 		</dict>
 		<key>PrivateHeaders/InspectorFrontendRouter.h</key>
@@ -6825,11 +6876,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			PcqJkxG7OZE46ykS34v7WJ63o+U=
+			ptzHg/SXs0G6pnv/aR/J+X+ll4c=
 			</data>
 			<key>hash2</key>
 			<data>
-			TsB58egMnpLcPIBlLaTFFpbyDK9xfty2mNo7s0NgWVI=
+			ehVG5sE1fSi2RiGneK7GxT/6P9pRyy1lYdTs07gmEPc=
 			</data>
 		</dict>
 		<key>PrivateHeaders/InspectorProtocolTypes.h</key>
@@ -6957,11 +7008,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			bMC4rhKMW6BD6wPW/GbkiP0GGgU=
+			xu/nFKVhSxBqemEkdRi5xLUHGqc=
 			</data>
 			<key>hash2</key>
 			<data>
-			Cz5BEC+tSm4jzeHK2Lr1aGAjhX3z+H4cu5xtwvjojT8=
+			3hJXvTsiHin8S2OCNXZURMLPv9foSKRqfo2SYSYDdNA=
 			</data>
 		</dict>
 		<key>PrivateHeaders/IterationKind.h</key>
@@ -7100,11 +7151,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Z4nqC79HVlE7xNHwNNozk2zGbI8=
+			41T286Ru2kgJOOwd0CYn9fTeL0U=
 			</data>
 			<key>hash2</key>
 			<data>
-			5D1UwHkjCZIX8XnMwkuCgStcefATRRYTCUrix5wSXHU=
+			C9cXIhwkRsDwrwq2TrrfYfnzllJaQbpb5d/mhfHx4PU=
 			</data>
 		</dict>
 		<key>PrivateHeaders/JITStubRoutine.h</key>
@@ -7375,11 +7426,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Tst4PNFppP3h6XUWbKFtuo0SyNQ=
+			xobKFBS5ge+ydwh7SkHtmvkXxi0=
 			</data>
 			<key>hash2</key>
 			<data>
-			gynJwBc3QfzS34c7RxZWSVjOiWaPOjW36NgxlJwqTWo=
+			Si7h8P5TSAvKckJruW6zd/TOs5F/HVnAH8NQBR2mkac=
 			</data>
 		</dict>
 		<key>PrivateHeaders/JSDataView.h</key>
@@ -7606,22 +7657,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			lTlhjiulrGiVJyfXudU1Ayl/FWQ=
+			vbzLihDPl3Wam85iCI3mUBqArzQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			5iLZ75pSKFJM0oj254q7VndzAtxcP56s3xi67dlM4CQ=
+			lw/mc3d3uZP9mp0C5X04NlZcZLKmDM2yiOej42zOA28=
 			</data>
 		</dict>
 		<key>PrivateHeaders/JSGlobalObjectInlines.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			8A4ercc6AWpQJzlT7rDC60VIHVY=
+			dYmAV7JXFI4lJy/TZpjSPsEd8Yg=
 			</data>
 			<key>hash2</key>
 			<data>
-			fRHj9VUVdkqBcl2zbxc0M2F8KQdi/uJ74lmwXr//YBA=
+			iCaCcNWZ6Rq0pk7SVOj3tR6RCgCuJbbEF/W0g9ZQcsM=
 			</data>
 		</dict>
 		<key>PrivateHeaders/JSHeapFinalizerPrivate.h</key>
@@ -7837,22 +7888,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			2GgkZVA1ZLl/rBml24e9MS7mXJw=
+			8ozOMcLPUJxICnPaDgDdVzpWVXY=
 			</data>
 			<key>hash2</key>
 			<data>
-			E2imXUZ97gAF1Uy70HYsHXIUCp0LEavuD3gHZpnHzJs=
+			BVL6vSYrSiFO+27R/7BBsfo7bQ2Rrlx/oZm+lWg+/dY=
 			</data>
 		</dict>
 		<key>PrivateHeaders/JSObjectInlines.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/PIv2Wv8tFn2ADtfcKETshRadDE=
+			cD1lFNQueIo4CNSf7dHdApPgfPU=
 			</data>
 			<key>hash2</key>
 			<data>
-			WzHvo7JQYNRpl2pOn3+Ho8Y99LnCG+cWMBhLrGino60=
+			GD4xXDeQnilcBskJyklJpeTMIr4nxUHQ95RxbloLJOE=
 			</data>
 		</dict>
 		<key>PrivateHeaders/JSObjectRefPrivate.h</key>
@@ -7870,11 +7921,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			FRDLA8IsJeV/X3PhAlZ5ct2Tr2k=
+			ZlzlW1gDlwuWnr4bgZVs7nMEbXU=
 			</data>
 			<key>hash2</key>
 			<data>
-			XU20lsibY0SAnEsRiSSFSIgu1V/ToQZesDD8l4ZpxMY=
+			XBuCNr8XGHiKSvpnBRwVyYB0cAx3Qos/08/vnuAPlac=
 			</data>
 		</dict>
 		<key>PrivateHeaders/JSPromiseConstructor.h</key>
@@ -8119,6 +8170,17 @@
 			KrYerIbynFJJTJMrlwWJCXzzZEj++jOf48vxCFZqQ/A=
 			</data>
 		</dict>
+		<key>PrivateHeaders/JSToWasm.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZCZa4e8APrvevUEKFCQdDg/rU1c=
+			</data>
+			<key>hash2</key>
+			<data>
+			fO7iX3GP0Wqp+/Xx4tGsGrzyROlqEhfHabkl2gNvTe0=
+			</data>
+		</dict>
 		<key>PrivateHeaders/JSType.h</key>
 		<dict>
 			<key>hash</key>
@@ -8295,15 +8357,26 @@
 			n0phFFqHCehsWeosTpdF8VvV5gmhbwwjIozEGUUXC+8=
 			</data>
 		</dict>
+		<key>PrivateHeaders/JSWebAssembly.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uQuIIcukocIX7jHGZwW2ENZyVx0=
+			</data>
+			<key>hash2</key>
+			<data>
+			lU5h9Sl+q3fdGcl1diLO85bS3FXFYqDFLiyUDda00RM=
+			</data>
+		</dict>
 		<key>PrivateHeaders/JSWebAssemblyCodeBlock.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rbsi2zL5yLRhSZ8VFDOn4Pdh4Rs=
+			rx51tZZC2GBbC4AJsBfimr42y6s=
 			</data>
 			<key>hash2</key>
 			<data>
-			Sowojxc4nGoO2wk4EcTp5MidT0kWSDQTzi7vjebVZqg=
+			yldj56jNLFXZ1/lza0zOOYrZF6uEHL1Lydqbpw4ze9k=
 			</data>
 		</dict>
 		<key>PrivateHeaders/JSWebAssemblyCodeBlockSubspace.h</key>
@@ -8343,11 +8416,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			cM+dRz0YvCvY807XkNxooVIU6Gk=
+			5f5H3piJAoCwZi4cZrwVpdq4sy4=
 			</data>
 			<key>hash2</key>
 			<data>
-			R32s3CrRQVtGOOvRJoAUf9dwBf1ZwxrdFApuEnYk7tM=
+			DaMBXvWUd5mgYZziiVeCUxvc2tS+QOr1c+UCeb9cmhY=
 			</data>
 		</dict>
 		<key>PrivateHeaders/JSWithScope.h</key>
@@ -9168,11 +9241,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TYYIsQ5qeVChcLn47c4hcglL1/8=
+			PiaEW/5coenRop6KKfD3tNCezbU=
 			</data>
 			<key>hash2</key>
 			<data>
-			jhhp3PDLtbcVLpa0p+cVmMHmgssp7hJZ+5ZrvPgAwc4=
+			0W/Kt/1QIJsIlTrV3cwBOX8TQFpL57q5ywTQ1AHJABY=
 			</data>
 		</dict>
 		<key>PrivateHeaders/PCToCodeOriginMap.h</key>
@@ -9608,11 +9681,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			0UjxyS6eyiP3caLBmlAQ8k4xHW4=
+			gTh8kq/BrE0jtnP/nv5XOSjbW88=
 			</data>
 			<key>hash2</key>
 			<data>
-			Eu/+PPges/O9t6nfyV+dRtHbND0LZCJlMtC6/Ad9c/o=
+			bftGOQQJRxgIy2diW90VmC3SUxkQzzPYMJ6vMJQVdG0=
 			</data>
 		</dict>
 		<key>PrivateHeaders/PropertySlot.h</key>
@@ -9894,22 +9967,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RrrNrsRKd+EQT+d4mz7ji4WNb7Q=
+			z9mUm2oVHu3MA3oeKl5eNDtq4UM=
 			</data>
 			<key>hash2</key>
 			<data>
-			clnpIuOz5Cu9ychdIgnGAnSC5oIkIHtPyctxVIDoDGk=
+			hxdKkVsPbqEsUEneJtCzZwHWS//wBsoxvmCDMhICuoQ=
 			</data>
 		</dict>
 		<key>PrivateHeaders/RegisterState.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			N8unzwoietMpnhCGpEon2A9d7QU=
+			gXu1ipfOdhVyh68zmjqtZzPgBRo=
 			</data>
 			<key>hash2</key>
 			<data>
-			l/FQsgot0XzdHbH57RhCnZLXIpC6jZouTereqlaSoWI=
+			GArhG2lGN47v8QQS4N/sZff3XCcOxRd6EVf9MsU0E2I=
 			</data>
 		</dict>
 		<key>PrivateHeaders/RegularExpression.h</key>
@@ -10532,11 +10605,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8YXbXD9RzhOVaY1tKBRJQQA5VPU=
+			Ncg7DI7Hgo8QupkNqLxuKejeEIo=
 			</data>
 			<key>hash2</key>
 			<data>
-			fUi+qFnOz0/5f9OCpMhLEFDZQPFwBYgqIVpMe4DA/hg=
+			bgkwf8eHwZpgE6vcoEZ3Yvp9LQRIR++jlDAu1h+BFbk=
 			</data>
 		</dict>
 		<key>PrivateHeaders/StaticPropertyAnalysis.h</key>
@@ -10620,11 +10693,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pS87DzDa4/EDfWT1oRkR2vTblVs=
+			S3gfnZ8RGcz64FiPQtL6OzZ/Ldk=
 			</data>
 			<key>hash2</key>
 			<data>
-			epiXvMDmxHpcm1kooJHxSdfI8O6OfDz5iHgBoE8OivQ=
+			ou5MMWSfX5iVFLhamm2uCR7Ctd4bAWUPcrqzJsuuK4A=
 			</data>
 		</dict>
 		<key>PrivateHeaders/StructureCache.h</key>
@@ -10675,11 +10748,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			BEsMSgawcy3UY+JI9NXpURUOHVo=
+			/TvGcqIU8gTo7JDZ3byTlfZn8WY=
 			</data>
 			<key>hash2</key>
 			<data>
-			cUpZOO0a1mC+O/pCO9EJQ6S4Lpd07zkHMMD35mtgEzI=
+			EXoW+6G+vUXCqWUP68GBl383Cf20hselRUwX+nYT8pY=
 			</data>
 		</dict>
 		<key>PrivateHeaders/StructureRareData.h</key>
@@ -11203,11 +11276,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JMGdNkJq11YYc9mjzIB0GnfuwM8=
+			cK2W/I6kX6zEy8Nr0FZnlH+V8qc=
 			</data>
 			<key>hash2</key>
 			<data>
-			hdEaKRNdIWAzlsr4ZfGPd3uEH/FAo4NrjWFQRqjbIlg=
+			k89IMck1Z9FbkK64ci51LXULz1fshR1nYRhQ0XRzJC0=
 			</data>
 		</dict>
 		<key>PrivateHeaders/UnlinkedEvalCodeBlock.h</key>
@@ -11313,22 +11386,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			whBeNbAVnHjBEvnFLmqnSM2SrrI=
+			YD2CLT7qnSS9iLaEn3oPV2m1u54=
 			</data>
 			<key>hash2</key>
 			<data>
-			7sEyklJNt01kvzGqDFDeUk+eJjYn3iMxpS4dfICsCi0=
+			PFTGC/PzSGSKjzaRYD8kP7MY6zmV19bJBEXkHHZvfAk=
 			</data>
 		</dict>
 		<key>PrivateHeaders/VMEntryRecord.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Y0MR7hlUkoVG8+d6+KpUVW/nOmQ=
+			axb6bxZKsmg7i3Vy3PyNnzqfP0c=
 			</data>
 			<key>hash2</key>
 			<data>
-			LcsgCFsv5SKGWiKnI90NWzWTg+39+BDjsJ5G3qKoRW4=
+			n+j+RZGKhWupDN+pPE6yMpxLx2cbYLw2ILUvfb3vVKg=
 			</data>
 		</dict>
 		<key>PrivateHeaders/VMEntryScope.h</key>
@@ -11478,44 +11551,66 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Vi0elu/D7Vhnmxr30laBEGGizQQ=
+			bbbCNV7JizKS7unY4GzyYnaRfoo=
 			</data>
 			<key>hash2</key>
 			<data>
-			aMwyheAnEcVVHpYWIhua0LVtp5eI6pSwXWE+qrklEOY=
+			iM0pNE/uKAD6ZUF4PItRYV2KfYk2c7ay3EB3DdYiCaE=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmContext.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			tjggNGQxKv8HVFLG6597IX0gbvQ=
+			XQidOXPNWCHbuBhtzNbPUQZhzQw=
 			</data>
 			<key>hash2</key>
 			<data>
-			/J13xl5reeB08rfUPKVcOapRxWELiFXJ0F28twlSlAA=
+			JBQ+pVrA6+iQirhcRmvHwqfwoDheW141Q874dOxR5v8=
+			</data>
+		</dict>
+		<key>PrivateHeaders/WasmEmbedder.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			FiMYDDfsdVCsal22UYWgR2oK+9A=
+			</data>
+			<key>hash2</key>
+			<data>
+			sxPyEib7BriEdEMcrcHl9eQ2OYgg576x07LsgPyl3JU=
+			</data>
+		</dict>
+		<key>PrivateHeaders/WasmExceptionType.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			fjQn8wRDwgmxSxHcJcbiTc1B9W0=
+			</data>
+			<key>hash2</key>
+			<data>
+			TKuS2xev9u0bcttUicoAI3AwcWFS6yfcLANzU2W1KaA=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmFaultSignalHandler.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			57TWVygdCyCApXlptX/5/9joT9g=
+			ZYTH4CAXS7/4wxGwQs1dmVyPDfg=
 			</data>
 			<key>hash2</key>
 			<data>
-			nMUi+m9lkvmsKCkzdAQBYTIQ2eq33/0Up9cWGdFEaFo=
+			Ssjs0IJr+0pdC+JpJq9Zkrkeb+gimn4O0DAU0NlYn4g=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmFormat.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			IxsIAc2WnyE16VfI4bx3FqwFZik=
+			teC5MDDLs37DPnLCTejwbwWdpu4=
 			</data>
 			<key>hash2</key>
 			<data>
-			4IhcHvoZOsw1VAblQwJSkZb24kx/0Su6JvdOb5lz7WQ=
+			LCFgeJ1bLAn418Kgq2s4PMcZa9Md+YUDaEGK6ON4UYg=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmIndexOrName.h</key>
@@ -11527,6 +11622,17 @@
 			<key>hash2</key>
 			<data>
 			MimYfMVQf5eRK0dlmvIIXkMD8PlDHFb9Gu943htGeb8=
+			</data>
+		</dict>
+		<key>PrivateHeaders/WasmInstance.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			iRZFhta72QQjJUgyMsPXFavxPh8=
+			</data>
+			<key>hash2</key>
+			<data>
+			0Suqp83/WNeszuXuheSZgmZxod3aDS0nOXduZShh5u0=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmLimits.h</key>
@@ -11544,33 +11650,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			51YYwhN1K0V09oWVoGe+aC0o53M=
+			xy3Qsvxiq8PQIkcrCj1lfaFbeqk=
 			</data>
 			<key>hash2</key>
 			<data>
-			HKawZtx7+1nbSj03ovRwkW3c2EhND/Omizwtj+hDwSE=
+			GpvscvrbY/TM4qYjYnHpTcYhUwPE6LA1F0yDdYsELFg=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmMemoryInformation.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			CX0kyUIHRgrpAhi+Bh90bDnHKQk=
+			Suvtzupfy3u96tjm78S+aID8u4Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			Z2cZ8m9638KMZTvmBYbnCZQncGPp+5M3h371k48k+UY=
+			nKryQKG2+5hJs8QP8Px0kdnBj68uOm3L0EUZ6aJzkdM=
+			</data>
+		</dict>
+		<key>PrivateHeaders/WasmMemoryMode.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1UmrNAYX8PuTGVnAW7AWFl7BTZg=
+			</data>
+			<key>hash2</key>
+			<data>
+			Dve9PSBTETq9b3VWco08j1OclvUHPH3d2+uh0ZYDXB0=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmModule.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			VtKN9dhZUPQdvyMwnAo4j1ELH8I=
+			ct9ZZMu/Apyx1I8ihk1ifswfFls=
 			</data>
 			<key>hash2</key>
 			<data>
-			dfPl+otLn5wSiI5O3+UYuKxmj0ViO8xXrRTnG+LdFlE=
+			q+KTiocDA7LERsGAqUQbTVrSahIARYhXYLrduEMZIwY=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmName.h</key>
@@ -11599,33 +11716,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			J0ERiPfw4vIZoUtqPCDx7QWI30E=
+			zM5bIq8yO9i6ehoisKWg+XnXuRw=
 			</data>
 			<key>hash2</key>
 			<data>
-			9mZk85/hcajtOzyVON6T/RYQ1boc5zif1XlVXEeQlAc=
+			LqPDw9H8PK8rJud4poT+TlkzQYu2+EcSCzeuUnMxRjE=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmSignature.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Qq5j+WprDAdrWhkg/3bW7GH7/iU=
+			XhDSniI+sZwLaryG08JpL0tFxZc=
 			</data>
 			<key>hash2</key>
 			<data>
-			YJAU1LCSPGvxUX9Uk3w9Vo0LMRzSO9E0JV55RwBSagc=
+			0ubMJk5h+MXP4ItnGvxMf3LFkJQ667i4/xydY6VOBVU=
+			</data>
+		</dict>
+		<key>PrivateHeaders/WasmTable.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			R73m2DnblUbozOwk5r8thtWMwBA=
+			</data>
+			<key>hash2</key>
+			<data>
+			pDO9QUOGHEBA8YRc8XpKrnlmt6UXBa503r1tUmPOW8c=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmThunks.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			HIOy/mia8ferP0aM2TB253pX4tc=
+			g03uh+7KcmataT0s6nMu8bJZBIg=
 			</data>
 			<key>hash2</key>
 			<data>
-			taYu5GlSpXQl+EtDvD9Ve03yW7RGusyzDv8kZRRCMLw=
+			AdtxXrVSrx6lyZJi4gco4aYjvajrENI4kMUG7azZeEg=
 			</data>
 		</dict>
 		<key>PrivateHeaders/WasmTierUpCount.h</key>
@@ -11637,6 +11765,17 @@
 			<key>hash2</key>
 			<data>
 			PZ7QbHRQcvY9+gG57mdMsxo2BuCJHWNEDVaV3vNlVOc=
+			</data>
+		</dict>
+		<key>PrivateHeaders/WasmToJS.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			WU/cDcxrldyFakYp+Ju3Ksaohik=
+			</data>
+			<key>hash2</key>
+			<data>
+			SXXSu4yNP8NOAN8EaUlYYxk7PcgYSslX8tQGZqqlICQ=
 			</data>
 		</dict>
 		<key>PrivateHeaders/Watchdog.h</key>
