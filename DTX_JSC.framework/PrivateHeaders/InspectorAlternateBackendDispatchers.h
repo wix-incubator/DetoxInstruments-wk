@@ -96,6 +96,8 @@ public:
     virtual void enable(long callId) = 0;
     virtual void disable(long callId) = 0;
     virtual void clearMessages(long callId) = 0;
+    virtual void getLoggingChannels(long callId) = 0;
+    virtual void setLoggingChannelLevel(long callId, const String& in_source, const String& in_level) = 0;
 };
 class AlternateDOMBackendDispatcher : public AlternateBackendDispatcher {
 public:
@@ -111,6 +113,7 @@ public:
     virtual void setAttributesAsText(long callId, int in_nodeId, const String& in_text, const String* const in_name) = 0;
     virtual void removeAttribute(long callId, int in_nodeId, const String& in_name) = 0;
     virtual void getEventListenersForNode(long callId, int in_nodeId, const String* const in_objectGroup) = 0;
+    virtual void setEventListenerDisabled(long callId, int in_eventListenerId, bool in_disabled) = 0;
     virtual void getAccessibilityPropertiesForNode(long callId, int in_nodeId) = 0;
     virtual void getOuterHTML(long callId, int in_nodeId) = 0;
     virtual void setOuterHTML(long callId, int in_nodeId, const String& in_outerHTML) = 0;

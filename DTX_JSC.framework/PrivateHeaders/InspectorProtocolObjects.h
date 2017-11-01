@@ -77,9 +77,12 @@ enum class ShaderType;
 } // Canvas
 
 namespace Console {
+class Channel;
 class ConsoleMessage;
 class CallFrame;
 class StackTrace;
+enum class ChannelSource;
+enum class ChannelLevel;
 } // Console
 
 namespace DOM {
@@ -247,6 +250,8 @@ namespace DOM {
 typedef int NodeId;
 /* Unique DOM node identifier used to reference a node that may not have been pushed to the front-end. */
 typedef int BackendNodeId;
+/* Unique event listener identifier. */
+typedef int EventListenerId;
 /* An array of quad vertices, x immediately followed by y for each point, points clock-wise. */
 typedef Inspector::Protocol::Array<double> Quad;
 } // DOM
@@ -2174,51 +2179,132 @@ public:
     {
         InspectorObjectBase::setDouble(ASCIILiteral("memoryCost"), value);
     }
+
+    void setBacktrace(RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Console::CallFrame>> value)
+    {
+        InspectorObjectBase::setArray(ASCIILiteral("backtrace"), WTFMove(value));
+    }
 };
 
 } // Canvas
 
 namespace Console {
+/* Channels for different types of log messages. */
+enum class ChannelSource {
+    XML = 18,
+    Javascript = 19,
+    Network = 20,
+    ConsoleAPI = 21,
+    Storage = 22,
+    Appcache = 23,
+    Rendering = 24,
+    CSS = 25,
+    Security = 26,
+    ContentBlocker = 27,
+    Media = 28,
+    WebRTC = 29,
+    Other = 30,
+}; // enum class ChannelSource
+/* Level of logging. */
+enum class ChannelLevel {
+    Off = 31,
+    Log = 32,
+    Error = 33,
+    Warning = 34,
+    Info = 35,
+    Debug = 36,
+}; // enum class ChannelLevel
+/* Logging channel. */
+class Channel : public Inspector::InspectorObjectBase {
+public:
+    enum {
+        NoFieldsSet = 0,
+        SourceSet = 1 << 0,
+        LevelSet = 1 << 1,
+        AllFieldsSet = (SourceSet | LevelSet)
+    };
+
+    template<int STATE>
+    class Builder {
+    private:
+        RefPtr<InspectorObject> m_result;
+
+        template<int STEP> Builder<STATE | STEP>& castState()
+        {
+            return *reinterpret_cast<Builder<STATE | STEP>*>(this);
+        }
+
+        Builder(Ref</*Channel*/InspectorObject>&& object)
+            : m_result(WTFMove(object))
+        {
+            COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
+        }
+        friend class Channel;
+    public:
+
+        Builder<STATE | SourceSet>& setSource(Inspector::Protocol::Console::ChannelSource value)
+        {
+            COMPILE_ASSERT(!(STATE & SourceSet), property_source_already_set);
+            m_result->setString(ASCIILiteral("source"), Inspector::Protocol::InspectorHelpers::getEnumConstantValue(value));
+            return castState<SourceSet>();
+        }
+
+        Builder<STATE | LevelSet>& setLevel(Inspector::Protocol::Console::ChannelLevel value)
+        {
+            COMPILE_ASSERT(!(STATE & LevelSet), property_level_already_set);
+            m_result->setString(ASCIILiteral("level"), Inspector::Protocol::InspectorHelpers::getEnumConstantValue(value));
+            return castState<LevelSet>();
+        }
+
+        Ref<Channel> release()
+        {
+            COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
+            COMPILE_ASSERT(sizeof(Channel) == sizeof(InspectorObject), cannot_cast);
+
+            Ref<InspectorObject> result = m_result.releaseNonNull();
+            return WTFMove(*reinterpret_cast<Ref<Channel>*>(&result));
+        }
+    };
+
+    /*
+     * Synthetic constructor:
+     * Ref<Channel> result = Channel::create()
+     *     .setSource(...)
+     *     .setLevel(...)
+     *     .release();
+     */
+    static Builder<NoFieldsSet> create()
+    {
+        return Builder<NoFieldsSet>(InspectorObject::create());
+    }
+};
+
 /* Console message. */
 class ConsoleMessage : public Inspector::InspectorObjectBase {
 public:
-    // Named after property name 'source' while generating ConsoleMessage.
-    enum class Source {
-        XML = 18,
-        Javascript = 19,
-        Network = 20,
-        ConsoleAPI = 21,
-        Storage = 22,
-        Appcache = 23,
-        Rendering = 24,
-        CSS = 25,
-        Security = 26,
-        ContentBlocker = 27,
-        Other = 28,
-    }; // enum class Source
     // Named after property name 'level' while generating ConsoleMessage.
     enum class Level {
-        Log = 29,
-        Info = 30,
-        Warning = 31,
-        Error = 32,
-        Debug = 33,
+        Log = 32,
+        Info = 35,
+        Warning = 34,
+        Error = 33,
+        Debug = 36,
     }; // enum class Level
     // Named after property name 'type' while generating ConsoleMessage.
     enum class Type {
-        Log = 29,
-        Dir = 34,
-        DirXML = 35,
-        Table = 36,
-        Trace = 37,
-        Clear = 38,
-        StartGroup = 39,
-        StartGroupCollapsed = 40,
-        EndGroup = 41,
-        Assert = 42,
-        Timing = 43,
-        Profile = 44,
-        ProfileEnd = 45,
+        Log = 32,
+        Dir = 37,
+        DirXML = 38,
+        Table = 39,
+        Trace = 40,
+        Clear = 41,
+        StartGroup = 42,
+        StartGroupCollapsed = 43,
+        EndGroup = 44,
+        Assert = 45,
+        Timing = 46,
+        Profile = 47,
+        ProfileEnd = 48,
     }; // enum class Type
     enum {
         NoFieldsSet = 0,
@@ -2246,7 +2332,7 @@ public:
         friend class ConsoleMessage;
     public:
 
-        Builder<STATE | SourceSet>& setSource(Source value)
+        Builder<STATE | SourceSet>& setSource(Inspector::Protocol::Console::ChannelSource value)
         {
             COMPILE_ASSERT(!(STATE & SourceSet), property_source_already_set);
             m_result->setString(ASCIILiteral("source"), Inspector::Protocol::InspectorHelpers::getEnumConstantValue(value));
@@ -2499,27 +2585,27 @@ public:
 namespace DOM {
 /* Pseudo element type. */
 enum class PseudoType {
-    Before = 46,
-    After = 47,
+    Before = 49,
+    After = 50,
 }; // enum class PseudoType
 /* Shadow root type. */
 enum class ShadowRootType {
     UserAgent = 1,
-    Open = 48,
-    Closed = 49,
+    Open = 51,
+    Closed = 52,
 }; // enum class ShadowRootType
 /* Custom element state. */
 enum class CustomElementState {
-    Builtin = 50,
-    Custom = 51,
-    Waiting = 52,
-    Failed = 53,
+    Builtin = 53,
+    Custom = 54,
+    Waiting = 55,
+    Failed = 56,
 }; // enum class CustomElementState
 /* Token values of @aria-relevant attribute. */
 enum class LiveRegionRelevant {
-    Additions = 54,
-    Removals = 55,
-    Text = 56,
+    Additions = 57,
+    Removals = 58,
+    Text = 59,
 }; // enum class LiveRegionRelevant
 /* DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes. DOMNode is a base node mirror type. */
 class Node : public Inspector::InspectorObjectBase {
@@ -2718,12 +2804,13 @@ class EventListener : public Inspector::InspectorObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
-        TypeSet = 1 << 0,
-        UseCaptureSet = 1 << 1,
-        IsAttributeSet = 1 << 2,
-        NodeIdSet = 1 << 3,
-        HandlerBodySet = 1 << 4,
-        AllFieldsSet = (TypeSet | UseCaptureSet | IsAttributeSet | NodeIdSet | HandlerBodySet)
+        EventListenerIdSet = 1 << 0,
+        TypeSet = 1 << 1,
+        UseCaptureSet = 1 << 2,
+        IsAttributeSet = 1 << 3,
+        NodeIdSet = 1 << 4,
+        HandlerBodySet = 1 << 5,
+        AllFieldsSet = (EventListenerIdSet | TypeSet | UseCaptureSet | IsAttributeSet | NodeIdSet | HandlerBodySet)
     };
 
     template<int STATE>
@@ -2743,6 +2830,13 @@ public:
         }
         friend class EventListener;
     public:
+
+        Builder<STATE | EventListenerIdSet>& setEventListenerId(int value)
+        {
+            COMPILE_ASSERT(!(STATE & EventListenerIdSet), property_eventListenerId_already_set);
+            m_result->setInteger(ASCIILiteral("eventListenerId"), value);
+            return castState<EventListenerIdSet>();
+        }
 
         Builder<STATE | TypeSet>& setType(const String& value)
         {
@@ -2792,6 +2886,7 @@ public:
     /*
      * Synthetic constructor:
      * Ref<EventListener> result = EventListener::create()
+     *     .setEventListenerId(...)
      *     .setType(...)
      *     .setUseCapture(...)
      *     .setIsAttribute(...)
@@ -2828,6 +2923,11 @@ public:
     {
         InspectorObjectBase::setBoolean(ASCIILiteral("once"), value);
     }
+
+    void setDisabled(bool value)
+    {
+        InspectorObjectBase::setBoolean(ASCIILiteral("disabled"), value);
+    }
 };
 
 /* A structure holding accessibility properties. */
@@ -2835,32 +2935,32 @@ class AccessibilityProperties : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'checked' while generating AccessibilityProperties.
     enum class Checked {
-        True = 57,
-        False = 58,
-        Mixed = 59,
+        True = 60,
+        False = 61,
+        Mixed = 62,
     }; // enum class Checked
     // Named after property name 'current' while generating AccessibilityProperties.
     enum class Current {
-        True = 57,
-        False = 58,
-        Page = 60,
-        Step = 61,
-        Location = 62,
-        Date = 63,
-        Time = 64,
+        True = 60,
+        False = 61,
+        Page = 63,
+        Step = 64,
+        Location = 65,
+        Date = 66,
+        Time = 67,
     }; // enum class Current
     // Named after property name 'invalid' while generating AccessibilityProperties.
     enum class Invalid {
-        True = 57,
-        False = 58,
-        Grammar = 65,
-        Spelling = 66,
+        True = 60,
+        False = 61,
+        Grammar = 68,
+        Spelling = 69,
     }; // enum class Invalid
     // Named after property name 'liveRegionStatus' while generating AccessibilityProperties.
     enum class LiveRegionStatus {
-        Assertive = 67,
-        Polite = 68,
-        Off = 69,
+        Assertive = 70,
+        Polite = 71,
+        Off = 31,
     }; // enum class LiveRegionStatus
     enum {
         NoFieldsSet = 0,
@@ -3238,9 +3338,9 @@ public:
 namespace DOMDebugger {
 /* DOM breakpoint type. */
 enum class DOMBreakpointType {
-    SubtreeModified = 70,
-    AttributeModified = 71,
-    NodeRemoved = 72,
+    SubtreeModified = 72,
+    AttributeModified = 73,
+    NodeRemoved = 74,
 }; // enum class DOMBreakpointType
 } // DOMDebugger
 
@@ -3539,10 +3639,10 @@ class BreakpointAction : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'type' while generating BreakpointAction.
     enum class Type {
-        Log = 29,
-        Evaluate = 73,
-        Sound = 74,
-        Probe = 75,
+        Log = 32,
+        Evaluate = 75,
+        Sound = 76,
+        Probe = 77,
     }; // enum class Type
     enum {
         NoFieldsSet = 0,
@@ -3851,13 +3951,13 @@ class Scope : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'type' while generating Scope.
     enum class Type {
-        Global = 76,
-        With = 77,
-        Closure = 78,
-        Catch = 79,
-        FunctionName = 80,
-        GlobalLexicalEnvironment = 81,
-        NestedLexical = 82,
+        Global = 78,
+        With = 79,
+        Closure = 80,
+        Catch = 81,
+        FunctionName = 82,
+        GlobalLexicalEnvironment = 83,
+        NestedLexical = 84,
     }; // enum class Type
     enum {
         NoFieldsSet = 0,
@@ -4268,8 +4368,8 @@ class GarbageCollection : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'type' while generating GarbageCollection.
     enum class Type {
-        Full = 83,
-        Partial = 84,
+        Full = 85,
+        Partial = 86,
     }; // enum class Type
     enum {
         NoFieldsSet = 0,
@@ -4591,10 +4691,10 @@ class Key : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'type' while generating Key.
     enum class Type {
-        Number = 85,
-        String = 86,
-        Date = 63,
-        Array = 87,
+        Number = 87,
+        String = 88,
+        Date = 66,
+        Array = 89,
     }; // enum class Type
     enum {
         NoFieldsSet = 0,
@@ -4823,9 +4923,9 @@ class KeyPath : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'type' while generating KeyPath.
     enum class Type {
-        Null = 88,
-        String = 86,
-        Array = 87,
+        Null = 90,
+        String = 88,
+        Array = 89,
     }; // enum class Type
     enum {
         NoFieldsSet = 0,
@@ -5363,11 +5463,11 @@ public:
     // Named after property name 'type' while generating CategoryData.
     enum class Type {
         Javascript = 19,
-        JIT = 89,
-        Images = 90,
-        Layers = 91,
-        Page = 60,
-        Other = 28,
+        JIT = 91,
+        Images = 92,
+        Layers = 93,
+        Page = 63,
+        Other = 30,
     }; // enum class Type
     enum {
         NoFieldsSet = 0,
@@ -5638,10 +5738,10 @@ class Response : public Inspector::InspectorObject {
 public:
     // Named after property name 'source' while generating Response.
     enum class Source {
-        Unknown = 92,
+        Unknown = 94,
         Network = 20,
-        MemoryCache = 93,
-        DiskCache = 94,
+        MemoryCache = 95,
+        DiskCache = 96,
     }; // enum class Source
     enum {
         NoFieldsSet = 0,
@@ -5769,9 +5869,9 @@ class Metrics : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'priority' while generating Metrics.
     enum class Priority {
-        Low = 95,
-        Medium = 96,
-        High = 97,
+        Low = 97,
+        Medium = 98,
+        High = 99,
     }; // enum class Priority
     enum {
         NoFieldsSet = 0,
@@ -6169,9 +6269,9 @@ class Initiator : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'type' while generating Initiator.
     enum class Type {
-        Parser = 109,
-        Script = 110,
-        Other = 28,
+        Parser = 111,
+        Script = 112,
+        Other = 30,
     }; // enum class Type
     enum {
         NoFieldsSet = 0,
@@ -6860,22 +6960,22 @@ public:
 namespace Page {
 /* Resource type as it was perceived by the rendering engine. */
 enum class ResourceType {
-    Document = 98,
-    Stylesheet = 99,
-    Image = 100,
-    Font = 101,
-    Script = 102,
-    XHR = 103,
-    Fetch = 104,
-    Ping = 105,
-    Beacon = 106,
-    WebSocket = 107,
-    Other = 108,
+    Document = 100,
+    Stylesheet = 101,
+    Image = 102,
+    Font = 103,
+    Script = 104,
+    XHR = 105,
+    Fetch = 106,
+    Ping = 107,
+    Beacon = 108,
+    WebSocket = 109,
+    Other = 110,
 }; // enum class ResourceType
 /* Coordinate system used by supplied coordinates. */
 enum class CoordinateSystem {
-    Viewport = 111,
-    Page = 112,
+    Viewport = 113,
+    Page = 114,
 }; // enum class CoordinateSystem
 /* Information about the Frame on the page. */
 class Frame : public Inspector::InspectorObjectBase {
@@ -7355,7 +7455,7 @@ namespace Recording {
 /* The type of the recording. */
 enum class Type {
     Canvas2D = 12,
-    CanvasWebGL = 113,
+    CanvasWebGL = 115,
 }; // enum class Type
 /* Information about the initial state of the recorded object. */
 class InitialState : public Inspector::InspectorObjectBase {
@@ -7579,29 +7679,29 @@ class RemoteObject : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'type' while generating RemoteObject.
     enum class Type {
-        Object = 114,
-        Function = 115,
-        Undefined = 116,
-        String = 86,
-        Number = 85,
-        Boolean = 117,
-        Symbol = 118,
+        Object = 116,
+        Function = 117,
+        Undefined = 118,
+        String = 88,
+        Number = 87,
+        Boolean = 119,
+        Symbol = 120,
     }; // enum class Type
     // Named after property name 'subtype' while generating RemoteObject.
     enum class Subtype {
-        Array = 87,
-        Null = 88,
-        Node = 119,
-        Regexp = 120,
-        Date = 63,
-        Error = 32,
-        Map = 121,
-        Set = 122,
-        Weakmap = 123,
-        Weakset = 124,
-        Iterator = 125,
-        Class = 126,
-        Proxy = 127,
+        Array = 89,
+        Null = 90,
+        Node = 121,
+        Regexp = 122,
+        Date = 66,
+        Error = 33,
+        Map = 123,
+        Set = 124,
+        Weakmap = 125,
+        Weakset = 126,
+        Iterator = 127,
+        Class = 128,
+        Proxy = 129,
     }; // enum class Subtype
     enum {
         NoFieldsSet = 0,
@@ -7701,29 +7801,29 @@ class ObjectPreview : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'type' while generating ObjectPreview.
     enum class Type {
-        Object = 114,
-        Function = 115,
-        Undefined = 116,
-        String = 86,
-        Number = 85,
-        Boolean = 117,
-        Symbol = 118,
+        Object = 116,
+        Function = 117,
+        Undefined = 118,
+        String = 88,
+        Number = 87,
+        Boolean = 119,
+        Symbol = 120,
     }; // enum class Type
     // Named after property name 'subtype' while generating ObjectPreview.
     enum class Subtype {
-        Array = 87,
-        Null = 88,
-        Node = 119,
-        Regexp = 120,
-        Date = 63,
-        Error = 32,
-        Map = 121,
-        Set = 122,
-        Weakmap = 123,
-        Weakset = 124,
-        Iterator = 125,
-        Class = 126,
-        Proxy = 127,
+        Array = 89,
+        Null = 90,
+        Node = 121,
+        Regexp = 122,
+        Date = 66,
+        Error = 33,
+        Map = 123,
+        Set = 124,
+        Weakmap = 125,
+        Weakset = 126,
+        Iterator = 127,
+        Class = 128,
+        Proxy = 129,
     }; // enum class Subtype
     enum {
         NoFieldsSet = 0,
@@ -7821,30 +7921,30 @@ class PropertyPreview : public Inspector::InspectorObjectBase {
 public:
     // Named after property name 'type' while generating PropertyPreview.
     enum class Type {
-        Object = 114,
-        Function = 115,
-        Undefined = 116,
-        String = 86,
-        Number = 85,
-        Boolean = 117,
-        Symbol = 118,
-        Accessor = 128,
+        Object = 116,
+        Function = 117,
+        Undefined = 118,
+        String = 88,
+        Number = 87,
+        Boolean = 119,
+        Symbol = 120,
+        Accessor = 130,
     }; // enum class Type
     // Named after property name 'subtype' while generating PropertyPreview.
     enum class Subtype {
-        Array = 87,
-        Null = 88,
-        Node = 119,
-        Regexp = 120,
-        Date = 63,
-        Error = 32,
-        Map = 121,
-        Set = 122,
-        Weakmap = 123,
-        Weakset = 124,
-        Iterator = 125,
-        Class = 126,
-        Proxy = 127,
+        Array = 89,
+        Null = 90,
+        Node = 121,
+        Regexp = 122,
+        Date = 66,
+        Error = 33,
+        Map = 123,
+        Set = 124,
+        Weakmap = 125,
+        Weakset = 126,
+        Iterator = 127,
+        Class = 128,
+        Proxy = 129,
     }; // enum class Subtype
     enum {
         NoFieldsSet = 0,
@@ -8365,10 +8465,10 @@ public:
 
 /* Syntax error type: "none" for no error, "irrecoverable" for unrecoverable errors, "unterminated-literal" for when there is an unterminated literal, "recoverable" for when the expression is unfinished but valid so far. */
 enum class SyntaxErrorType {
-    None = 129,
-    Irrecoverable = 130,
-    UnterminatedLiteral = 131,
-    Recoverable = 132,
+    None = 131,
+    Irrecoverable = 132,
+    UnterminatedLiteral = 133,
+    Recoverable = 134,
 }; // enum class SyntaxErrorType
 /* Range of an error in source code. */
 class ErrorRange : public Inspector::InspectorObjectBase {
@@ -8871,9 +8971,9 @@ public:
 namespace ScriptProfiler {
 /*  */
 enum class EventType {
-    API = 133,
-    Microtask = 134,
-    Other = 108,
+    API = 135,
+    Microtask = 136,
+    Other = 110,
 }; // enum class EventType
 class Event : public Inspector::InspectorObjectBase {
 public:
@@ -9232,34 +9332,34 @@ public:
 namespace Timeline {
 /* Timeline record type. */
 enum class EventType {
-    EventDispatch = 135,
-    ScheduleStyleRecalculation = 136,
-    RecalculateStyles = 137,
-    InvalidateLayout = 138,
-    Layout = 139,
-    Paint = 140,
-    Composite = 141,
-    RenderingFrame = 142,
-    TimerInstall = 143,
-    TimerRemove = 144,
-    TimerFire = 145,
-    EvaluateScript = 146,
-    TimeStamp = 147,
-    Time = 148,
-    TimeEnd = 149,
-    FunctionCall = 150,
-    ProbeSample = 151,
-    ConsoleProfile = 152,
-    RequestAnimationFrame = 153,
-    CancelAnimationFrame = 154,
-    FireAnimationFrame = 155,
+    EventDispatch = 137,
+    ScheduleStyleRecalculation = 138,
+    RecalculateStyles = 139,
+    InvalidateLayout = 140,
+    Layout = 141,
+    Paint = 142,
+    Composite = 143,
+    RenderingFrame = 144,
+    TimerInstall = 145,
+    TimerRemove = 146,
+    TimerFire = 147,
+    EvaluateScript = 148,
+    TimeStamp = 149,
+    Time = 150,
+    TimeEnd = 151,
+    FunctionCall = 152,
+    ProbeSample = 153,
+    ConsoleProfile = 154,
+    RequestAnimationFrame = 155,
+    CancelAnimationFrame = 156,
+    FireAnimationFrame = 157,
 }; // enum class EventType
 /* Instrument types. */
 enum class Instrument {
-    ScriptProfiler = 156,
-    Timeline = 157,
-    Memory = 158,
-    Heap = 159,
+    ScriptProfiler = 158,
+    Timeline = 159,
+    Memory = 160,
+    Heap = 161,
 }; // enum class Instrument
 /* Timeline record contains information about the recorded activity. */
 class TimelineEvent : public Inspector::InspectorObject {
@@ -9468,7 +9568,9 @@ JS_EXPORT_PRIVATE std::optional<Inspector::Protocol::Canvas::ShaderType> parseEn
 
 // Enums in the 'Console' Domain
 template<>
-JS_EXPORT_PRIVATE std::optional<Inspector::Protocol::Console::ConsoleMessage::Source> parseEnumValueFromString<Inspector::Protocol::Console::ConsoleMessage::Source>(const String&);
+JS_EXPORT_PRIVATE std::optional<Inspector::Protocol::Console::ChannelSource> parseEnumValueFromString<Inspector::Protocol::Console::ChannelSource>(const String&);
+template<>
+JS_EXPORT_PRIVATE std::optional<Inspector::Protocol::Console::ChannelLevel> parseEnumValueFromString<Inspector::Protocol::Console::ChannelLevel>(const String&);
 template<>
 JS_EXPORT_PRIVATE std::optional<Inspector::Protocol::Console::ConsoleMessage::Level> parseEnumValueFromString<Inspector::Protocol::Console::ConsoleMessage::Level>(const String&);
 template<>

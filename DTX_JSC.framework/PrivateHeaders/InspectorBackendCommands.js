@@ -91,7 +91,8 @@ InspectorBackend.activateDomain("Canvas", "web");
 
 // Console.
 InspectorBackend.registerConsoleDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "Console");
-InspectorBackend.registerEnum("Console.ConsoleMessageSource", {XML: "xml", Javascript: "javascript", Network: "network", ConsoleAPI: "console-api", Storage: "storage", Appcache: "appcache", Rendering: "rendering", CSS: "css", Security: "security", ContentBlocker: "content-blocker", Other: "other"});
+InspectorBackend.registerEnum("Console.ChannelSource", {XML: "xml", Javascript: "javascript", Network: "network", ConsoleAPI: "console-api", Storage: "storage", Appcache: "appcache", Rendering: "rendering", CSS: "css", Security: "security", ContentBlocker: "content-blocker", Media: "media", WebRTC: "webrtc", Other: "other"});
+InspectorBackend.registerEnum("Console.ChannelLevel", {Off: "off", Log: "log", Error: "error", Warning: "warning", Info: "info", Debug: "debug"});
 InspectorBackend.registerEnum("Console.ConsoleMessageLevel", {Log: "log", Info: "info", Warning: "warning", Error: "error", Debug: "debug"});
 InspectorBackend.registerEnum("Console.ConsoleMessageType", {Log: "log", Dir: "dir", DirXML: "dirxml", Table: "table", Trace: "trace", Clear: "clear", StartGroup: "startGroup", StartGroupCollapsed: "startGroupCollapsed", EndGroup: "endGroup", Assert: "assert", Timing: "timing", Profile: "profile", ProfileEnd: "profileEnd"});
 InspectorBackend.registerEvent("Console.messageAdded", ["message"]);
@@ -101,6 +102,8 @@ InspectorBackend.registerEvent("Console.heapSnapshot", ["timestamp", "snapshotDa
 InspectorBackend.registerCommand("Console.enable", [], []);
 InspectorBackend.registerCommand("Console.disable", [], []);
 InspectorBackend.registerCommand("Console.clearMessages", [], []);
+InspectorBackend.registerCommand("Console.getLoggingChannels", [], ["channels"]);
+InspectorBackend.registerCommand("Console.setLoggingChannelLevel", [{"name": "source", "type": "string", "optional": false}, {"name": "level", "type": "string", "optional": false}], []);
 InspectorBackend.activateDomain("Console");
 InspectorBackend.workerSupportedDomain("Console");
 
@@ -142,6 +145,7 @@ InspectorBackend.registerCommand("DOM.setAttributeValue", [{"name": "nodeId", "t
 InspectorBackend.registerCommand("DOM.setAttributesAsText", [{"name": "nodeId", "type": "number", "optional": false}, {"name": "text", "type": "string", "optional": false}, {"name": "name", "type": "string", "optional": true}], []);
 InspectorBackend.registerCommand("DOM.removeAttribute", [{"name": "nodeId", "type": "number", "optional": false}, {"name": "name", "type": "string", "optional": false}], []);
 InspectorBackend.registerCommand("DOM.getEventListenersForNode", [{"name": "nodeId", "type": "number", "optional": false}, {"name": "objectGroup", "type": "string", "optional": true}], ["listeners"]);
+InspectorBackend.registerCommand("DOM.setEventListenerDisabled", [{"name": "eventListenerId", "type": "number", "optional": false}, {"name": "disabled", "type": "boolean", "optional": false}], []);
 InspectorBackend.registerCommand("DOM.getAccessibilityPropertiesForNode", [{"name": "nodeId", "type": "number", "optional": false}], ["properties"]);
 InspectorBackend.registerCommand("DOM.getOuterHTML", [{"name": "nodeId", "type": "number", "optional": false}], ["outerHTML"]);
 InspectorBackend.registerCommand("DOM.setOuterHTML", [{"name": "nodeId", "type": "number", "optional": false}, {"name": "outerHTML", "type": "string", "optional": false}], []);

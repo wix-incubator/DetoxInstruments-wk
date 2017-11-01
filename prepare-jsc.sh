@@ -11,8 +11,8 @@ cd wk-svn
 
 patch -p1 < ../wk.diff
 
-export CODE_SIGNING_REQUIRED=NO && Tools/Scripts/build-webkit --ios-simulator --sdk=iphonesimulator
-export CODE_SIGNING_REQUIRED=NO && Tools/Scripts/build-webkit --ios-device --sdk=iphoneos
+export CODE_SIGNING_REQUIRED=NO && Tools/Scripts/build-webkit --release --ios-simulator --sdk=iphonesimulator
+export CODE_SIGNING_REQUIRED=NO && Tools/Scripts/build-webkit --release --ios-device --sdk=iphoneos
 cp -r WebKitBuild/Release-iphoneos/JavaScriptCore.framework ../DTX_JSC.framework
 rm -f ../DTX_JSC.framework/JavaScriptCore
 lipo -create WebKitBuild/Release-iphoneos/JavaScriptCore.framework/JavaScriptCore WebKitBuild/Release-iphonesimulator/JavaScriptCore.framework/JavaScriptCore -output ../DTX_JSC.framework/DTX_JSC 

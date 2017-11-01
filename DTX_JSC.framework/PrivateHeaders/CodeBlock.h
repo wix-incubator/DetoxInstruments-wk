@@ -115,6 +115,7 @@ class CodeBlock : public JSCell {
     };
 
 public:
+
     enum CopyParsedBlockTag { CopyParsedBlock };
 
     static const unsigned StructureFlags = Base::StructureFlags | StructureIsImmortal;
@@ -600,12 +601,7 @@ public:
 
     BytecodeLivenessAnalysis& livenessAnalysis()
     {
-        {
-            ConcurrentJSLocker locker(m_lock);
-            if (!!m_livenessAnalysis)
-                return *m_livenessAnalysis;
-        }
-        return livenessAnalysisSlow();
+        return m_unlinkedCode->livenessAnalysis(this);
     }
     
     void validate();
@@ -742,7 +738,7 @@ public:
 
     // Call this to cause an optimization trigger to fire soon, but
     // not necessarily the next one. This makes sense if optimization
-    // succeeds. Successful optimization means that all calls are
+    // succeeds. Successfuly optimization means that all calls are
     // relinked to the optimized code, so this only affects call
     // frames that are still executing this CodeBlock. The value here
     // is tuned to strike a balance between the cost of OSR entry
@@ -925,8 +921,6 @@ public:
     std::optional<CodeOrigin> findPC(void* pc);
 #endif
 
-    bool hasTailCalls() const { return m_unlinkedCode->hasTailCalls(); }
-
 protected:
     void finalizeLLIntInlineCaches();
     void finalizeBaselineJITInlineCaches();
@@ -1060,8 +1054,6 @@ private:
     uint16_t m_reoptimizationRetryCounter;
 
     std::chrono::steady_clock::time_point m_creationTime;
-
-    std::unique_ptr<BytecodeLivenessAnalysis> m_livenessAnalysis;
 
     std::unique_ptr<RareData> m_rareData;
 

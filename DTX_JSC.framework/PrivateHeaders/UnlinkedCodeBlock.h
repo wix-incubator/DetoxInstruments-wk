@@ -46,7 +46,9 @@
 
 namespace JSC {
 
+class BytecodeLivenessAnalysis;
 class BytecodeRewriter;
+class CodeBlock;
 class Debugger;
 class FunctionExecutable;
 class ParserError;
@@ -129,8 +131,6 @@ public:
     EvalContextType evalContextType() const { return static_cast<EvalContextType>(m_evalContextType); }
     bool isArrowFunctionContext() const { return m_isArrowFunctionContext; }
     bool isClassContext() const { return m_isClassContext; }
-    bool hasTailCalls() const { return m_hasTailCalls; }
-    void setHasTailCalls() { m_hasTailCalls = true; }
 
     void addExpressionInfo(unsigned instructionOffset, int divot,
         int startOffset, int endOffset, unsigned line, unsigned column);
@@ -397,6 +397,13 @@ public:
 
     void dump(PrintStream&) const;
 
+    BytecodeLivenessAnalysis& livenessAnalysis(CodeBlock* codeBlock)
+    {
+        if (m_liveness)
+            return *m_liveness;
+        return livenessAnalysisSlow(codeBlock);
+    }
+
 protected:
     UnlinkedCodeBlock(VM*, Structure*, CodeType, const ExecutableInfo&, DebuggerMode);
     ~UnlinkedCodeBlock();
@@ -408,7 +415,7 @@ protected:
 
 private:
     friend class BytecodeRewriter;
-    void applyModification(BytecodeRewriter&);
+    void applyModification(BytecodeRewriter&, UnpackedInstructions&);
 
     void createRareDataIfNecessary()
     {
@@ -419,10 +426,12 @@ private:
     }
 
     void getLineAndColumn(const ExpressionRangeInfo&, unsigned& line, unsigned& column) const;
+    BytecodeLivenessAnalysis& livenessAnalysisSlow(CodeBlock*);
 
     int m_numParameters;
 
     std::unique_ptr<UnlinkedInstructionStream> m_unlinkedInstructions;
+    std::unique_ptr<BytecodeLivenessAnalysis> m_liveness;
 
     VirtualRegister m_thisRegister;
     VirtualRegister m_scopeRegister;
@@ -444,10 +453,10 @@ private:
     unsigned m_constructorKind : 2;
     unsigned m_derivedContextType : 2;
     unsigned m_evalContextType : 2;
-    unsigned m_hasTailCalls : 1;
     unsigned m_lineCount;
     unsigned m_endColumn;
 
+    Lock m_lock;
     TriState m_didOptimize;
     SourceParseMode m_parseMode;
     CodeFeatures m_features;

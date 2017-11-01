@@ -324,7 +324,7 @@ extern const int s_generatorPrototypeThrowCodeLength;
 extern const JSC::ConstructAbility s_generatorPrototypeThrowCodeConstructAbility;
 
 #define JSC_FOREACH_GENERATORPROTOTYPE_BUILTIN_DATA(macro) \
-    macro(generatorResume, generatorPrototypeGeneratorResume, 3) \
+    macro(generatorResume, generatorPrototypeGeneratorResume, 6) \
     macro(next, generatorPrototypeNext, 1) \
     macro(return, generatorPrototypeReturn, 1) \
     macro(throw, generatorPrototypeThrow, 1) \

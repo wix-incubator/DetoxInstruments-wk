@@ -119,6 +119,8 @@ public:
     virtual void enable(ErrorString&) = 0;
     virtual void disable(ErrorString&) = 0;
     virtual void clearMessages(ErrorString&) = 0;
+    virtual void getLoggingChannels(ErrorString&, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Console::Channel>>& out_channels) = 0;
+    virtual void setLoggingChannelLevel(ErrorString&, const String& in_source, const String& in_level) = 0;
 protected:
     virtual ~ConsoleBackendDispatcherHandler();
 };
@@ -136,6 +138,7 @@ public:
     virtual void setAttributesAsText(ErrorString&, int in_nodeId, const String& in_text, const String* const opt_in_name) = 0;
     virtual void removeAttribute(ErrorString&, int in_nodeId, const String& in_name) = 0;
     virtual void getEventListenersForNode(ErrorString&, int in_nodeId, const String* const opt_in_objectGroup, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::DOM::EventListener>>& out_listeners) = 0;
+    virtual void setEventListenerDisabled(ErrorString&, int in_eventListenerId, bool in_disabled) = 0;
     virtual void getAccessibilityPropertiesForNode(ErrorString&, int in_nodeId, RefPtr<Inspector::Protocol::DOM::AccessibilityProperties>& out_properties) = 0;
     virtual void getOuterHTML(ErrorString&, int in_nodeId, String* out_outerHTML) = 0;
     virtual void setOuterHTML(ErrorString&, int in_nodeId, const String& in_outerHTML) = 0;
@@ -227,9 +230,9 @@ public:
     virtual void getFunctionDetails(ErrorString&, const String& in_functionId, RefPtr<Inspector::Protocol::Debugger::FunctionDetails>& out_details) = 0;
     // Named after parameter 'state' while generating command/event setPauseOnExceptions.
     enum class State {
-        None = 129,
-        Uncaught = 169,
-        All = 170,
+        None = 131,
+        Uncaught = 171,
+        All = 172,
     }; // enum class State
     virtual void setPauseOnExceptions(ErrorString&, const String& in_state) = 0;
     virtual void setPauseOnAssertions(ErrorString&, bool in_enabled) = 0;
@@ -498,6 +501,8 @@ private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
     void clearMessages(long requestId, RefPtr<InspectorObject>&& parameters);
+    void getLoggingChannels(long requestId, RefPtr<InspectorObject>&& parameters);
+    void setLoggingChannelLevel(long requestId, RefPtr<InspectorObject>&& parameters);
 #if ENABLE(INSPECTOR_ALTERNATE_DISPATCHERS)
 public:
     void setAlternateDispatcher(AlternateConsoleBackendDispatcher* alternateDispatcher) { m_alternateDispatcher = alternateDispatcher; }
@@ -525,6 +530,7 @@ private:
     void setAttributesAsText(long requestId, RefPtr<InspectorObject>&& parameters);
     void removeAttribute(long requestId, RefPtr<InspectorObject>&& parameters);
     void getEventListenersForNode(long requestId, RefPtr<InspectorObject>&& parameters);
+    void setEventListenerDisabled(long requestId, RefPtr<InspectorObject>&& parameters);
     void getAccessibilityPropertiesForNode(long requestId, RefPtr<InspectorObject>&& parameters);
     void getOuterHTML(long requestId, RefPtr<InspectorObject>&& parameters);
     void setOuterHTML(long requestId, RefPtr<InspectorObject>&& parameters);

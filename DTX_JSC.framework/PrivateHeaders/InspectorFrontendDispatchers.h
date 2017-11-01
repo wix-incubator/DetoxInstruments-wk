@@ -100,10 +100,10 @@ public:
     void shadowRootPopped(int hostId, int rootId);
         // Named after parameter 'customElementState' while generating command/event customElementStateChanged.
         enum class CustomElementState {
-            Builtin = 50,
-            Custom = 51,
-            Waiting = 52,
-            Failed = 53,
+            Builtin = 53,
+            Custom = 54,
+            Waiting = 55,
+            Failed = 56,
         }; // enum class CustomElementState
     void customElementStateChanged(int nodeId, Inspector::Protocol::DOM::CustomElementState customElementState);
     void pseudoElementAdded(int parentId, RefPtr<Inspector::Protocol::DOM::Node> pseudoElement);
@@ -142,16 +142,16 @@ public:
     void breakpointResolved(const Inspector::Protocol::Debugger::BreakpointId& breakpointId, RefPtr<Inspector::Protocol::Debugger::Location> location);
         // Named after parameter 'reason' while generating command/event paused.
         enum class Reason {
-            XHR = 103,
-            DOM = 160,
-            EventListener = 161,
-            Exception = 162,
-            Assert = 42,
-            CSPViolation = 163,
-            DebuggerStatement = 164,
-            Breakpoint = 165,
-            PauseOnNextStatement = 166,
-            Other = 28,
+            XHR = 105,
+            DOM = 162,
+            EventListener = 163,
+            Exception = 164,
+            Assert = 45,
+            CSPViolation = 165,
+            DebuggerStatement = 166,
+            Breakpoint = 167,
+            PauseOnNextStatement = 168,
+            Other = 30,
         }; // enum class Reason
     void paused(RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Debugger::CallFrame>> callFrames, Reason reason, RefPtr<Inspector::InspectorObject> data, RefPtr<Inspector::Protocol::Console::StackTrace> asyncStackTrace);
     void resumed();
@@ -195,8 +195,8 @@ public:
     MemoryFrontendDispatcher(FrontendRouter& frontendRouter) : m_frontendRouter(frontendRouter) { }
         // Named after parameter 'severity' while generating command/event memoryPressure.
         enum class Severity {
-            Critical = 167,
-            NonCritical = 168,
+            Critical = 169,
+            NonCritical = 170,
         }; // enum class Severity
     void memoryPressure(double timestamp, Severity severity);
     void trackingStart(double timestamp);
@@ -212,17 +212,17 @@ public:
     NetworkFrontendDispatcher(FrontendRouter& frontendRouter) : m_frontendRouter(frontendRouter) { }
         // Named after parameter 'type' while generating command/event requestWillBeSent.
         enum class Type {
-            Document = 98,
-            Stylesheet = 99,
-            Image = 100,
-            Font = 101,
-            Script = 102,
-            XHR = 103,
-            Fetch = 104,
-            Ping = 105,
-            Beacon = 106,
-            WebSocket = 107,
-            Other = 108,
+            Document = 100,
+            Stylesheet = 101,
+            Image = 102,
+            Font = 103,
+            Script = 104,
+            XHR = 105,
+            Fetch = 106,
+            Ping = 107,
+            Beacon = 108,
+            WebSocket = 109,
+            Other = 110,
         }; // enum class Type
     void requestWillBeSent(const Inspector::Protocol::Network::RequestId& requestId, const Inspector::Protocol::Network::FrameId& frameId, const Inspector::Protocol::Network::LoaderId& loaderId, const String& documentURL, RefPtr<Inspector::Protocol::Network::Request> request, double timestamp, double walltime, RefPtr<Inspector::Protocol::Network::Initiator> initiator, RefPtr<Inspector::Protocol::Network::Response> redirectResponse, Inspector::Protocol::Page::ResourceType* type, const String* const targetId);
     void responseReceived(const Inspector::Protocol::Network::RequestId& requestId, const Inspector::Protocol::Network::FrameId& frameId, const Inspector::Protocol::Network::LoaderId& loaderId, double timestamp, Inspector::Protocol::Page::ResourceType type, RefPtr<Inspector::Protocol::Network::Response> response);

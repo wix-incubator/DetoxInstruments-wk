@@ -525,7 +525,8 @@
                 { "name": "nodeId", "$ref": "DOM.NodeId", "optional": true, "description": "The corresponding DOM node id." },
                 { "name": "cssCanvasName", "type": "string", "optional": true, "description": "The CSS canvas identifier, for canvases created with <code>document.getCSSCanvasContext</code>." },
                 { "name": "contextAttributes", "$ref": "ContextAttributes", "optional": true, "description": "Context attributes for WebGL rendering contexts." },
-                { "name": "memoryCost", "type": "number", "optional": true, "description": "Memory usage of the canvas in bytes." }
+                { "name": "memoryCost", "type": "number", "optional": true, "description": "Memory usage of the canvas in bytes." },
+                { "name": "backtrace", "type": "array", "items": { "$ref": "Console.CallFrame" }, "optional": true, "description": "Backtrace that was captured when this canvas context was created." }
             ]
         }
     ],
@@ -679,11 +680,32 @@
     "workerSupported": true,
     "types": [
         {
+            "id": "ChannelSource",
+            "type": "string",
+            "enum": ["xml", "javascript", "network", "console-api", "storage", "appcache", "rendering", "css", "security", "content-blocker", "media", "webrtc", "other"],
+            "description": "Channels for different types of log messages."
+        },
+        {
+            "id": "ChannelLevel",
+            "type": "string",
+            "enum": ["off", "log", "error", "warning", "info", "debug"],
+            "description": "Level of logging."
+        },
+        {
+            "id": "Channel",
+            "description": "Logging channel.",
+            "type": "object",
+            "properties": [
+                { "name": "source", "$ref": "ChannelSource" },
+                { "name": "level", "$ref": "ChannelLevel" }
+            ]
+        },
+        {
             "id": "ConsoleMessage",
             "type": "object",
             "description": "Console message.",
             "properties": [
-                { "name": "source", "type": "string", "enum": ["xml", "javascript", "network", "console-api", "storage", "appcache", "rendering", "css", "security", "content-blocker", "other"], "description": "Message source." },
+                { "name": "source", "$ref": "ChannelSource"},
                 { "name": "level", "type": "string", "enum": ["log", "info", "warning", "error", "debug"], "description": "Message severity." },
                 { "name": "text", "type": "string", "description": "Message text." },
                 { "name": "type", "type": "string", "optional": true, "enum": ["log", "dir", "dirxml", "table", "trace", "clear", "startGroup", "startGroupCollapsed", "endGroup", "assert", "timing", "profile", "profileEnd"], "description": "Console message type." },
@@ -732,7 +754,22 @@
         {
             "name": "clearMessages",
             "description": "Clears console messages collected in the browser."
-        }
+        },
+        {
+            "name": "getLoggingChannels",
+            "description": "List of the different message sources that are non-default logging channels.",
+            "returns": [
+                { "name": "channels", "type": "array", "items": { "$ref": "Channel"}, "description": "Logging channels." }
+            ]
+         },
+         {
+            "name": "setLoggingChannelLevel",
+            "description": "Modify the level of a channel.",
+            "parameters": [
+                { "name": "source", "$ref": "ChannelSource", "description": "Logging channel to modify." },
+                { "name": "level", "$ref": "ChannelLevel", "description": "New level." }
+            ]
+         }
     ],
     "events": [
         {
@@ -779,6 +816,11 @@
             "id": "BackendNodeId",
             "type": "integer",
             "description": "Unique DOM node identifier used to reference a node that may not have been pushed to the front-end."
+        },
+        {
+            "id": "EventListenerId",
+            "type": "integer",
+            "description": "Unique event listener identifier."
         },
         {
             "id": "PseudoType",
@@ -841,6 +883,7 @@
             "type": "object",
             "description": "A structure holding event listener properties.",
             "properties": [
+                { "name": "eventListenerId", "$ref": "EventListenerId" },
                 { "name": "type", "type": "string", "description": "<code>EventListener</code>'s type." },
                 { "name": "useCapture", "type": "boolean", "description": "<code>EventListener</code>'s useCapture." },
                 { "name": "isAttribute", "type": "boolean", "description": "<code>EventListener</code>'s isAttribute." },
@@ -850,7 +893,8 @@
                 { "name": "sourceName", "type": "string", "optional": true, "description": "Source script URL." },
                 { "name": "handler", "$ref": "Runtime.RemoteObject", "optional": true, "description": "Event handler function value." },
                 { "name": "passive", "type": "boolean", "optional": true, "description": "<code>EventListener</code>'s passive." },
-                { "name": "once", "type": "boolean", "optional": true, "description": "<code>EventListener</code>'s once." }
+                { "name": "once", "type": "boolean", "optional": true, "description": "<code>EventListener</code>'s once." },
+                { "name": "disabled", "type": "boolean", "optional": true }
             ]
         },
         {
@@ -1023,6 +1067,14 @@
             ],
             "returns": [
                 { "name": "listeners", "type": "array", "items": { "$ref": "EventListener"}, "description": "Array of relevant listeners." }
+            ]
+        },
+        {
+            "name": "setEventListenerDisabled",
+            "description": "Enable/disable the given event listener. A disabled event listener will not fire.",
+            "parameters": [
+                { "name": "eventListenerId", "$ref": "EventListenerId" },
+                { "name": "disabled", "type": "boolean" }
             ]
         },
         {

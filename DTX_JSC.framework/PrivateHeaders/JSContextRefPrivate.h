@@ -45,7 +45,7 @@ extern "C" {
 @result A string containing the backtrace
 */
 JS_EXPORT JSStringRef JSContextCreateBacktrace(JSContextRef ctx, unsigned maxStackSize) CF_AVAILABLE(10_6, 7_0);
-JS_EXPORT const char* JSContextCreateBacktrace_unsafe(JSContextRef ctx, unsigned maxStackSize);
+    
 
 /*! 
 @typedef JSShouldTerminateCallback
