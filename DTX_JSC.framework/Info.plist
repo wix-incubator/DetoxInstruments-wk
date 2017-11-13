@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>17C60c</string>
+	<string>17C67b</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>DTX_JSC</string>
 	<key>CFBundleGetInfoString</key>
-	<string>605.1.13+, Copyright 2003-2017 Apple Inc.; Copyright 1999-2001 Harri Porten &lt;porten@kde.org&gt;; Copyright 2001 Peter Kelly &lt;pmk@post.com&gt;; Copyright 1997-2005 University of Cambridge; Copyright 1991, 2000, 2001 by Lucent Technologies.</string>
+	<string>605.1.14+, Copyright 2003-2017 Apple Inc.; Copyright 1999-2001 Harri Porten &lt;porten@kde.org&gt;; Copyright 2001 Peter Kelly &lt;pmk@post.com&gt;; Copyright 1997-2005 University of Cambridge; Copyright 1991, 2000, 2001 by Lucent Technologies.</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.wix.JavaScriptCore</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -25,32 +25,28 @@
 		<string>iPhoneOS</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>605.1.13+</string>
+	<string>605.1.14+</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>15B87</string>
+	<string>15C5097c</string>
 	<key>DTPlatformName</key>
 	<string>iphoneos</string>
 	<key>DTPlatformVersion</key>
-	<string>11.1</string>
+	<string>11.2</string>
 	<key>DTSDKBuild</key>
-	<string>15B87</string>
+	<string>15C5097c</string>
 	<key>DTSDKName</key>
-	<string>iphoneos11.1</string>
+	<string>iphoneos11.2</string>
 	<key>DTXcode</key>
-	<string>0910</string>
+	<string>0920</string>
 	<key>DTXcodeBuild</key>
-	<string>9B55</string>
+	<string>9C34b</string>
 	<key>MinimumOSVersion</key>
-	<string>11.1</string>
+	<string>10.0</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
-	</array>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>arm64</string>
 	</array>
 </dict>
 </plist>

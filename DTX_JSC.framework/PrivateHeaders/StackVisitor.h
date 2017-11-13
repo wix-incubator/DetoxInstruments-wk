@@ -84,7 +84,9 @@ public:
             return m_wasmFunctionIndexOrName;
         }
 
+		JS_EXPORT_PRIVATE std::string functionName_unsafe() const;
         JS_EXPORT_PRIVATE String functionName() const;
+		JS_EXPORT_PRIVATE std::string sourceURL_unsafe() const;
         JS_EXPORT_PRIVATE String sourceURL() const;
         JS_EXPORT_PRIVATE String toString() const;
 
@@ -121,9 +123,9 @@ public:
         size_t m_index;
         size_t m_argumentCountIncludingThis;
         unsigned m_bytecodeOffset;
-        Wasm::IndexOrName m_wasmFunctionIndexOrName;
         bool m_callerIsEntryFrame : 1;
         bool m_isWasmFrame : 1;
+        Wasm::IndexOrName m_wasmFunctionIndexOrName;
 
         friend class StackVisitor;
     };

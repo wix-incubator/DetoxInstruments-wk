@@ -51,6 +51,7 @@ class Signature;
 
 JS_EXPORT_PRIVATE EncodedJSValue JSC_HOST_CALL callHostFunctionAsConstructor(ExecState*);
 
+std::string getCalculatedDisplayName_unsafe(VM& vm, JSObject* object);
 JS_EXPORT_PRIVATE String getCalculatedDisplayName(VM&, JSObject*);
 
 class JSFunction : public JSCallee {
@@ -78,7 +79,9 @@ public:
     static JSFunction* create(VM&, FunctionExecutable*, JSScope*, Structure*);
 
     JS_EXPORT_PRIVATE String name(VM&);
+    JS_EXPORT_PRIVATE std::string displayName_unsafe(VM&);
     JS_EXPORT_PRIVATE String displayName(VM&);
+    const std::string calculatedDisplayName_unsafe(VM&);
     const String calculatedDisplayName(VM&);
 
     ExecutableBase* executable() const { return m_executable.get(); }

@@ -500,7 +500,7 @@ extern const JSC::ConstructAbility s_moduleLoaderPrototypeRequestImportModuleCod
     macro(fulfillFetch, moduleLoaderPrototypeFulfillFetch, 2) \
     macro(requestFetch, moduleLoaderPrototypeRequestFetch, 3) \
     macro(requestInstantiate, moduleLoaderPrototypeRequestInstantiate, 3) \
-    macro(requestSatisfy, moduleLoaderPrototypeRequestSatisfy, 3) \
+    macro(requestSatisfy, moduleLoaderPrototypeRequestSatisfy, 4) \
     macro(link, moduleLoaderPrototypeLink, 2) \
     macro(moduleEvaluation, moduleLoaderPrototypeModuleEvaluation, 2) \
     macro(provideFetch, moduleLoaderPrototypeProvideFetch, 2) \

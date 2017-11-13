@@ -1,0 +1,506 @@
+diff --git a/.gitignore b/.gitignore
+index 56caa891a..f5963382d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -114,3 +114,5 @@ __cmake_systeminformation/
+ 
+ # Ignore YouCompleteMe symlinks
+ .ycm_extra_conf.py
++/Index
++/DTXJSCBuild
+diff --git a/Source/JavaScriptCore/API/JSContextRef.cpp b/Source/JavaScriptCore/API/JSContextRef.cpp
+index a8065ca67..7c15c9c60 100644
+--- a/Source/JavaScriptCore/API/JSContextRef.cpp
++++ b/Source/JavaScriptCore/API/JSContextRef.cpp
+@@ -298,6 +298,61 @@ private:
+     mutable unsigned m_remainingCapacityForFrameCapture;
+ };
+ 
++class DTX_BacktraceFunctor {
++public:
++    DTX_BacktraceFunctor(std::string& builder, unsigned remainingCapacityForFrameCapture)
++    : m_builder(builder)
++    , m_remainingCapacityForFrameCapture(remainingCapacityForFrameCapture)
++    {
++    }
++    
++    StackVisitor::Status operator()(StackVisitor& visitor) const
++    {
++        if (m_remainingCapacityForFrameCapture) {
++            // If callee is unknown, but we've not added any frame yet, we should
++            // still add the frame, because something called us, and gave us arguments.
++            if (visitor->callee().isCell()) {
++                JSCell* callee = visitor->callee().asCell();
++                if (!callee && visitor->index())
++                    return StackVisitor::Done;
++            }
++            
++            std::string& builder = m_builder;
++            
++            if (builder.length() > 0)
++            {
++                builder.append("\n");
++            }
++            
++            builder.append("#");
++            builder.append(std::to_string(visitor->index()));
++            
++            builder.append(" ");
++            builder.append(visitor->functionName_unsafe());
++            builder.append("() at ");
++            builder.append(visitor->sourceURL_unsafe());
++            if (visitor->hasLineAndColumnInfo()) {
++                builder.append(":");
++                unsigned lineNumber;
++                unsigned unusedColumn;
++                visitor->computeLineAndColumn(lineNumber, unusedColumn);
++                builder.append(std::to_string(lineNumber));
++            }
++            
++            if (!visitor->callee().rawPtr())
++                return StackVisitor::Done;
++            
++            m_remainingCapacityForFrameCapture--;
++            return StackVisitor::Continue;
++        }
++        return StackVisitor::Done;
++    }
++    
++private:
++    std::string& m_builder;
++    mutable unsigned m_remainingCapacityForFrameCapture;
++};
++
+ JSStringRef JSContextCreateBacktrace(JSContextRef ctx, unsigned maxStackSize)
+ {
+     if (!ctx) {
+@@ -317,6 +372,23 @@ JSStringRef JSContextCreateBacktrace(JSContextRef ctx, unsigned maxStackSize)
+     return OpaqueJSString::create(builder.toString()).leakRef();
+ }
+ 
++const char* JSContextCreateBacktrace_unsafe(JSContextRef ctx, unsigned maxStackSize)
++{
++    if (!ctx) {
++        ASSERT_NOT_REACHED();
++        return 0;
++    }
++    ExecState* exec = toJS(ctx);
++    std::string builder;
++    CallFrame* frame = exec->vm().topCallFrame;
++    
++    ASSERT(maxStackSize);
++    DTX_BacktraceFunctor functor(builder, maxStackSize);
++    frame->iterate(functor);
++
++    return strdup(builder.c_str());
++}
++
+ bool JSGlobalContextGetRemoteInspectionEnabled(JSGlobalContextRef ctx)
+ {
+     if (!ctx) {
+diff --git a/Source/JavaScriptCore/API/JSContextRefPrivate.h b/Source/JavaScriptCore/API/JSContextRefPrivate.h
+index 19604ea74..978301040 100644
+--- a/Source/JavaScriptCore/API/JSContextRefPrivate.h
++++ b/Source/JavaScriptCore/API/JSContextRefPrivate.h
+@@ -45,7 +45,7 @@ extern "C" {
+ @result A string containing the backtrace
+ */
+ JS_EXPORT JSStringRef JSContextCreateBacktrace(JSContextRef ctx, unsigned maxStackSize) CF_AVAILABLE(10_6, 7_0);
+-    
++JS_EXPORT const char* JSContextCreateBacktrace_unsafe(JSContextRef ctx, unsigned maxStackSize);
+ 
+ /*! 
+ @typedef JSShouldTerminateCallback
+diff --git a/Source/JavaScriptCore/JavaScriptCorePrefix.h b/Source/JavaScriptCore/JavaScriptCorePrefix.h
+index 21d620415..fa0a6048a 100644
+--- a/Source/JavaScriptCore/JavaScriptCorePrefix.h
++++ b/Source/JavaScriptCore/JavaScriptCorePrefix.h
+@@ -34,3 +34,12 @@
+ #undef try
+ #undef catch
+ 
++
++#define JSContext JSContext_DTX
++#define JSValue JSValue_DTX
++#define JSManagedValue JSManagedValue_DTX
++#define JSVirtualMachine JSVirtualMachine_DTX
++#define JSVMWrapperCache JSVMWrapperCache_DTX
++#define JSObjCClassInfo JSObjCClassInfo_DTX
++#define JSWrapperMap JSWrapperMap_DTX
++
+diff --git a/Source/JavaScriptCore/interpreter/StackVisitor.cpp b/Source/JavaScriptCore/interpreter/StackVisitor.cpp
+index d082b63b6..fcfb8286e 100644
+--- a/Source/JavaScriptCore/interpreter/StackVisitor.cpp
++++ b/Source/JavaScriptCore/interpreter/StackVisitor.cpp
+@@ -273,6 +273,39 @@ RegisterAtOffsetList* StackVisitor::Frame::calleeSaveRegisters()
+     return nullptr;
+ }
+ 
++std::string StackVisitor::Frame::functionName_unsafe() const
++{
++	std::string traceLine = "";
++	
++	switch (codeType()) {
++		case CodeType::Wasm:
++//			if (m_wasmFunctionIndexOrName.isEmpty())
++				traceLine = "wasm function";
++//			else
++//				traceLine = makeString("wasm function: ", makeString(m_wasmFunctionIndexOrName));
++			break;
++		case CodeType::Eval:
++			traceLine = "eval code";
++			break;
++		case CodeType::Module:
++			traceLine = "module code";
++			break;
++		case CodeType::Native: {
++			JSCell* callee = this->callee().asCell();
++			if (callee)
++				traceLine = getCalculatedDisplayName_unsafe(callFrame()->vm(), jsCast<JSObject*>(callee));
++			break;
++		}
++		case CodeType::Function:
++			traceLine = getCalculatedDisplayName_unsafe(callFrame()->vm(), jsCast<JSObject*>(this->callee().asCell()));
++			break;
++		case CodeType::Global:
++			traceLine = "global code";
++			break;
++	}
++	return traceLine;
++}
++
+ String StackVisitor::Frame::functionName() const
+ {
+     String traceLine;
+@@ -306,6 +339,30 @@ String StackVisitor::Frame::functionName() const
+     return traceLine.isNull() ? emptyString() : traceLine;
+ }
+ 
++std::string StackVisitor::Frame::sourceURL_unsafe() const
++{
++	std::string traceLine = "";
++	
++	switch (codeType()) {
++		case CodeType::Eval:
++		case CodeType::Module:
++		case CodeType::Function:
++		case CodeType::Global: {
++			String sourceURL = codeBlock()->ownerScriptExecutable()->sourceURL();
++			if (!sourceURL.isEmpty())
++				traceLine = (const char*)sourceURL.impl()->characters8() ?: "";
++			break;
++		}
++		case CodeType::Native:
++			traceLine = "[native code]";
++			break;
++		case CodeType::Wasm:
++			traceLine = "[wasm code]";
++			break;
++	}
++	return traceLine;
++}
++	
+ String StackVisitor::Frame::sourceURL() const
+ {
+     String traceLine;
+diff --git a/Source/JavaScriptCore/interpreter/StackVisitor.h b/Source/JavaScriptCore/interpreter/StackVisitor.h
+index 4755a9364..397081a8b 100644
+--- a/Source/JavaScriptCore/interpreter/StackVisitor.h
++++ b/Source/JavaScriptCore/interpreter/StackVisitor.h
+@@ -84,7 +84,9 @@ public:
+             return m_wasmFunctionIndexOrName;
+         }
+ 
++		JS_EXPORT_PRIVATE std::string functionName_unsafe() const;
+         JS_EXPORT_PRIVATE String functionName() const;
++		JS_EXPORT_PRIVATE std::string sourceURL_unsafe() const;
+         JS_EXPORT_PRIVATE String sourceURL() const;
+         JS_EXPORT_PRIVATE String toString() const;
+ 
+diff --git a/Source/JavaScriptCore/runtime/InternalFunction.cpp b/Source/JavaScriptCore/runtime/InternalFunction.cpp
+index 3d3fd1abc..537f2120b 100644
+--- a/Source/JavaScriptCore/runtime/InternalFunction.cpp
++++ b/Source/JavaScriptCore/runtime/InternalFunction.cpp
+@@ -68,6 +68,16 @@ const String& InternalFunction::name()
+     return name;
+ }
+ 
++const std::string InternalFunction::displayName_unsafe(VM& vm)
++{
++	JSValue displayName = getDirect(vm, vm.propertyNames->displayName);
++	
++	if (displayName && isJSString(displayName))
++		return (const char*)asString(displayName)->tryGetValue().characters8() ?: "";
++	
++	return "";
++}
++	
+ const String InternalFunction::displayName(VM& vm)
+ {
+     JSValue displayName = getDirect(vm, vm.propertyNames->displayName);
+@@ -84,6 +94,16 @@ CallType InternalFunction::getCallData(JSCell*, CallData&)
+     return CallType::None;
+ }
+ 
++const std::string InternalFunction::calculatedDisplayName_unsafe(__unused VM& vm)
++{
++	const std::string explicitName = "";//displayName_unsafe(vm);
++	
++    if (!explicitName.empty())
++        return explicitName;
++	
++    return (const char*)name().characters8() ?: "";
++}
++	
+ const String InternalFunction::calculatedDisplayName(VM& vm)
+ {
+     const String explicitName = displayName(vm);
+diff --git a/Source/JavaScriptCore/runtime/InternalFunction.h b/Source/JavaScriptCore/runtime/InternalFunction.h
+index 3a8f22eb8..bdfbf82b0 100644
+--- a/Source/JavaScriptCore/runtime/InternalFunction.h
++++ b/Source/JavaScriptCore/runtime/InternalFunction.h
+@@ -39,7 +39,9 @@ public:
+     JS_EXPORT_PRIVATE static void visitChildren(JSCell*, SlotVisitor&);
+ 
+     JS_EXPORT_PRIVATE const String& name();
++	const std::string displayName_unsafe(VM&);
+     const String displayName(VM&);
++	const std::string calculatedDisplayName_unsafe(VM&);
+     const String calculatedDisplayName(VM&);
+ 
+     static Structure* createStructure(VM& vm, JSGlobalObject* globalObject, JSValue proto)
+diff --git a/Source/JavaScriptCore/runtime/JSFunction.cpp b/Source/JavaScriptCore/runtime/JSFunction.cpp
+index f863d0e1a..4d3220b7f 100644
+--- a/Source/JavaScriptCore/runtime/JSFunction.cpp
++++ b/Source/JavaScriptCore/runtime/JSFunction.cpp
+@@ -175,6 +175,16 @@ String JSFunction::name(VM& vm)
+     return identifier.string();
+ }
+ 
++std::string JSFunction::displayName_unsafe(VM& vm)
++{
++    JSValue displayName = getDirect(vm, vm.propertyNames->displayName);
++    
++    if (displayName && isJSString(displayName))
++        return (const char*)asString(displayName)->tryGetValue().characters8() ?: "";
++    
++    return "";
++}
++    
+ String JSFunction::displayName(VM& vm)
+ {
+     JSValue displayName = getDirect(vm, vm.propertyNames->displayName);
+@@ -185,6 +195,20 @@ String JSFunction::displayName(VM& vm)
+     return String();
+ }
+ 
++const std::string JSFunction::calculatedDisplayName_unsafe(VM& vm)
++{
++	const std::string explicitName = "";//displayName_unsafe(vm);
++    
++    if (!explicitName.empty())
++        return explicitName;
++    
++    const String actualName = name(vm);
++    if (!actualName.isEmpty() || isHostOrBuiltinFunction())
++        return (const char*)actualName.characters8() ?: "";
++    
++    return (const char*)jsExecutable()->inferredName().string().characters8() ?: "";
++}
++    
+ const String JSFunction::calculatedDisplayName(VM& vm)
+ {
+     const String explicitName = displayName(vm);
+@@ -596,6 +620,15 @@ ConstructType JSFunction::getConstructData(JSCell* cell, ConstructData& construc
+     return ConstructType::JS;
+ }
+ 
++std::string getCalculatedDisplayName_unsafe(VM& vm, JSObject* object)
++{
++    if (JSFunction* function = jsDynamicCast<JSFunction*>(vm, object))
++	return function->calculatedDisplayName_unsafe(vm);
++    if (InternalFunction* function = jsDynamicCast<InternalFunction*>(vm, object))
++	return function->calculatedDisplayName_unsafe(vm);
++    return "";
++}
++
+ String getCalculatedDisplayName(VM& vm, JSObject* object)
+ {
+     if (JSFunction* function = jsDynamicCast<JSFunction*>(vm, object))
+diff --git a/Source/JavaScriptCore/runtime/JSFunction.h b/Source/JavaScriptCore/runtime/JSFunction.h
+index 4794502e1..cc24f5860 100644
+--- a/Source/JavaScriptCore/runtime/JSFunction.h
++++ b/Source/JavaScriptCore/runtime/JSFunction.h
+@@ -51,6 +51,7 @@ class Signature;
+ 
+ JS_EXPORT_PRIVATE EncodedJSValue JSC_HOST_CALL callHostFunctionAsConstructor(ExecState*);
+ 
++std::string getCalculatedDisplayName_unsafe(VM& vm, JSObject* object);
+ JS_EXPORT_PRIVATE String getCalculatedDisplayName(VM&, JSObject*);
+ 
+ class JSFunction : public JSCallee {
+@@ -78,7 +79,9 @@ public:
+     static JSFunction* create(VM&, FunctionExecutable*, JSScope*, Structure*);
+ 
+     JS_EXPORT_PRIVATE String name(VM&);
++    JS_EXPORT_PRIVATE std::string displayName_unsafe(VM&);
+     JS_EXPORT_PRIVATE String displayName(VM&);
++    const std::string calculatedDisplayName_unsafe(VM&);
+     const String calculatedDisplayName(VM&);
+ 
+     ExecutableBase* executable() const { return m_executable.get(); }
+diff --git a/Source/WTF/config.h b/Source/WTF/config.h
+index 511658a3d..c7a3b71f6 100644
+--- a/Source/WTF/config.h
++++ b/Source/WTF/config.h
+@@ -19,6 +19,8 @@
+  *
+  */
+ 
++#define JSWTFMainThreadCaller JSWTFMainThreadCaller_DTX
++
+ #if defined(HAVE_CONFIG_H) && HAVE_CONFIG_H && defined(BUILDING_WITH_CMAKE)
+ #include "cmakeconfig.h"
+ #endif
+diff --git a/WebKit.xcworkspace/xcshareddata/xcschemes/JSC.xcscheme b/WebKit.xcworkspace/xcshareddata/xcschemes/JSC.xcscheme
+new file mode 100644
+index 000000000..cb9c09f07
+--- /dev/null
++++ b/WebKit.xcworkspace/xcshareddata/xcschemes/JSC.xcscheme
+@@ -0,0 +1,136 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   version = "1.7">
++   <BuildAction
++      parallelizeBuildables = "NO"
++      buildImplicitDependencies = "YES">
++      <PreActions>
++         <ExecutionAction
++            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
++            <ActionContent
++               title = "Run Script"
++               scriptText = "&quot;$SRCROOT/../../Tools/Scripts/copy-webkitlibraries-to-product-directory&quot; --wksi --sdk &quot;$SDKROOT&quot;">
++               <EnvironmentBuildable>
++                  <BuildableReference
++                     BuildableIdentifier = "primary"
++                     BlueprintIdentifier = "5D247B6114689B8600E78B76"
++                     BuildableName = "libWTF.a"
++                     BlueprintName = "WTF"
++                     ReferencedContainer = "container:Source/WTF/WTF.xcodeproj">
++                  </BuildableReference>
++               </EnvironmentBuildable>
++            </ActionContent>
++         </ExecutionAction>
++      </PreActions>
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "14F271BD18EA3963008C152F"
++               BuildableName = "libbmalloc.a"
++               BlueprintName = "bmalloc"
++               ReferencedContainer = "container:Source/bmalloc/bmalloc.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "5D247B6114689B8600E78B76"
++               BuildableName = "libWTF.a"
++               BlueprintName = "WTF"
++               ReferencedContainer = "container:Source/WTF/WTF.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "932F5B3E0822A1C700736975"
++               BuildableName = "JavaScriptCore.framework"
++               BlueprintName = "JavaScriptCore"
++               ReferencedContainer = "container:Source/JavaScriptCore/JavaScriptCore.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      language = ""
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "14F271BD18EA3963008C152F"
++            BuildableName = "libbmalloc.a"
++            BlueprintName = "bmalloc"
++            ReferencedContainer = "container:Source/bmalloc/bmalloc.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      language = ""
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "YES"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "14F271BD18EA3963008C152F"
++            BuildableName = "libbmalloc.a"
++            BlueprintName = "bmalloc"
++            ReferencedContainer = "container:Source/bmalloc/bmalloc.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "14F271BD18EA3963008C152F"
++            BuildableName = "libbmalloc.a"
++            BlueprintName = "bmalloc"
++            ReferencedContainer = "container:Source/bmalloc/bmalloc.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>

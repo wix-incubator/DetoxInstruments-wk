@@ -306,13 +306,8 @@ namespace OverlayTypes {
 /* A quad is a collection of 4 points. When initialized from a rect, the points are in clockwise order from top left. */
 typedef Inspector::Protocol::Array<Inspector::Protocol::OverlayTypes::Point> Quad;
 /* A vector path described using SVG path syntax. */
-typedef Inspector::Protocol::Array<Inspector::InspectorValue> DisplayPath;
+typedef Inspector::Protocol::Array<JSON::Value> DisplayPath;
 } // OverlayTypes
-
-namespace Page {
-/* Unique script identifier. */
-typedef String ScriptIdentifier;
-} // Page
 
 namespace Runtime {
 /* Unique object identifier. */
@@ -335,7 +330,7 @@ template<typename T> String getEnumConstantValue(T enumValue)
 
 namespace ApplicationCache {
 /* Detailed application cache resource information. */
-class ApplicationCacheResource : public Inspector::InspectorObjectBase {
+class ApplicationCacheResource : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -348,14 +343,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ApplicationCacheResource*/InspectorObject>&& object)
+        Builder(Ref</*ApplicationCacheResource*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -387,9 +382,9 @@ public:
         Ref<ApplicationCacheResource> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ApplicationCacheResource) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ApplicationCacheResource) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ApplicationCacheResource>*>(&result));
         }
     };
@@ -404,12 +399,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Detailed application cache information. */
-class ApplicationCache : public Inspector::InspectorObjectBase {
+class ApplicationCache : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -424,14 +419,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ApplicationCache*/InspectorObject>&& object)
+        Builder(Ref</*ApplicationCache*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -477,9 +472,9 @@ public:
         Ref<ApplicationCache> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ApplicationCache) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ApplicationCache) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ApplicationCache>*>(&result));
         }
     };
@@ -496,12 +491,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Frame identifier - manifest URL pair. */
-class FrameWithManifest : public Inspector::InspectorObjectBase {
+class FrameWithManifest : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -514,14 +509,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*FrameWithManifest*/InspectorObject>&& object)
+        Builder(Ref</*FrameWithManifest*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -553,9 +548,9 @@ public:
         Ref<FrameWithManifest> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(FrameWithManifest) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(FrameWithManifest) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<FrameWithManifest>*>(&result));
         }
     };
@@ -570,7 +565,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -578,7 +573,7 @@ public:
 
 namespace CSS {
 /* This object identifies a CSS style in a unique way. */
-class CSSStyleId : public Inspector::InspectorObjectBase {
+class CSSStyleId : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -590,14 +585,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSStyleId*/InspectorObject>&& object)
+        Builder(Ref</*CSSStyleId*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -622,9 +617,9 @@ public:
         Ref<CSSStyleId> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSStyleId) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSStyleId) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSStyleId>*>(&result));
         }
     };
@@ -638,7 +633,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -650,7 +645,7 @@ enum class StyleSheetOrigin {
     Regular = 3,
 }; // enum class StyleSheetOrigin
 /* This object identifies a CSS rule in a unique way. */
-class CSSRuleId : public Inspector::InspectorObjectBase {
+class CSSRuleId : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -662,14 +657,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSRuleId*/InspectorObject>&& object)
+        Builder(Ref</*CSSRuleId*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -694,9 +689,9 @@ public:
         Ref<CSSRuleId> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSRuleId) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSRuleId) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSRuleId>*>(&result));
         }
     };
@@ -710,12 +705,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* CSS rule collection for a single pseudo style. */
-class PseudoIdMatches : public Inspector::InspectorObjectBase {
+class PseudoIdMatches : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -727,14 +722,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*PseudoIdMatches*/InspectorObject>&& object)
+        Builder(Ref</*PseudoIdMatches*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -759,9 +754,9 @@ public:
         Ref<PseudoIdMatches> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(PseudoIdMatches) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(PseudoIdMatches) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<PseudoIdMatches>*>(&result));
         }
     };
@@ -775,12 +770,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* CSS rule collection for a single pseudo style. */
-class InheritedStyleEntry : public Inspector::InspectorObjectBase {
+class InheritedStyleEntry : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -791,14 +786,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*InheritedStyleEntry*/InspectorObject>&& object)
+        Builder(Ref</*InheritedStyleEntry*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -816,9 +811,9 @@ public:
         Ref<InheritedStyleEntry> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(InheritedStyleEntry) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(InheritedStyleEntry) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<InheritedStyleEntry>*>(&result));
         }
     };
@@ -831,7 +826,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setInlineStyle(RefPtr<Inspector::Protocol::CSS::CSSStyle> value)
@@ -841,7 +836,7 @@ public:
 };
 
 /* Match data for a CSS rule. */
-class RuleMatch : public Inspector::InspectorObjectBase {
+class RuleMatch : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -853,14 +848,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*RuleMatch*/InspectorObject>&& object)
+        Builder(Ref</*RuleMatch*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -885,9 +880,9 @@ public:
         Ref<RuleMatch> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(RuleMatch) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(RuleMatch) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<RuleMatch>*>(&result));
         }
     };
@@ -901,12 +896,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* CSS selector. */
-class CSSSelector : public Inspector::InspectorObjectBase {
+class CSSSelector : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -917,14 +912,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSSelector*/InspectorObject>&& object)
+        Builder(Ref</*CSSSelector*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -942,9 +937,9 @@ public:
         Ref<CSSSelector> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSSelector) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSSelector) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSSelector>*>(&result));
         }
     };
@@ -957,7 +952,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setSpecificity(RefPtr<Inspector::Protocol::Array<int>> value)
@@ -972,7 +967,7 @@ public:
 };
 
 /* Selector list data. */
-class SelectorList : public Inspector::InspectorObjectBase {
+class SelectorList : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -984,14 +979,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*SelectorList*/InspectorObject>&& object)
+        Builder(Ref</*SelectorList*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1016,9 +1011,9 @@ public:
         Ref<SelectorList> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(SelectorList) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(SelectorList) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<SelectorList>*>(&result));
         }
     };
@@ -1032,7 +1027,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setRange(RefPtr<Inspector::Protocol::CSS::SourceRange> value)
@@ -1042,7 +1037,7 @@ public:
 };
 
 /* CSS style information for a DOM style attribute. */
-class CSSStyleAttribute : public Inspector::InspectorObjectBase {
+class CSSStyleAttribute : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1054,14 +1049,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSStyleAttribute*/InspectorObject>&& object)
+        Builder(Ref</*CSSStyleAttribute*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1086,9 +1081,9 @@ public:
         Ref<CSSStyleAttribute> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSStyleAttribute) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSStyleAttribute) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSStyleAttribute>*>(&result));
         }
     };
@@ -1102,12 +1097,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* CSS stylesheet meta-information. */
-class CSSStyleSheetHeader : public Inspector::InspectorObjectBase {
+class CSSStyleSheetHeader : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1126,14 +1121,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSStyleSheetHeader*/InspectorObject>&& object)
+        Builder(Ref</*CSSStyleSheetHeader*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1207,9 +1202,9 @@ public:
         Ref<CSSStyleSheetHeader> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSStyleSheetHeader) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSStyleSheetHeader) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSStyleSheetHeader>*>(&result));
         }
     };
@@ -1230,12 +1225,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* CSS stylesheet contents. */
-class CSSStyleSheetBody : public Inspector::InspectorObjectBase {
+class CSSStyleSheetBody : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1247,14 +1242,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSStyleSheetBody*/InspectorObject>&& object)
+        Builder(Ref</*CSSStyleSheetBody*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1279,9 +1274,9 @@ public:
         Ref<CSSStyleSheetBody> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSStyleSheetBody) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSStyleSheetBody) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSStyleSheetBody>*>(&result));
         }
     };
@@ -1295,7 +1290,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setText(const String& value)
@@ -1305,7 +1300,7 @@ public:
 };
 
 /* CSS rule representation. */
-class CSSRule : public Inspector::InspectorObjectBase {
+class CSSRule : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1319,14 +1314,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSRule*/InspectorObject>&& object)
+        Builder(Ref</*CSSRule*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1365,9 +1360,9 @@ public:
         Ref<CSSRule> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSRule) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSRule) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSRule>*>(&result));
         }
     };
@@ -1383,7 +1378,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setRuleId(RefPtr<Inspector::Protocol::CSS::CSSRuleId> value)
@@ -1403,7 +1398,7 @@ public:
 };
 
 /* Text range within a resource. */
-class SourceRange : public Inspector::InspectorObjectBase {
+class SourceRange : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1417,14 +1412,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*SourceRange*/InspectorObject>&& object)
+        Builder(Ref</*SourceRange*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1463,9 +1458,9 @@ public:
         Ref<SourceRange> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(SourceRange) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(SourceRange) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<SourceRange>*>(&result));
         }
     };
@@ -1481,11 +1476,11 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
-class ShorthandEntry : public Inspector::InspectorObjectBase {
+class ShorthandEntry : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1497,14 +1492,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ShorthandEntry*/InspectorObject>&& object)
+        Builder(Ref</*ShorthandEntry*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1529,9 +1524,9 @@ public:
         Ref<ShorthandEntry> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ShorthandEntry) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ShorthandEntry) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ShorthandEntry>*>(&result));
         }
     };
@@ -1545,11 +1540,11 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
-class CSSPropertyInfo : public Inspector::InspectorObjectBase {
+class CSSPropertyInfo : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1560,14 +1555,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSPropertyInfo*/InspectorObject>&& object)
+        Builder(Ref</*CSSPropertyInfo*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1585,9 +1580,9 @@ public:
         Ref<CSSPropertyInfo> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSPropertyInfo) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSPropertyInfo) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSPropertyInfo>*>(&result));
         }
     };
@@ -1600,7 +1595,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setLonghands(RefPtr<Inspector::Protocol::Array<String>> value)
@@ -1614,7 +1609,7 @@ public:
     }
 };
 
-class CSSComputedStyleProperty : public Inspector::InspectorObjectBase {
+class CSSComputedStyleProperty : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1626,14 +1621,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSComputedStyleProperty*/InspectorObject>&& object)
+        Builder(Ref</*CSSComputedStyleProperty*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1658,9 +1653,9 @@ public:
         Ref<CSSComputedStyleProperty> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSComputedStyleProperty) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSComputedStyleProperty) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSComputedStyleProperty>*>(&result));
         }
     };
@@ -1674,12 +1669,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* CSS style representation. */
-class CSSStyle : public Inspector::InspectorObjectBase {
+class CSSStyle : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1691,14 +1686,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSStyle*/InspectorObject>&& object)
+        Builder(Ref</*CSSStyle*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1723,9 +1718,9 @@ public:
         Ref<CSSStyle> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSStyle) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSStyle) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSStyle>*>(&result));
         }
     };
@@ -1739,7 +1734,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setStyleId(RefPtr<Inspector::Protocol::CSS::CSSStyleId> value)
@@ -1776,7 +1771,7 @@ enum class CSSPropertyStatus {
     Style = 7,
 }; // enum class CSSPropertyStatus
 /* CSS style effective visual dimensions and source offsets. */
-class CSSProperty : public Inspector::InspectorObject {
+class CSSProperty : public JSON::Object {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1788,14 +1783,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSProperty*/InspectorObject>&& object)
+        Builder(Ref</*CSSProperty*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1820,9 +1815,9 @@ public:
         Ref<CSSProperty> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSProperty) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSProperty) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSProperty>*>(&result));
         }
     };
@@ -1836,7 +1831,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setPriority(const String& value)
@@ -1881,7 +1876,7 @@ public:
 };
 
 /* CSS media query descriptor. */
-class CSSMedia : public Inspector::InspectorObjectBase {
+class CSSMedia : public JSON::ObjectBase {
 public:
     // Named after property name 'source' while generating CSSMedia.
     enum class Source {
@@ -1900,14 +1895,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSSMedia*/InspectorObject>&& object)
+        Builder(Ref</*CSSMedia*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -1932,9 +1927,9 @@ public:
         Ref<CSSMedia> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSSMedia) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSSMedia) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSSMedia>*>(&result));
         }
     };
@@ -1948,7 +1943,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setSourceURL(const String& value)
@@ -1978,7 +1973,7 @@ enum class ShaderType {
     Vertex = 17,
 }; // enum class ShaderType
 /* WebGL drawing surface attributes. */
-class ContextAttributes : public Inspector::InspectorObjectBase {
+class ContextAttributes : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -1995,14 +1990,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ContextAttributes*/InspectorObject>&& object)
+        Builder(Ref</*ContextAttributes*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -2062,9 +2057,9 @@ public:
         Ref<ContextAttributes> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ContextAttributes) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ContextAttributes) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ContextAttributes>*>(&result));
         }
     };
@@ -2083,12 +2078,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Information about a canvas for which a rendering context has been created. */
-class Canvas : public Inspector::InspectorObjectBase {
+class Canvas : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -2101,14 +2096,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Canvas*/InspectorObject>&& object)
+        Builder(Ref</*Canvas*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -2140,9 +2135,9 @@ public:
         Ref<Canvas> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Canvas) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Canvas) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Canvas>*>(&result));
         }
     };
@@ -2157,7 +2152,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setNodeId(int value)
@@ -2215,7 +2210,7 @@ enum class ChannelLevel {
     Debug = 36,
 }; // enum class ChannelLevel
 /* Logging channel. */
-class Channel : public Inspector::InspectorObjectBase {
+class Channel : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -2227,14 +2222,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Channel*/InspectorObject>&& object)
+        Builder(Ref</*Channel*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -2259,9 +2254,9 @@ public:
         Ref<Channel> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Channel) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Channel) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Channel>*>(&result));
         }
     };
@@ -2275,12 +2270,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Console message. */
-class ConsoleMessage : public Inspector::InspectorObjectBase {
+class ConsoleMessage : public JSON::ObjectBase {
 public:
     // Named after property name 'level' while generating ConsoleMessage.
     enum class Level {
@@ -2317,14 +2312,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ConsoleMessage*/InspectorObject>&& object)
+        Builder(Ref</*ConsoleMessage*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -2356,9 +2351,9 @@ public:
         Ref<ConsoleMessage> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ConsoleMessage) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ConsoleMessage) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ConsoleMessage>*>(&result));
         }
     };
@@ -2373,7 +2368,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setType(Type value)
@@ -2418,7 +2413,7 @@ public:
 };
 
 /* Stack entry for console errors and assertions. */
-class CallFrame : public Inspector::InspectorObjectBase {
+class CallFrame : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -2433,14 +2428,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CallFrame*/InspectorObject>&& object)
+        Builder(Ref</*CallFrame*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -2486,9 +2481,9 @@ public:
         Ref<CallFrame> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CallFrame) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CallFrame) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CallFrame>*>(&result));
         }
     };
@@ -2505,12 +2500,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Call frames for async function calls, console assertions, and error messages. */
-class StackTrace : public Inspector::InspectorObjectBase {
+class StackTrace : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -2521,14 +2516,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*StackTrace*/InspectorObject>&& object)
+        Builder(Ref</*StackTrace*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -2546,9 +2541,9 @@ public:
         Ref<StackTrace> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(StackTrace) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(StackTrace) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<StackTrace>*>(&result));
         }
     };
@@ -2561,7 +2556,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setTopCallFrameIsBoundary(bool value)
@@ -2608,7 +2603,7 @@ enum class LiveRegionRelevant {
     Text = 59,
 }; // enum class LiveRegionRelevant
 /* DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes. DOMNode is a base node mirror type. */
-class Node : public Inspector::InspectorObjectBase {
+class Node : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -2623,14 +2618,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Node*/InspectorObject>&& object)
+        Builder(Ref</*Node*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -2676,9 +2671,9 @@ public:
         Ref<Node> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Node) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Node) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Node>*>(&result));
         }
     };
@@ -2695,7 +2690,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setChildNodeCount(int value)
@@ -2800,7 +2795,7 @@ public:
 };
 
 /* A structure holding event listener properties. */
-class EventListener : public Inspector::InspectorObjectBase {
+class EventListener : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -2816,14 +2811,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*EventListener*/InspectorObject>&& object)
+        Builder(Ref</*EventListener*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -2876,9 +2871,9 @@ public:
         Ref<EventListener> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(EventListener) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(EventListener) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<EventListener>*>(&result));
         }
     };
@@ -2896,7 +2891,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setLocation(RefPtr<Inspector::Protocol::Debugger::Location> value)
@@ -2931,7 +2926,7 @@ public:
 };
 
 /* A structure holding accessibility properties. */
-class AccessibilityProperties : public Inspector::InspectorObjectBase {
+class AccessibilityProperties : public JSON::ObjectBase {
 public:
     // Named after property name 'checked' while generating AccessibilityProperties.
     enum class Checked {
@@ -2974,14 +2969,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*AccessibilityProperties*/InspectorObject>&& object)
+        Builder(Ref</*AccessibilityProperties*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3020,9 +3015,9 @@ public:
         Ref<AccessibilityProperties> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(AccessibilityProperties) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(AccessibilityProperties) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<AccessibilityProperties>*>(&result));
         }
     };
@@ -3038,7 +3033,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setActiveDescendantNodeId(int value)
@@ -3183,7 +3178,7 @@ public:
 };
 
 /* A structure holding an RGBA color. */
-class RGBAColor : public Inspector::InspectorObjectBase {
+class RGBAColor : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -3196,14 +3191,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*RGBAColor*/InspectorObject>&& object)
+        Builder(Ref</*RGBAColor*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3235,9 +3230,9 @@ public:
         Ref<RGBAColor> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(RGBAColor) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(RGBAColor) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<RGBAColor>*>(&result));
         }
     };
@@ -3252,7 +3247,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setA(double value)
@@ -3262,7 +3257,7 @@ public:
 };
 
 /* Configuration data for the highlighting of page elements. */
-class HighlightConfig : public Inspector::InspectorObjectBase {
+class HighlightConfig : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -3272,14 +3267,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*HighlightConfig*/InspectorObject>&& object)
+        Builder(Ref</*HighlightConfig*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3290,9 +3285,9 @@ public:
         Ref<HighlightConfig> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(HighlightConfig) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(HighlightConfig) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<HighlightConfig>*>(&result));
         }
     };
@@ -3304,7 +3299,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setShowInfo(bool value)
@@ -3346,7 +3341,7 @@ enum class DOMBreakpointType {
 
 namespace DOMStorage {
 /* DOM Storage identifier. */
-class StorageId : public Inspector::InspectorObjectBase {
+class StorageId : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -3358,14 +3353,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*StorageId*/InspectorObject>&& object)
+        Builder(Ref</*StorageId*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3390,9 +3385,9 @@ public:
         Ref<StorageId> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(StorageId) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(StorageId) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<StorageId>*>(&result));
         }
     };
@@ -3406,7 +3401,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -3414,7 +3409,7 @@ public:
 
 namespace Database {
 /* Database object. */
-class Database : public Inspector::InspectorObjectBase {
+class Database : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -3428,14 +3423,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Database*/InspectorObject>&& object)
+        Builder(Ref</*Database*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3474,9 +3469,9 @@ public:
         Ref<Database> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Database) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Database) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Database>*>(&result));
         }
     };
@@ -3492,12 +3487,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Database error. */
-class Error : public Inspector::InspectorObjectBase {
+class Error : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -3509,14 +3504,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Error*/InspectorObject>&& object)
+        Builder(Ref</*Error*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3541,9 +3536,9 @@ public:
         Ref<Error> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Error) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Error) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Error>*>(&result));
         }
     };
@@ -3557,7 +3552,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -3565,7 +3560,7 @@ public:
 
 namespace Debugger {
 /* Location in the source code. */
-class Location : public Inspector::InspectorObjectBase {
+class Location : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -3577,14 +3572,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Location*/InspectorObject>&& object)
+        Builder(Ref</*Location*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3609,9 +3604,9 @@ public:
         Ref<Location> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Location) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Location) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Location>*>(&result));
         }
     };
@@ -3625,7 +3620,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setColumnNumber(int value)
@@ -3635,7 +3630,7 @@ public:
 };
 
 /* Action to perform when a breakpoint is triggered. */
-class BreakpointAction : public Inspector::InspectorObjectBase {
+class BreakpointAction : public JSON::ObjectBase {
 public:
     // Named after property name 'type' while generating BreakpointAction.
     enum class Type {
@@ -3653,14 +3648,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*BreakpointAction*/InspectorObject>&& object)
+        Builder(Ref</*BreakpointAction*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3678,9 +3673,9 @@ public:
         Ref<BreakpointAction> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(BreakpointAction) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(BreakpointAction) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<BreakpointAction>*>(&result));
         }
     };
@@ -3693,7 +3688,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setData(const String& value)
@@ -3708,7 +3703,7 @@ public:
 };
 
 /* Extra options that modify breakpoint behavior. */
-class BreakpointOptions : public Inspector::InspectorObjectBase {
+class BreakpointOptions : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -3718,14 +3713,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*BreakpointOptions*/InspectorObject>&& object)
+        Builder(Ref</*BreakpointOptions*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3736,9 +3731,9 @@ public:
         Ref<BreakpointOptions> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(BreakpointOptions) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(BreakpointOptions) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<BreakpointOptions>*>(&result));
         }
     };
@@ -3750,7 +3745,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setCondition(const String& value)
@@ -3775,7 +3770,7 @@ public:
 };
 
 /* Information about the function. */
-class FunctionDetails : public Inspector::InspectorObjectBase {
+class FunctionDetails : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -3786,14 +3781,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*FunctionDetails*/InspectorObject>&& object)
+        Builder(Ref</*FunctionDetails*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3811,9 +3806,9 @@ public:
         Ref<FunctionDetails> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(FunctionDetails) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(FunctionDetails) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<FunctionDetails>*>(&result));
         }
     };
@@ -3826,7 +3821,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setName(const String& value)
@@ -3846,7 +3841,7 @@ public:
 };
 
 /* JavaScript call frame. Array of call frames form the call stack. */
-class CallFrame : public Inspector::InspectorObjectBase {
+class CallFrame : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -3862,14 +3857,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CallFrame*/InspectorObject>&& object)
+        Builder(Ref</*CallFrame*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -3922,9 +3917,9 @@ public:
         Ref<CallFrame> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CallFrame) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CallFrame) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CallFrame>*>(&result));
         }
     };
@@ -3942,12 +3937,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Scope description. */
-class Scope : public Inspector::InspectorObjectBase {
+class Scope : public JSON::ObjectBase {
 public:
     // Named after property name 'type' while generating Scope.
     enum class Type {
@@ -3969,14 +3964,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Scope*/InspectorObject>&& object)
+        Builder(Ref</*Scope*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4001,9 +3996,9 @@ public:
         Ref<Scope> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Scope) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Scope) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Scope>*>(&result));
         }
     };
@@ -4017,7 +4012,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setName(const String& value)
@@ -4037,7 +4032,7 @@ public:
 };
 
 /* A sample collected by evaluating a probe breakpoint action. */
-class ProbeSample : public Inspector::InspectorObjectBase {
+class ProbeSample : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -4052,14 +4047,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ProbeSample*/InspectorObject>&& object)
+        Builder(Ref</*ProbeSample*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4105,9 +4100,9 @@ public:
         Ref<ProbeSample> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ProbeSample) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ProbeSample) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ProbeSample>*>(&result));
         }
     };
@@ -4124,12 +4119,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* The pause reason auxiliary data when paused because of an assertion. */
-class AssertPauseReason : public Inspector::InspectorObjectBase {
+class AssertPauseReason : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -4139,14 +4134,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*AssertPauseReason*/InspectorObject>&& object)
+        Builder(Ref</*AssertPauseReason*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4157,9 +4152,9 @@ public:
         Ref<AssertPauseReason> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(AssertPauseReason) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(AssertPauseReason) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<AssertPauseReason>*>(&result));
         }
     };
@@ -4171,7 +4166,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setMessage(const String& value)
@@ -4181,7 +4176,7 @@ public:
 };
 
 /* The pause reason auxiliary data when paused because of hitting a breakpoint. */
-class BreakpointPauseReason : public Inspector::InspectorObjectBase {
+class BreakpointPauseReason : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -4192,14 +4187,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*BreakpointPauseReason*/InspectorObject>&& object)
+        Builder(Ref</*BreakpointPauseReason*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4217,9 +4212,9 @@ public:
         Ref<BreakpointPauseReason> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(BreakpointPauseReason) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(BreakpointPauseReason) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<BreakpointPauseReason>*>(&result));
         }
     };
@@ -4232,12 +4227,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* The pause reason auxiliary data when paused because of a Content Security Policy directive. */
-class CSPViolationPauseReason : public Inspector::InspectorObjectBase {
+class CSPViolationPauseReason : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -4248,14 +4243,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CSPViolationPauseReason*/InspectorObject>&& object)
+        Builder(Ref</*CSPViolationPauseReason*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4273,9 +4268,9 @@ public:
         Ref<CSPViolationPauseReason> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CSPViolationPauseReason) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CSPViolationPauseReason) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CSPViolationPauseReason>*>(&result));
         }
     };
@@ -4288,7 +4283,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -4296,7 +4291,7 @@ public:
 
 namespace GenericTypes {
 /* Search match in a resource. */
-class SearchMatch : public Inspector::InspectorObjectBase {
+class SearchMatch : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -4308,14 +4303,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*SearchMatch*/InspectorObject>&& object)
+        Builder(Ref</*SearchMatch*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4340,9 +4335,9 @@ public:
         Ref<SearchMatch> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(SearchMatch) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(SearchMatch) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<SearchMatch>*>(&result));
         }
     };
@@ -4356,7 +4351,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -4364,7 +4359,7 @@ public:
 
 namespace Heap {
 /* Information about a garbage collection. */
-class GarbageCollection : public Inspector::InspectorObjectBase {
+class GarbageCollection : public JSON::ObjectBase {
 public:
     // Named after property name 'type' while generating GarbageCollection.
     enum class Type {
@@ -4382,14 +4377,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*GarbageCollection*/InspectorObject>&& object)
+        Builder(Ref</*GarbageCollection*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4421,9 +4416,9 @@ public:
         Ref<GarbageCollection> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(GarbageCollection) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(GarbageCollection) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<GarbageCollection>*>(&result));
         }
     };
@@ -4438,7 +4433,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -4447,7 +4442,7 @@ public:
 #if ENABLE(INDEXED_DATABASE)
 namespace IndexedDB {
 /* Database with an array of object stores. */
-class DatabaseWithObjectStores : public Inspector::InspectorObjectBase {
+class DatabaseWithObjectStores : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -4460,14 +4455,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*DatabaseWithObjectStores*/InspectorObject>&& object)
+        Builder(Ref</*DatabaseWithObjectStores*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4499,9 +4494,9 @@ public:
         Ref<DatabaseWithObjectStores> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(DatabaseWithObjectStores) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(DatabaseWithObjectStores) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<DatabaseWithObjectStores>*>(&result));
         }
     };
@@ -4516,12 +4511,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Object store. */
-class ObjectStore : public Inspector::InspectorObjectBase {
+class ObjectStore : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -4535,14 +4530,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ObjectStore*/InspectorObject>&& object)
+        Builder(Ref</*ObjectStore*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4581,9 +4576,9 @@ public:
         Ref<ObjectStore> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ObjectStore) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ObjectStore) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ObjectStore>*>(&result));
         }
     };
@@ -4599,12 +4594,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Object store index. */
-class ObjectStoreIndex : public Inspector::InspectorObjectBase {
+class ObjectStoreIndex : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -4618,14 +4613,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ObjectStoreIndex*/InspectorObject>&& object)
+        Builder(Ref</*ObjectStoreIndex*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4664,9 +4659,9 @@ public:
         Ref<ObjectStoreIndex> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ObjectStoreIndex) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ObjectStoreIndex) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ObjectStoreIndex>*>(&result));
         }
     };
@@ -4682,12 +4677,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Key. */
-class Key : public Inspector::InspectorObjectBase {
+class Key : public JSON::ObjectBase {
 public:
     // Named after property name 'type' while generating Key.
     enum class Type {
@@ -4705,14 +4700,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Key*/InspectorObject>&& object)
+        Builder(Ref</*Key*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4730,9 +4725,9 @@ public:
         Ref<Key> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Key) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Key) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Key>*>(&result));
         }
     };
@@ -4745,7 +4740,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setNumber(double value)
@@ -4770,7 +4765,7 @@ public:
 };
 
 /* Key range. */
-class KeyRange : public Inspector::InspectorObjectBase {
+class KeyRange : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -4782,14 +4777,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*KeyRange*/InspectorObject>&& object)
+        Builder(Ref</*KeyRange*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4814,9 +4809,9 @@ public:
         Ref<KeyRange> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(KeyRange) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(KeyRange) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<KeyRange>*>(&result));
         }
     };
@@ -4830,7 +4825,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setLower(RefPtr<Inspector::Protocol::IndexedDB::Key> value)
@@ -4845,7 +4840,7 @@ public:
 };
 
 /* Data entry. */
-class DataEntry : public Inspector::InspectorObjectBase {
+class DataEntry : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -4858,14 +4853,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*DataEntry*/InspectorObject>&& object)
+        Builder(Ref</*DataEntry*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4897,9 +4892,9 @@ public:
         Ref<DataEntry> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(DataEntry) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(DataEntry) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<DataEntry>*>(&result));
         }
     };
@@ -4914,12 +4909,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Key path. */
-class KeyPath : public Inspector::InspectorObjectBase {
+class KeyPath : public JSON::ObjectBase {
 public:
     // Named after property name 'type' while generating KeyPath.
     enum class Type {
@@ -4936,14 +4931,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*KeyPath*/InspectorObject>&& object)
+        Builder(Ref</*KeyPath*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -4961,9 +4956,9 @@ public:
         Ref<KeyPath> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(KeyPath) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(KeyPath) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<KeyPath>*>(&result));
         }
     };
@@ -4976,7 +4971,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setString(const String& value)
@@ -4995,7 +4990,7 @@ public:
 
 namespace LayerTree {
 /* A rectangle. */
-class IntRect : public Inspector::InspectorObjectBase {
+class IntRect : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -5009,14 +5004,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*IntRect*/InspectorObject>&& object)
+        Builder(Ref</*IntRect*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -5055,9 +5050,9 @@ public:
         Ref<IntRect> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(IntRect) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(IntRect) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<IntRect>*>(&result));
         }
     };
@@ -5073,12 +5068,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Information about a compositing layer. */
-class Layer : public Inspector::InspectorObjectBase {
+class Layer : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -5094,14 +5089,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Layer*/InspectorObject>&& object)
+        Builder(Ref</*Layer*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -5154,9 +5149,9 @@ public:
         Ref<Layer> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Layer) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Layer) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Layer>*>(&result));
         }
     };
@@ -5174,7 +5169,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setIsInShadowTree(bool value)
@@ -5209,7 +5204,7 @@ public:
 };
 
 /* An object containing the reasons why the layer was composited as properties. */
-class CompositingReasons : public Inspector::InspectorObjectBase {
+class CompositingReasons : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -5219,14 +5214,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CompositingReasons*/InspectorObject>&& object)
+        Builder(Ref</*CompositingReasons*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -5237,9 +5232,9 @@ public:
         Ref<CompositingReasons> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CompositingReasons) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CompositingReasons) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CompositingReasons>*>(&result));
         }
     };
@@ -5251,7 +5246,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setTransform3D(bool value)
@@ -5394,7 +5389,7 @@ public:
 
 #if ENABLE(RESOURCE_USAGE)
 namespace Memory {
-class Event : public Inspector::InspectorObjectBase {
+class Event : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -5406,14 +5401,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Event*/InspectorObject>&& object)
+        Builder(Ref</*Event*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -5438,9 +5433,9 @@ public:
         Ref<Event> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Event) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Event) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Event>*>(&result));
         }
     };
@@ -5454,11 +5449,11 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
-class CategoryData : public Inspector::InspectorObjectBase {
+class CategoryData : public JSON::ObjectBase {
 public:
     // Named after property name 'type' while generating CategoryData.
     enum class Type {
@@ -5479,14 +5474,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CategoryData*/InspectorObject>&& object)
+        Builder(Ref</*CategoryData*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -5511,9 +5506,9 @@ public:
         Ref<CategoryData> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CategoryData) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CategoryData) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CategoryData>*>(&result));
         }
     };
@@ -5527,7 +5522,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -5536,7 +5531,7 @@ public:
 
 namespace Network {
 /* Timing information for the request. */
-class ResourceTiming : public Inspector::InspectorObjectBase {
+class ResourceTiming : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -5554,14 +5549,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ResourceTiming*/InspectorObject>&& object)
+        Builder(Ref</*ResourceTiming*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -5628,9 +5623,9 @@ public:
         Ref<ResourceTiming> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ResourceTiming) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ResourceTiming) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ResourceTiming>*>(&result));
         }
     };
@@ -5650,12 +5645,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* HTTP request data. */
-class Request : public Inspector::InspectorObjectBase {
+class Request : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -5668,14 +5663,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Request*/InspectorObject>&& object)
+        Builder(Ref</*Request*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -5697,7 +5692,7 @@ public:
             return castState<MethodSet>();
         }
 
-        Builder<STATE | HeadersSet>& setHeaders(RefPtr<Inspector::InspectorObject> value)
+        Builder<STATE | HeadersSet>& setHeaders(RefPtr<JSON::Object> value)
         {
             COMPILE_ASSERT(!(STATE & HeadersSet), property_headers_already_set);
             m_result->setObject(ASCIILiteral("headers"), value);
@@ -5707,9 +5702,9 @@ public:
         Ref<Request> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Request) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Request) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Request>*>(&result));
         }
     };
@@ -5724,7 +5719,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setPostData(const String& value)
@@ -5734,7 +5729,7 @@ public:
 };
 
 /* HTTP response data. */
-class Response : public Inspector::InspectorObject {
+class Response : public JSON::Object {
 public:
     // Named after property name 'source' while generating Response.
     enum class Source {
@@ -5742,6 +5737,7 @@ public:
         Network = 20,
         MemoryCache = 95,
         DiskCache = 96,
+        ServiceWorker = 97,
     }; // enum class Source
     enum {
         NoFieldsSet = 0,
@@ -5757,14 +5753,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Response*/InspectorObject>&& object)
+        Builder(Ref</*Response*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -5779,10 +5775,10 @@ public:
             return castState<UrlSet>();
         }
 
-        Builder<STATE | StatusSet>& setStatus(double value)
+        Builder<STATE | StatusSet>& setStatus(int value)
         {
             COMPILE_ASSERT(!(STATE & StatusSet), property_status_already_set);
-            m_result->setDouble(ASCIILiteral("status"), value);
+            m_result->setInteger(ASCIILiteral("status"), value);
             return castState<StatusSet>();
         }
 
@@ -5793,7 +5789,7 @@ public:
             return castState<StatusTextSet>();
         }
 
-        Builder<STATE | HeadersSet>& setHeaders(RefPtr<Inspector::InspectorObject> value)
+        Builder<STATE | HeadersSet>& setHeaders(RefPtr<JSON::Object> value)
         {
             COMPILE_ASSERT(!(STATE & HeadersSet), property_headers_already_set);
             m_result->setObject(ASCIILiteral("headers"), value);
@@ -5817,9 +5813,9 @@ public:
         Ref<Response> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Response) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Response) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Response>*>(&result));
         }
     };
@@ -5837,7 +5833,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setHeadersText(const String& value)
@@ -5845,7 +5841,7 @@ public:
         InspectorObjectBase::setString(ASCIILiteral("headersText"), value);
     }
 
-    void setRequestHeaders(RefPtr<Inspector::InspectorObject> value)
+    void setRequestHeaders(RefPtr<JSON::Object> value)
     {
         InspectorObjectBase::setObject(ASCIILiteral("requestHeaders"), WTFMove(value));
     }
@@ -5865,13 +5861,13 @@ public:
 };
 
 /* Network load metrics. */
-class Metrics : public Inspector::InspectorObjectBase {
+class Metrics : public JSON::ObjectBase {
 public:
     // Named after property name 'priority' while generating Metrics.
     enum class Priority {
-        Low = 97,
-        Medium = 98,
-        High = 99,
+        Low = 98,
+        Medium = 99,
+        High = 100,
     }; // enum class Priority
     enum {
         NoFieldsSet = 0,
@@ -5881,14 +5877,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Metrics*/InspectorObject>&& object)
+        Builder(Ref</*Metrics*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -5899,9 +5895,9 @@ public:
         Ref<Metrics> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Metrics) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Metrics) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Metrics>*>(&result));
         }
     };
@@ -5913,7 +5909,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setProtocol(const String& value)
@@ -5936,7 +5932,7 @@ public:
         InspectorObjectBase::setString(ASCIILiteral("remoteAddress"), value);
     }
 
-    void setRequestHeaders(RefPtr<Inspector::InspectorObject> value)
+    void setRequestHeaders(RefPtr<JSON::Object> value)
     {
         InspectorObjectBase::setObject(ASCIILiteral("requestHeaders"), WTFMove(value));
     }
@@ -5968,7 +5964,7 @@ public:
 };
 
 /* WebSocket request data. */
-class WebSocketRequest : public Inspector::InspectorObjectBase {
+class WebSocketRequest : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -5979,14 +5975,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*WebSocketRequest*/InspectorObject>&& object)
+        Builder(Ref</*WebSocketRequest*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -5994,7 +5990,7 @@ public:
         friend class WebSocketRequest;
     public:
 
-        Builder<STATE | HeadersSet>& setHeaders(RefPtr<Inspector::InspectorObject> value)
+        Builder<STATE | HeadersSet>& setHeaders(RefPtr<JSON::Object> value)
         {
             COMPILE_ASSERT(!(STATE & HeadersSet), property_headers_already_set);
             m_result->setObject(ASCIILiteral("headers"), value);
@@ -6004,9 +6000,9 @@ public:
         Ref<WebSocketRequest> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(WebSocketRequest) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(WebSocketRequest) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<WebSocketRequest>*>(&result));
         }
     };
@@ -6019,12 +6015,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* WebSocket response data. */
-class WebSocketResponse : public Inspector::InspectorObjectBase {
+class WebSocketResponse : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6037,14 +6033,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*WebSocketResponse*/InspectorObject>&& object)
+        Builder(Ref</*WebSocketResponse*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6052,10 +6048,10 @@ public:
         friend class WebSocketResponse;
     public:
 
-        Builder<STATE | StatusSet>& setStatus(double value)
+        Builder<STATE | StatusSet>& setStatus(int value)
         {
             COMPILE_ASSERT(!(STATE & StatusSet), property_status_already_set);
-            m_result->setDouble(ASCIILiteral("status"), value);
+            m_result->setInteger(ASCIILiteral("status"), value);
             return castState<StatusSet>();
         }
 
@@ -6066,7 +6062,7 @@ public:
             return castState<StatusTextSet>();
         }
 
-        Builder<STATE | HeadersSet>& setHeaders(RefPtr<Inspector::InspectorObject> value)
+        Builder<STATE | HeadersSet>& setHeaders(RefPtr<JSON::Object> value)
         {
             COMPILE_ASSERT(!(STATE & HeadersSet), property_headers_already_set);
             m_result->setObject(ASCIILiteral("headers"), value);
@@ -6076,9 +6072,9 @@ public:
         Ref<WebSocketResponse> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(WebSocketResponse) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(WebSocketResponse) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<WebSocketResponse>*>(&result));
         }
     };
@@ -6093,12 +6089,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* WebSocket frame data. */
-class WebSocketFrame : public Inspector::InspectorObjectBase {
+class WebSocketFrame : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6112,14 +6108,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*WebSocketFrame*/InspectorObject>&& object)
+        Builder(Ref</*WebSocketFrame*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6158,9 +6154,9 @@ public:
         Ref<WebSocketFrame> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(WebSocketFrame) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(WebSocketFrame) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<WebSocketFrame>*>(&result));
         }
     };
@@ -6176,12 +6172,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Information about the cached resource. */
-class CachedResource : public Inspector::InspectorObjectBase {
+class CachedResource : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6194,14 +6190,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CachedResource*/InspectorObject>&& object)
+        Builder(Ref</*CachedResource*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6233,9 +6229,9 @@ public:
         Ref<CachedResource> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CachedResource) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CachedResource) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CachedResource>*>(&result));
         }
     };
@@ -6250,7 +6246,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setResponse(RefPtr<Inspector::Protocol::Network::Response> value)
@@ -6265,12 +6261,12 @@ public:
 };
 
 /* Information about the request initiator. */
-class Initiator : public Inspector::InspectorObjectBase {
+class Initiator : public JSON::ObjectBase {
 public:
     // Named after property name 'type' while generating Initiator.
     enum class Type {
-        Parser = 111,
-        Script = 112,
+        Parser = 112,
+        Script = 113,
         Other = 30,
     }; // enum class Type
     enum {
@@ -6282,14 +6278,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Initiator*/InspectorObject>&& object)
+        Builder(Ref</*Initiator*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6307,9 +6303,9 @@ public:
         Ref<Initiator> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Initiator) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Initiator) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Initiator>*>(&result));
         }
     };
@@ -6322,7 +6318,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setStackTrace(RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Console::CallFrame>> value)
@@ -6344,7 +6340,7 @@ public:
 } // Network
 
 namespace OverlayTypes {
-class Point : public Inspector::InspectorObjectBase {
+class Point : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6356,14 +6352,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Point*/InspectorObject>&& object)
+        Builder(Ref</*Point*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6388,9 +6384,9 @@ public:
         Ref<Point> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Point) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Point) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Point>*>(&result));
         }
     };
@@ -6404,11 +6400,11 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
-class Size : public Inspector::InspectorObjectBase {
+class Size : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6420,14 +6416,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Size*/InspectorObject>&& object)
+        Builder(Ref</*Size*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6452,9 +6448,9 @@ public:
         Ref<Size> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Size) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Size) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Size>*>(&result));
         }
     };
@@ -6468,12 +6464,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* A rectangle specified by a reference coordinate and width/height offsets. */
-class Rect : public Inspector::InspectorObjectBase {
+class Rect : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6487,14 +6483,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Rect*/InspectorObject>&& object)
+        Builder(Ref</*Rect*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6533,9 +6529,9 @@ public:
         Ref<Rect> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Rect) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Rect) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Rect>*>(&result));
         }
     };
@@ -6551,11 +6547,11 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
-class ShapeOutsideData : public Inspector::InspectorObjectBase {
+class ShapeOutsideData : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6566,14 +6562,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ShapeOutsideData*/InspectorObject>&& object)
+        Builder(Ref</*ShapeOutsideData*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6591,9 +6587,9 @@ public:
         Ref<ShapeOutsideData> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ShapeOutsideData) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ShapeOutsideData) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ShapeOutsideData>*>(&result));
         }
     };
@@ -6606,7 +6602,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setShape(RefPtr<Inspector::Protocol::OverlayTypes::DisplayPath> value)
@@ -6621,7 +6617,7 @@ public:
 };
 
 /* Data that describes an element to be highlighted. */
-class ElementData : public Inspector::InspectorObjectBase {
+class ElementData : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6633,14 +6629,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ElementData*/InspectorObject>&& object)
+        Builder(Ref</*ElementData*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6665,9 +6661,9 @@ public:
         Ref<ElementData> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ElementData) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ElementData) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ElementData>*>(&result));
         }
     };
@@ -6681,7 +6677,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setClasses(RefPtr<Inspector::Protocol::Array<String>> value)
@@ -6711,7 +6707,7 @@ public:
 };
 
 /* Data required to highlight multiple quads. */
-class FragmentHighlightData : public Inspector::InspectorObjectBase {
+class FragmentHighlightData : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6727,14 +6723,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*FragmentHighlightData*/InspectorObject>&& object)
+        Builder(Ref</*FragmentHighlightData*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6787,9 +6783,9 @@ public:
         Ref<FragmentHighlightData> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(FragmentHighlightData) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(FragmentHighlightData) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<FragmentHighlightData>*>(&result));
         }
     };
@@ -6807,12 +6803,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Data required to highlight a DOM node. */
-class NodeHighlightData : public Inspector::InspectorObjectBase {
+class NodeHighlightData : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6824,14 +6820,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*NodeHighlightData*/InspectorObject>&& object)
+        Builder(Ref</*NodeHighlightData*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6856,9 +6852,9 @@ public:
         Ref<NodeHighlightData> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(NodeHighlightData) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(NodeHighlightData) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<NodeHighlightData>*>(&result));
         }
     };
@@ -6872,7 +6868,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setElementData(RefPtr<Inspector::Protocol::OverlayTypes::ElementData> value)
@@ -6882,7 +6878,7 @@ public:
 };
 
 /* Data required to configure the overlay's size and scaling behavior. */
-class OverlayConfiguration : public Inspector::InspectorObjectBase {
+class OverlayConfiguration : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6895,14 +6891,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*OverlayConfiguration*/InspectorObject>&& object)
+        Builder(Ref</*OverlayConfiguration*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -6934,9 +6930,9 @@ public:
         Ref<OverlayConfiguration> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(OverlayConfiguration) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(OverlayConfiguration) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<OverlayConfiguration>*>(&result));
         }
     };
@@ -6951,7 +6947,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -6960,25 +6956,25 @@ public:
 namespace Page {
 /* Resource type as it was perceived by the rendering engine. */
 enum class ResourceType {
-    Document = 100,
-    Stylesheet = 101,
-    Image = 102,
-    Font = 103,
-    Script = 104,
-    XHR = 105,
-    Fetch = 106,
-    Ping = 107,
-    Beacon = 108,
-    WebSocket = 109,
-    Other = 110,
+    Document = 101,
+    Stylesheet = 102,
+    Image = 103,
+    Font = 104,
+    Script = 105,
+    XHR = 106,
+    Fetch = 107,
+    Ping = 108,
+    Beacon = 109,
+    WebSocket = 110,
+    Other = 111,
 }; // enum class ResourceType
 /* Coordinate system used by supplied coordinates. */
 enum class CoordinateSystem {
-    Viewport = 113,
-    Page = 114,
+    Viewport = 114,
+    Page = 115,
 }; // enum class CoordinateSystem
 /* Information about the Frame on the page. */
-class Frame : public Inspector::InspectorObjectBase {
+class Frame : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -6993,14 +6989,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Frame*/InspectorObject>&& object)
+        Builder(Ref</*Frame*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7046,9 +7042,9 @@ public:
         Ref<Frame> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Frame) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Frame) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Frame>*>(&result));
         }
     };
@@ -7065,7 +7061,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setParentId(const String& value)
@@ -7079,7 +7075,7 @@ public:
     }
 };
 
-class FrameResource : public Inspector::InspectorObjectBase {
+class FrameResource : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -7092,14 +7088,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*FrameResource*/InspectorObject>&& object)
+        Builder(Ref</*FrameResource*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7131,9 +7127,9 @@ public:
         Ref<FrameResource> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(FrameResource) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(FrameResource) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<FrameResource>*>(&result));
         }
     };
@@ -7148,7 +7144,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setFailed(bool value)
@@ -7173,7 +7169,7 @@ public:
 };
 
 /* Information about the Frame hierarchy along with their cached resources. */
-class FrameResourceTree : public Inspector::InspectorObjectBase {
+class FrameResourceTree : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -7185,14 +7181,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*FrameResourceTree*/InspectorObject>&& object)
+        Builder(Ref</*FrameResourceTree*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7217,9 +7213,9 @@ public:
         Ref<FrameResourceTree> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(FrameResourceTree) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(FrameResourceTree) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<FrameResourceTree>*>(&result));
         }
     };
@@ -7233,7 +7229,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setChildFrames(RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Page::FrameResourceTree>> value)
@@ -7243,7 +7239,7 @@ public:
 };
 
 /* Search result for resource. */
-class SearchResult : public Inspector::InspectorObjectBase {
+class SearchResult : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -7256,14 +7252,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*SearchResult*/InspectorObject>&& object)
+        Builder(Ref</*SearchResult*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7295,9 +7291,9 @@ public:
         Ref<SearchResult> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(SearchResult) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(SearchResult) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<SearchResult>*>(&result));
         }
     };
@@ -7312,7 +7308,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setRequestId(const Inspector::Protocol::Network::RequestId& value)
@@ -7322,7 +7318,7 @@ public:
 };
 
 /* Cookie object */
-class Cookie : public Inspector::InspectorObjectBase {
+class Cookie : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -7341,14 +7337,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Cookie*/InspectorObject>&& object)
+        Builder(Ref</*Cookie*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7422,9 +7418,9 @@ public:
         Ref<Cookie> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Cookie) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Cookie) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Cookie>*>(&result));
         }
     };
@@ -7445,7 +7441,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -7455,10 +7451,10 @@ namespace Recording {
 /* The type of the recording. */
 enum class Type {
     Canvas2D = 12,
-    CanvasWebGL = 115,
+    CanvasWebGL = 116,
 }; // enum class Type
 /* Information about the initial state of the recorded object. */
-class InitialState : public Inspector::InspectorObjectBase {
+class InitialState : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -7468,14 +7464,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*InitialState*/InspectorObject>&& object)
+        Builder(Ref</*InitialState*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7486,9 +7482,9 @@ public:
         Ref<InitialState> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(InitialState) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(InitialState) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<InitialState>*>(&result));
         }
     };
@@ -7500,15 +7496,15 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
-    void setAttributes(RefPtr<Inspector::InspectorObject> value)
+    void setAttributes(RefPtr<JSON::Object> value)
     {
         InspectorObjectBase::setObject(ASCIILiteral("attributes"), WTFMove(value));
     }
 
-    void setParameters(RefPtr<Inspector::Protocol::Array<Inspector::InspectorValue>> value)
+    void setParameters(RefPtr<Inspector::Protocol::Array<JSON::Value>> value)
     {
         InspectorObjectBase::setArray(ASCIILiteral("parameters"), WTFMove(value));
     }
@@ -7520,7 +7516,7 @@ public:
 };
 
 /* Container object for a single frame of the recording. */
-class Frame : public Inspector::InspectorObjectBase {
+class Frame : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -7531,14 +7527,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Frame*/InspectorObject>&& object)
+        Builder(Ref</*Frame*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7546,7 +7542,7 @@ public:
         friend class Frame;
     public:
 
-        Builder<STATE | ActionsSet>& setActions(RefPtr<Inspector::Protocol::Array<Inspector::InspectorValue>> value)
+        Builder<STATE | ActionsSet>& setActions(RefPtr<Inspector::Protocol::Array<JSON::Value>> value)
         {
             COMPILE_ASSERT(!(STATE & ActionsSet), property_actions_already_set);
             m_result->setArray(ASCIILiteral("actions"), value);
@@ -7556,9 +7552,9 @@ public:
         Ref<Frame> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Frame) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Frame) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Frame>*>(&result));
         }
     };
@@ -7571,7 +7567,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
+    }
+
+    void setDuration(double value)
+    {
+        InspectorObjectBase::setDouble(ASCIILiteral("duration"), value);
     }
 
     void setIncomplete(bool value)
@@ -7580,29 +7581,28 @@ public:
     }
 };
 
-class Recording : public Inspector::InspectorObjectBase {
+class Recording : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
         VersionSet = 1 << 0,
         TypeSet = 1 << 1,
         InitialStateSet = 1 << 2,
-        FramesSet = 1 << 3,
-        DataSet = 1 << 4,
-        AllFieldsSet = (VersionSet | TypeSet | InitialStateSet | FramesSet | DataSet)
+        DataSet = 1 << 3,
+        AllFieldsSet = (VersionSet | TypeSet | InitialStateSet | DataSet)
     };
 
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Recording*/InspectorObject>&& object)
+        Builder(Ref</*Recording*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7631,14 +7631,7 @@ public:
             return castState<InitialStateSet>();
         }
 
-        Builder<STATE | FramesSet>& setFrames(RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Recording::Frame>> value)
-        {
-            COMPILE_ASSERT(!(STATE & FramesSet), property_frames_already_set);
-            m_result->setArray(ASCIILiteral("frames"), value);
-            return castState<FramesSet>();
-        }
-
-        Builder<STATE | DataSet>& setData(RefPtr<Inspector::Protocol::Array<Inspector::InspectorValue>> value)
+        Builder<STATE | DataSet>& setData(RefPtr<Inspector::Protocol::Array<JSON::Value>> value)
         {
             COMPILE_ASSERT(!(STATE & DataSet), property_data_already_set);
             m_result->setArray(ASCIILiteral("data"), value);
@@ -7648,9 +7641,9 @@ public:
         Ref<Recording> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Recording) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Recording) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Recording>*>(&result));
         }
     };
@@ -7661,13 +7654,12 @@ public:
      *     .setVersion(...)
      *     .setType(...)
      *     .setInitialState(...)
-     *     .setFrames(...)
      *     .setData(...)
      *     .release();
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -7675,33 +7667,33 @@ public:
 
 namespace Runtime {
 /* Mirror object referencing original JavaScript object. */
-class RemoteObject : public Inspector::InspectorObjectBase {
+class RemoteObject : public JSON::ObjectBase {
 public:
     // Named after property name 'type' while generating RemoteObject.
     enum class Type {
-        Object = 116,
-        Function = 117,
-        Undefined = 118,
+        Object = 117,
+        Function = 118,
+        Undefined = 119,
         String = 88,
         Number = 87,
-        Boolean = 119,
-        Symbol = 120,
+        Boolean = 120,
+        Symbol = 121,
     }; // enum class Type
     // Named after property name 'subtype' while generating RemoteObject.
     enum class Subtype {
         Array = 89,
         Null = 90,
-        Node = 121,
-        Regexp = 122,
+        Node = 122,
+        Regexp = 123,
         Date = 66,
         Error = 33,
-        Map = 123,
-        Set = 124,
-        Weakmap = 125,
-        Weakset = 126,
-        Iterator = 127,
-        Class = 128,
-        Proxy = 129,
+        Map = 124,
+        Set = 125,
+        Weakmap = 126,
+        Weakset = 127,
+        Iterator = 128,
+        Class = 129,
+        Proxy = 130,
     }; // enum class Subtype
     enum {
         NoFieldsSet = 0,
@@ -7712,14 +7704,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*RemoteObject*/InspectorObject>&& object)
+        Builder(Ref</*RemoteObject*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7737,9 +7729,9 @@ public:
         Ref<RemoteObject> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(RemoteObject) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(RemoteObject) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<RemoteObject>*>(&result));
         }
     };
@@ -7752,7 +7744,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setSubtype(Subtype value)
@@ -7765,7 +7757,7 @@ public:
         InspectorObjectBase::setString(ASCIILiteral("className"), value);
     }
 
-    void setValue(RefPtr<Inspector::InspectorValue> value)
+    void setValue(RefPtr<JSON::Value> value)
     {
         InspectorObjectBase::setValue(ASCIILiteral("value"), WTFMove(value));
     }
@@ -7797,33 +7789,33 @@ public:
 };
 
 /* Object containing abbreviated remote object value. */
-class ObjectPreview : public Inspector::InspectorObjectBase {
+class ObjectPreview : public JSON::ObjectBase {
 public:
     // Named after property name 'type' while generating ObjectPreview.
     enum class Type {
-        Object = 116,
-        Function = 117,
-        Undefined = 118,
+        Object = 117,
+        Function = 118,
+        Undefined = 119,
         String = 88,
         Number = 87,
-        Boolean = 119,
-        Symbol = 120,
+        Boolean = 120,
+        Symbol = 121,
     }; // enum class Type
     // Named after property name 'subtype' while generating ObjectPreview.
     enum class Subtype {
         Array = 89,
         Null = 90,
-        Node = 121,
-        Regexp = 122,
+        Node = 122,
+        Regexp = 123,
         Date = 66,
         Error = 33,
-        Map = 123,
-        Set = 124,
-        Weakmap = 125,
-        Weakset = 126,
-        Iterator = 127,
-        Class = 128,
-        Proxy = 129,
+        Map = 124,
+        Set = 125,
+        Weakmap = 126,
+        Weakset = 127,
+        Iterator = 128,
+        Class = 129,
+        Proxy = 130,
     }; // enum class Subtype
     enum {
         NoFieldsSet = 0,
@@ -7835,14 +7827,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ObjectPreview*/InspectorObject>&& object)
+        Builder(Ref</*ObjectPreview*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7867,9 +7859,9 @@ public:
         Ref<ObjectPreview> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ObjectPreview) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ObjectPreview) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ObjectPreview>*>(&result));
         }
     };
@@ -7883,7 +7875,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setSubtype(Subtype value)
@@ -7917,34 +7909,34 @@ public:
     }
 };
 
-class PropertyPreview : public Inspector::InspectorObjectBase {
+class PropertyPreview : public JSON::ObjectBase {
 public:
     // Named after property name 'type' while generating PropertyPreview.
     enum class Type {
-        Object = 116,
-        Function = 117,
-        Undefined = 118,
+        Object = 117,
+        Function = 118,
+        Undefined = 119,
         String = 88,
         Number = 87,
-        Boolean = 119,
-        Symbol = 120,
-        Accessor = 130,
+        Boolean = 120,
+        Symbol = 121,
+        Accessor = 131,
     }; // enum class Type
     // Named after property name 'subtype' while generating PropertyPreview.
     enum class Subtype {
         Array = 89,
         Null = 90,
-        Node = 121,
-        Regexp = 122,
+        Node = 122,
+        Regexp = 123,
         Date = 66,
         Error = 33,
-        Map = 123,
-        Set = 124,
-        Weakmap = 125,
-        Weakset = 126,
-        Iterator = 127,
-        Class = 128,
-        Proxy = 129,
+        Map = 124,
+        Set = 125,
+        Weakmap = 126,
+        Weakset = 127,
+        Iterator = 128,
+        Class = 129,
+        Proxy = 130,
     }; // enum class Subtype
     enum {
         NoFieldsSet = 0,
@@ -7956,14 +7948,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*PropertyPreview*/InspectorObject>&& object)
+        Builder(Ref</*PropertyPreview*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -7988,9 +7980,9 @@ public:
         Ref<PropertyPreview> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(PropertyPreview) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(PropertyPreview) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<PropertyPreview>*>(&result));
         }
     };
@@ -8004,7 +7996,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setSubtype(Subtype value)
@@ -8028,7 +8020,7 @@ public:
     }
 };
 
-class EntryPreview : public Inspector::InspectorObjectBase {
+class EntryPreview : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8039,14 +8031,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*EntryPreview*/InspectorObject>&& object)
+        Builder(Ref</*EntryPreview*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8064,9 +8056,9 @@ public:
         Ref<EntryPreview> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(EntryPreview) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(EntryPreview) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<EntryPreview>*>(&result));
         }
     };
@@ -8079,7 +8071,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setKey(RefPtr<Inspector::Protocol::Runtime::ObjectPreview> value)
@@ -8088,7 +8080,7 @@ public:
     }
 };
 
-class CollectionEntry : public Inspector::InspectorObjectBase {
+class CollectionEntry : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8099,14 +8091,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CollectionEntry*/InspectorObject>&& object)
+        Builder(Ref</*CollectionEntry*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8124,9 +8116,9 @@ public:
         Ref<CollectionEntry> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CollectionEntry) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CollectionEntry) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CollectionEntry>*>(&result));
         }
     };
@@ -8139,7 +8131,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setKey(RefPtr<Inspector::Protocol::Runtime::RemoteObject> value)
@@ -8149,7 +8141,7 @@ public:
 };
 
 /* Object property descriptor. */
-class PropertyDescriptor : public Inspector::InspectorObjectBase {
+class PropertyDescriptor : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8162,14 +8154,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*PropertyDescriptor*/InspectorObject>&& object)
+        Builder(Ref</*PropertyDescriptor*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8201,9 +8193,9 @@ public:
         Ref<PropertyDescriptor> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(PropertyDescriptor) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(PropertyDescriptor) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<PropertyDescriptor>*>(&result));
         }
     };
@@ -8218,7 +8210,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setValue(RefPtr<Inspector::Protocol::Runtime::RemoteObject> value)
@@ -8263,7 +8255,7 @@ public:
 };
 
 /* Object internal property descriptor. This property isn't normally visible in JavaScript code. */
-class InternalPropertyDescriptor : public Inspector::InspectorObjectBase {
+class InternalPropertyDescriptor : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8274,14 +8266,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*InternalPropertyDescriptor*/InspectorObject>&& object)
+        Builder(Ref</*InternalPropertyDescriptor*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8299,9 +8291,9 @@ public:
         Ref<InternalPropertyDescriptor> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(InternalPropertyDescriptor) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(InternalPropertyDescriptor) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<InternalPropertyDescriptor>*>(&result));
         }
     };
@@ -8314,7 +8306,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setValue(RefPtr<Inspector::Protocol::Runtime::RemoteObject> value)
@@ -8324,7 +8316,7 @@ public:
 };
 
 /* Represents function call argument. Either remote object id <code>objectId</code> or primitive <code>value</code> or neither of (for undefined) them should be specified. */
-class CallArgument : public Inspector::InspectorObjectBase {
+class CallArgument : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8334,14 +8326,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*CallArgument*/InspectorObject>&& object)
+        Builder(Ref</*CallArgument*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8352,9 +8344,9 @@ public:
         Ref<CallArgument> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(CallArgument) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(CallArgument) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<CallArgument>*>(&result));
         }
     };
@@ -8366,10 +8358,10 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
-    void setValue(RefPtr<Inspector::InspectorValue> value)
+    void setValue(RefPtr<JSON::Value> value)
     {
         InspectorObjectBase::setValue(ASCIILiteral("value"), WTFMove(value));
     }
@@ -8381,7 +8373,7 @@ public:
 };
 
 /* Description of an isolated world. */
-class ExecutionContextDescription : public Inspector::InspectorObjectBase {
+class ExecutionContextDescription : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8395,14 +8387,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ExecutionContextDescription*/InspectorObject>&& object)
+        Builder(Ref</*ExecutionContextDescription*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8441,9 +8433,9 @@ public:
         Ref<ExecutionContextDescription> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ExecutionContextDescription) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ExecutionContextDescription) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ExecutionContextDescription>*>(&result));
         }
     };
@@ -8459,19 +8451,19 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Syntax error type: "none" for no error, "irrecoverable" for unrecoverable errors, "unterminated-literal" for when there is an unterminated literal, "recoverable" for when the expression is unfinished but valid so far. */
 enum class SyntaxErrorType {
-    None = 131,
-    Irrecoverable = 132,
-    UnterminatedLiteral = 133,
-    Recoverable = 134,
+    None = 132,
+    Irrecoverable = 133,
+    UnterminatedLiteral = 134,
+    Recoverable = 135,
 }; // enum class SyntaxErrorType
 /* Range of an error in source code. */
-class ErrorRange : public Inspector::InspectorObjectBase {
+class ErrorRange : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8483,14 +8475,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ErrorRange*/InspectorObject>&& object)
+        Builder(Ref</*ErrorRange*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8515,9 +8507,9 @@ public:
         Ref<ErrorRange> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ErrorRange) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ErrorRange) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ErrorRange>*>(&result));
         }
     };
@@ -8531,11 +8523,11 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
-class StructureDescription : public Inspector::InspectorObjectBase {
+class StructureDescription : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8545,14 +8537,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*StructureDescription*/InspectorObject>&& object)
+        Builder(Ref</*StructureDescription*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8563,9 +8555,9 @@ public:
         Ref<StructureDescription> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(StructureDescription) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(StructureDescription) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<StructureDescription>*>(&result));
         }
     };
@@ -8577,7 +8569,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setFields(RefPtr<Inspector::Protocol::Array<String>> value)
@@ -8606,7 +8598,7 @@ public:
     }
 };
 
-class TypeSet : public Inspector::InspectorObjectBase {
+class TypeSet : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8625,14 +8617,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*TypeSet*/InspectorObject>&& object)
+        Builder(Ref</*TypeSet*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8706,9 +8698,9 @@ public:
         Ref<TypeSet> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(TypeSet) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(TypeSet) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<TypeSet>*>(&result));
         }
     };
@@ -8729,12 +8721,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* Container for type information that has been gathered. */
-class TypeDescription : public Inspector::InspectorObjectBase {
+class TypeDescription : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8745,14 +8737,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*TypeDescription*/InspectorObject>&& object)
+        Builder(Ref</*TypeDescription*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8770,9 +8762,9 @@ public:
         Ref<TypeDescription> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(TypeDescription) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(TypeDescription) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<TypeDescription>*>(&result));
         }
     };
@@ -8785,7 +8777,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setLeastCommonAncestor(const String& value)
@@ -8810,7 +8802,7 @@ public:
 };
 
 /* Describes the location of an expression we want type information for. */
-class TypeLocation : public Inspector::InspectorObjectBase {
+class TypeLocation : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8823,14 +8815,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*TypeLocation*/InspectorObject>&& object)
+        Builder(Ref</*TypeLocation*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8862,9 +8854,9 @@ public:
         Ref<TypeLocation> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(TypeLocation) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(TypeLocation) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<TypeLocation>*>(&result));
         }
     };
@@ -8879,12 +8871,12 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
 /* From Wikipedia: a basic block is a portion of the code within a program with only one entry point and only one exit point. This type gives the location of a basic block and if that basic block has executed. */
-class BasicBlock : public Inspector::InspectorObjectBase {
+class BasicBlock : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8898,14 +8890,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*BasicBlock*/InspectorObject>&& object)
+        Builder(Ref</*BasicBlock*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -8944,9 +8936,9 @@ public:
         Ref<BasicBlock> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(BasicBlock) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(BasicBlock) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<BasicBlock>*>(&result));
         }
     };
@@ -8962,7 +8954,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -8971,11 +8963,11 @@ public:
 namespace ScriptProfiler {
 /*  */
 enum class EventType {
-    API = 135,
-    Microtask = 136,
-    Other = 110,
+    API = 136,
+    Microtask = 137,
+    Other = 111,
 }; // enum class EventType
-class Event : public Inspector::InspectorObjectBase {
+class Event : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -8988,14 +8980,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Event*/InspectorObject>&& object)
+        Builder(Ref</*Event*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -9027,9 +9019,9 @@ public:
         Ref<Event> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Event) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Event) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Event>*>(&result));
         }
     };
@@ -9044,11 +9036,11 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
-class ExpressionLocation : public Inspector::InspectorObjectBase {
+class ExpressionLocation : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -9060,14 +9052,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*ExpressionLocation*/InspectorObject>&& object)
+        Builder(Ref</*ExpressionLocation*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -9092,9 +9084,9 @@ public:
         Ref<ExpressionLocation> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(ExpressionLocation) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(ExpressionLocation) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<ExpressionLocation>*>(&result));
         }
     };
@@ -9108,11 +9100,11 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
-class StackFrame : public Inspector::InspectorObjectBase {
+class StackFrame : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -9127,14 +9119,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*StackFrame*/InspectorObject>&& object)
+        Builder(Ref</*StackFrame*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -9180,9 +9172,9 @@ public:
         Ref<StackFrame> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(StackFrame) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(StackFrame) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<StackFrame>*>(&result));
         }
     };
@@ -9199,7 +9191,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setExpressionLocation(RefPtr<Inspector::Protocol::ScriptProfiler::ExpressionLocation> value)
@@ -9208,7 +9200,7 @@ public:
     }
 };
 
-class StackTrace : public Inspector::InspectorObjectBase {
+class StackTrace : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -9220,14 +9212,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*StackTrace*/InspectorObject>&& object)
+        Builder(Ref</*StackTrace*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -9252,9 +9244,9 @@ public:
         Ref<StackTrace> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(StackTrace) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(StackTrace) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<StackTrace>*>(&result));
         }
     };
@@ -9268,11 +9260,11 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
-class Samples : public Inspector::InspectorObjectBase {
+class Samples : public JSON::ObjectBase {
 public:
     enum {
         NoFieldsSet = 0,
@@ -9283,14 +9275,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*Samples*/InspectorObject>&& object)
+        Builder(Ref</*Samples*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -9308,9 +9300,9 @@ public:
         Ref<Samples> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(Samples) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(Samples) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<Samples>*>(&result));
         }
     };
@@ -9323,7 +9315,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 };
 
@@ -9332,37 +9324,37 @@ public:
 namespace Timeline {
 /* Timeline record type. */
 enum class EventType {
-    EventDispatch = 137,
-    ScheduleStyleRecalculation = 138,
-    RecalculateStyles = 139,
-    InvalidateLayout = 140,
-    Layout = 141,
-    Paint = 142,
-    Composite = 143,
-    RenderingFrame = 144,
-    TimerInstall = 145,
-    TimerRemove = 146,
-    TimerFire = 147,
-    EvaluateScript = 148,
-    TimeStamp = 149,
-    Time = 150,
-    TimeEnd = 151,
-    FunctionCall = 152,
-    ProbeSample = 153,
-    ConsoleProfile = 154,
-    RequestAnimationFrame = 155,
-    CancelAnimationFrame = 156,
-    FireAnimationFrame = 157,
+    EventDispatch = 138,
+    ScheduleStyleRecalculation = 139,
+    RecalculateStyles = 140,
+    InvalidateLayout = 141,
+    Layout = 142,
+    Paint = 143,
+    Composite = 144,
+    RenderingFrame = 145,
+    TimerInstall = 146,
+    TimerRemove = 147,
+    TimerFire = 148,
+    EvaluateScript = 149,
+    TimeStamp = 150,
+    Time = 151,
+    TimeEnd = 152,
+    FunctionCall = 153,
+    ProbeSample = 154,
+    ConsoleProfile = 155,
+    RequestAnimationFrame = 156,
+    CancelAnimationFrame = 157,
+    FireAnimationFrame = 158,
 }; // enum class EventType
 /* Instrument types. */
 enum class Instrument {
-    ScriptProfiler = 158,
-    Timeline = 159,
-    Memory = 160,
-    Heap = 161,
+    ScriptProfiler = 159,
+    Timeline = 160,
+    Memory = 161,
+    Heap = 162,
 }; // enum class Instrument
 /* Timeline record contains information about the recorded activity. */
-class TimelineEvent : public Inspector::InspectorObject {
+class TimelineEvent : public JSON::Object {
 public:
     enum {
         NoFieldsSet = 0,
@@ -9374,14 +9366,14 @@ public:
     template<int STATE>
     class Builder {
     private:
-        RefPtr<InspectorObject> m_result;
+        RefPtr<JSON::Object> m_result;
 
         template<int STEP> Builder<STATE | STEP>& castState()
         {
             return *reinterpret_cast<Builder<STATE | STEP>*>(this);
         }
 
-        Builder(Ref</*TimelineEvent*/InspectorObject>&& object)
+        Builder(Ref</*TimelineEvent*/JSON::Object>&& object)
             : m_result(WTFMove(object))
         {
             COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
@@ -9396,7 +9388,7 @@ public:
             return castState<TypeSet>();
         }
 
-        Builder<STATE | DataSet>& setData(RefPtr<Inspector::InspectorObject> value)
+        Builder<STATE | DataSet>& setData(RefPtr<JSON::Object> value)
         {
             COMPILE_ASSERT(!(STATE & DataSet), property_data_already_set);
             m_result->setObject(ASCIILiteral("data"), value);
@@ -9406,9 +9398,9 @@ public:
         Ref<TimelineEvent> release()
         {
             COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
-            COMPILE_ASSERT(sizeof(TimelineEvent) == sizeof(InspectorObject), cannot_cast);
+            COMPILE_ASSERT(sizeof(TimelineEvent) == sizeof(JSON::Object), cannot_cast);
 
-            Ref<InspectorObject> result = m_result.releaseNonNull();
+            Ref<JSON::Object> result = m_result.releaseNonNull();
             return WTFMove(*reinterpret_cast<Ref<TimelineEvent>*>(&result));
         }
     };
@@ -9422,7 +9414,7 @@ public:
      */
     static Builder<NoFieldsSet> create()
     {
-        return Builder<NoFieldsSet>(InspectorObject::create());
+        return Builder<NoFieldsSet>(JSON::Object::create());
     }
 
     void setChildren(RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Timeline::TimelineEvent>> value)
@@ -9440,110 +9432,110 @@ public:
 
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Debugger::Location> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Debugger::FunctionDetails> {
-static RefPtr<Inspector::Protocol::Debugger::FunctionDetails> runtimeCast(RefPtr<Inspector::InspectorValue>&& value);
+static RefPtr<Inspector::Protocol::Debugger::FunctionDetails> runtimeCast(RefPtr<JSON::Value>&& value);
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Debugger::CallFrame> {
-static RefPtr<Inspector::Protocol::Debugger::CallFrame> runtimeCast(RefPtr<Inspector::InspectorValue>&& value);
+static RefPtr<Inspector::Protocol::Debugger::CallFrame> runtimeCast(RefPtr<JSON::Value>&& value);
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Debugger::Scope::Type> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Debugger::Scope> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::RemoteObject::Type> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::RemoteObject::Subtype> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::RemoteObject> {
-static RefPtr<Inspector::Protocol::Runtime::RemoteObject> runtimeCast(RefPtr<Inspector::InspectorValue>&& value);
+static RefPtr<Inspector::Protocol::Runtime::RemoteObject> runtimeCast(RefPtr<JSON::Value>&& value);
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::ObjectPreview::Type> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::ObjectPreview::Subtype> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::ObjectPreview> {
-static RefPtr<Inspector::Protocol::Runtime::ObjectPreview> runtimeCast(RefPtr<Inspector::InspectorValue>&& value);
+static RefPtr<Inspector::Protocol::Runtime::ObjectPreview> runtimeCast(RefPtr<JSON::Value>&& value);
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::PropertyPreview::Type> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::PropertyPreview::Subtype> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::PropertyPreview> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::EntryPreview> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::CollectionEntry> {
-static RefPtr<Inspector::Protocol::Runtime::CollectionEntry> runtimeCast(RefPtr<Inspector::InspectorValue>&& value);
+static RefPtr<Inspector::Protocol::Runtime::CollectionEntry> runtimeCast(RefPtr<JSON::Value>&& value);
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::PropertyDescriptor> {
-static RefPtr<Inspector::Protocol::Runtime::PropertyDescriptor> runtimeCast(RefPtr<Inspector::InspectorValue>&& value);
+static RefPtr<Inspector::Protocol::Runtime::PropertyDescriptor> runtimeCast(RefPtr<JSON::Value>&& value);
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Runtime::InternalPropertyDescriptor> {
-static RefPtr<Inspector::Protocol::Runtime::InternalPropertyDescriptor> runtimeCast(RefPtr<Inspector::InspectorValue>&& value);
+static RefPtr<Inspector::Protocol::Runtime::InternalPropertyDescriptor> runtimeCast(RefPtr<JSON::Value>&& value);
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Timeline::EventType> {
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 template<> struct JS_EXPORT_PRIVATE BindingTraits<Inspector::Protocol::Timeline::TimelineEvent> {
-static RefPtr<Inspector::Protocol::Timeline::TimelineEvent> runtimeCast(RefPtr<Inspector::InspectorValue>&& value);
+static RefPtr<Inspector::Protocol::Timeline::TimelineEvent> runtimeCast(RefPtr<JSON::Value>&& value);
 #if !ASSERT_DISABLED
-static void assertValueHasExpectedType(Inspector::InspectorValue*);
+static void assertValueHasExpectedType(JSON::Value*);
 #endif // !ASSERT_DISABLED
 };
 

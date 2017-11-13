@@ -64,7 +64,9 @@ public:
     void canvasAdded(RefPtr<Inspector::Protocol::Canvas::Canvas> canvas);
     void canvasRemoved(const Inspector::Protocol::Canvas::CanvasId& canvasId);
     void canvasMemoryChanged(const Inspector::Protocol::Canvas::CanvasId& canvasId, double memoryCost);
+    void extensionEnabled(const Inspector::Protocol::Canvas::CanvasId& canvasId, const String& extension);
     void cssCanvasClientNodesChanged(const Inspector::Protocol::Canvas::CanvasId& canvasId);
+    void recordingProgress(const Inspector::Protocol::Canvas::CanvasId& canvasId, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Recording::Frame>> frames, int bufferUsed);
     void recordingFinished(const Inspector::Protocol::Canvas::CanvasId& canvasId, RefPtr<Inspector::Protocol::Recording::Recording> recording);
     void programCreated(const Inspector::Protocol::Canvas::CanvasId& canvasId, const Inspector::Protocol::Canvas::ProgramId& programId);
     void programDeleted(const Inspector::Protocol::Canvas::ProgramId& programId);
@@ -142,18 +144,18 @@ public:
     void breakpointResolved(const Inspector::Protocol::Debugger::BreakpointId& breakpointId, RefPtr<Inspector::Protocol::Debugger::Location> location);
         // Named after parameter 'reason' while generating command/event paused.
         enum class Reason {
-            XHR = 105,
-            DOM = 162,
-            EventListener = 163,
-            Exception = 164,
+            XHR = 106,
+            DOM = 163,
+            EventListener = 164,
+            Exception = 165,
             Assert = 45,
-            CSPViolation = 165,
-            DebuggerStatement = 166,
-            Breakpoint = 167,
-            PauseOnNextStatement = 168,
+            CSPViolation = 166,
+            DebuggerStatement = 167,
+            Breakpoint = 168,
+            PauseOnNextStatement = 169,
             Other = 30,
         }; // enum class Reason
-    void paused(RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Debugger::CallFrame>> callFrames, Reason reason, RefPtr<Inspector::InspectorObject> data, RefPtr<Inspector::Protocol::Console::StackTrace> asyncStackTrace);
+    void paused(RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Debugger::CallFrame>> callFrames, Reason reason, RefPtr<JSON::Object> data, RefPtr<Inspector::Protocol::Console::StackTrace> asyncStackTrace);
     void resumed();
     void didSampleProbe(RefPtr<Inspector::Protocol::Debugger::ProbeSample> sample);
     void playBreakpointActionSound(int breakpointActionId);
@@ -175,7 +177,7 @@ class JS_EXPORT_PRIVATE InspectorFrontendDispatcher {
 public:
     InspectorFrontendDispatcher(FrontendRouter& frontendRouter) : m_frontendRouter(frontendRouter) { }
     void evaluateForTestInFrontend(const String& script);
-    void inspect(RefPtr<Inspector::Protocol::Runtime::RemoteObject> object, RefPtr<Inspector::InspectorObject> hints);
+    void inspect(RefPtr<Inspector::Protocol::Runtime::RemoteObject> object, RefPtr<JSON::Object> hints);
     void activateExtraDomains(RefPtr<Inspector::Protocol::Array<String>> domains);
 private:
     FrontendRouter& m_frontendRouter;
@@ -195,8 +197,8 @@ public:
     MemoryFrontendDispatcher(FrontendRouter& frontendRouter) : m_frontendRouter(frontendRouter) { }
         // Named after parameter 'severity' while generating command/event memoryPressure.
         enum class Severity {
-            Critical = 169,
-            NonCritical = 170,
+            Critical = 170,
+            NonCritical = 171,
         }; // enum class Severity
     void memoryPressure(double timestamp, Severity severity);
     void trackingStart(double timestamp);
@@ -212,17 +214,17 @@ public:
     NetworkFrontendDispatcher(FrontendRouter& frontendRouter) : m_frontendRouter(frontendRouter) { }
         // Named after parameter 'type' while generating command/event requestWillBeSent.
         enum class Type {
-            Document = 100,
-            Stylesheet = 101,
-            Image = 102,
-            Font = 103,
-            Script = 104,
-            XHR = 105,
-            Fetch = 106,
-            Ping = 107,
-            Beacon = 108,
-            WebSocket = 109,
-            Other = 110,
+            Document = 101,
+            Stylesheet = 102,
+            Image = 103,
+            Font = 104,
+            Script = 105,
+            XHR = 106,
+            Fetch = 107,
+            Ping = 108,
+            Beacon = 109,
+            WebSocket = 110,
+            Other = 111,
         }; // enum class Type
     void requestWillBeSent(const Inspector::Protocol::Network::RequestId& requestId, const Inspector::Protocol::Network::FrameId& frameId, const Inspector::Protocol::Network::LoaderId& loaderId, const String& documentURL, RefPtr<Inspector::Protocol::Network::Request> request, double timestamp, double walltime, RefPtr<Inspector::Protocol::Network::Initiator> initiator, RefPtr<Inspector::Protocol::Network::Response> redirectResponse, Inspector::Protocol::Page::ResourceType* type, const String* const targetId);
     void responseReceived(const Inspector::Protocol::Network::RequestId& requestId, const Inspector::Protocol::Network::FrameId& frameId, const Inspector::Protocol::Network::LoaderId& loaderId, double timestamp, Inspector::Protocol::Page::ResourceType type, RefPtr<Inspector::Protocol::Network::Response> response);

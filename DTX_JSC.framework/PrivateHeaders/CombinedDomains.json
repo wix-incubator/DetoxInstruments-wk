@@ -1,7 +1,7 @@
 {"domains":[
 {
     "domain": "ApplicationCache",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "ApplicationCacheResource",
@@ -90,7 +90,7 @@
 {
     "domain": "CSS",
     "description": "This domain exposes CSS read/write operations. All CSS objects, like stylesheets, rules, and styles, have an associated <code>id</code> used in subsequent operations on the related object. Each object type has a specific <code>id</code> structure, and those are not interchangeable between objects of different kinds. CSS objects can be loaded using the <code>get*ForNode()</code> calls (which accept a DOM node id). Alternatively, a client can discover all the existing stylesheets with the <code>getAllStyleSheets()</code> method and subsequently load the required stylesheet contents using the <code>getStyleSheet[Text]()</code> methods.",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "StyleSheetId",
@@ -475,7 +475,7 @@
 ,
 {
     "domain": "Canvas",
-    "availability": "web",
+    "availability": ["web"],
     "description": "Canvas domain allows tracking of canvases that have an associated graphics context. Tracks canvases in the DOM and CSS canvases created with -webkit-canvas.",
     "types": [
         {
@@ -646,9 +646,24 @@
             ]
         },
         {
+            "name": "extensionEnabled",
+            "parameters": [
+                { "name": "canvasId", "$ref": "CanvasId" },
+                { "name": "extension", "type": "string", "description": "Name of the extension that was enabled." }
+            ]
+        },
+        {
             "name": "cssCanvasClientNodesChanged",
             "parameters": [
                 { "name": "canvasId", "$ref": "CanvasId", "description": "Identifier of canvas that changed." }
+            ]
+        },
+        {
+            "name": "recordingProgress",
+            "parameters": [
+                { "name": "canvasId", "$ref": "CanvasId" },
+                { "name": "frames", "type": "array", "items": { "$ref": "Recording.Frame" }},
+                { "name": "bufferUsed", "type": "integer", "description": "Total memory size in bytes of all data recorded since the recording began." }
             ]
         },
         {
@@ -805,7 +820,7 @@
 {
     "domain": "DOM",
     "description": "This domain exposes DOM read/write operations. Each DOM Node is represented with its mirror object that has an <code>id</code>. This <code>id</code> can be used to get additional information on the Node, resolve it into the JavaScript object wrapper, etc. It is important that client receives DOM events only for the nodes that are known to the client. Backend keeps track of the nodes that were sent to the client and never sends the same node twice. It is client's responsibility to collect information about the nodes that were sent to the client.<p>Note that <code>iframe</code> owner elements will return corresponding document elements as their child nodes.</p>",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "NodeId",
@@ -1103,6 +1118,14 @@
             "parameters": [
                 { "name": "nodeId", "$ref": "NodeId", "description": "Id of the node to set markup for." },
                 { "name": "outerHTML", "type": "string", "description": "Outer HTML markup to set." }
+            ]
+        },
+        {
+            "name": "insertAdjacentHTML",
+            "parameters": [
+                { "name": "nodeId", "$ref": "NodeId" },
+                { "name": "position", "type": "string" },
+                { "name": "html", "type": "string" }
             ]
         },
         {
@@ -1440,7 +1463,7 @@
 {
     "domain": "DOMDebugger",
     "description": "DOM debugging allows setting breakpoints on particular DOM operations and events. JavaScript execution will stop on these operations as if there was a regular breakpoint set.",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "DOMBreakpointType",
@@ -1515,7 +1538,7 @@
 {
     "domain": "DOMStorage",
     "description": "Query and modify DOM storage.",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "StorageId",
@@ -1603,7 +1626,7 @@
 ,
 {
     "domain": "Database",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "DatabaseId",
@@ -2155,7 +2178,7 @@
 {
     "domain": "IndexedDB",
     "featureGuard": "ENABLE(INDEXED_DATABASE)",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "DatabaseWithObjectStores",
@@ -2339,7 +2362,7 @@
 ,
 {
     "domain": "LayerTree",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "LayerId",
@@ -2457,7 +2480,7 @@
     "domain": "Memory",
     "description": "Memory domain exposes page memory tracking.",
     "featureGuard": "ENABLE(RESOURCE_USAGE)",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "Event",
@@ -2527,7 +2550,7 @@
 {
     "domain": "Network",
     "description": "Network domain allows tracking network activities of the page. It exposes information about http, file, data and other requests and responses, their headers, bodies, timing, etc.",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "LoaderId",
@@ -2591,12 +2614,12 @@
             "description": "HTTP response data.",
             "properties": [
                 { "name": "url", "type": "string", "description": "Response URL. This URL can be different from CachedResource.url in case of redirect." },
-                { "name": "status", "type": "number", "description": "HTTP response status code." },
+                { "name": "status", "type": "integer", "description": "HTTP response status code." },
                 { "name": "statusText", "type": "string", "description": "HTTP response status text." },
                 { "name": "headers", "$ref": "Headers", "description": "HTTP response headers." },
                 { "name": "headersText", "type": "string", "optional": true, "description": "HTTP response headers text." },
                 { "name": "mimeType", "type": "string", "description": "Resource mimeType as determined by the browser." },
-                { "name": "source", "type": "string", "enum": ["unknown", "network", "memory-cache", "disk-cache"], "description": "Specifies where the response came from." },
+                { "name": "source", "type": "string", "enum": ["unknown", "network", "memory-cache", "disk-cache", "service-worker"], "description": "Specifies where the response came from." },
                 { "name": "requestHeaders", "$ref": "Headers", "optional": true, "description": "Refined HTTP request headers that were actually transmitted over the network." },
                 { "name": "requestHeadersText", "type": "string", "optional": true, "description": "HTTP request headers text." },
                 { "name": "timing", "$ref": "ResourceTiming", "optional": true, "description": "Timing information for the given request." }
@@ -2632,7 +2655,7 @@
             "type": "object",
             "description": "WebSocket response data.",
             "properties": [
-                { "name": "status", "type": "number", "description": "HTTP response status code." },
+                { "name": "status", "type": "integer", "description": "HTTP response status code." },
                 { "name": "statusText", "type": "string", "description": "HTTP response status text." },
                 { "name": "headers", "$ref": "Headers", "description": "HTTP response headers." }
             ]
@@ -2717,7 +2740,7 @@
             "returns": [
                 { "name": "content", "type": "string", "description": "Resource content." },
                 { "name": "mimeType", "type": "string", "description": "Resource mimeType." },
-                { "name": "status", "type": "number", "description": "HTTP response status code." }
+                { "name": "status", "type": "integer", "description": "HTTP response status code." }
             ]
         },
         {
@@ -2975,7 +2998,7 @@
 {
     "domain": "Page",
     "description": "Actions and events related to the inspected page belong to the page domain.",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "ResourceType",
@@ -3052,11 +3075,6 @@
                 { "name": "secure", "type": "boolean", "description": "True if cookie is secure." },
                 { "name": "session", "type": "boolean", "description": "True in case of session cookie." }
             ]
-        },
-        {
-            "id": "ScriptIdentifier",
-            "type": "string",
-            "description": "Unique script identifier."
         }
     ],
     "commands": [
@@ -3288,7 +3306,8 @@
             "type": "object",
             "description": "Container object for a single frame of the recording.",
             "properties": [
-                { "name": "actions", "type": "array", "items": { "type": "any" }, "description": "Information about an action made to the recorded object. Follows the structure [name, parameters, trace], where name is a string, parameters is an array, and trace is an array."},
+                { "name": "actions", "type": "array", "items": { "type": "any" }, "description": "Information about an action made to the recorded object. Follows the structure [name, parameters, swizzleTypes, trace], where name is a string, parameters is an array, swizzleTypes is an array, and trace is an array."},
+                { "name": "duration", "type": "number", "optional": true, "description": "Total execution time of all actions recorded in this frame in milliseconds. " },
                 { "name": "incomplete", "type": "boolean", "optional": true, "description": "Flag indicating if the recording was stopped before this frame ended." }
             ]
         },
@@ -3299,7 +3318,6 @@
                 { "name": "version", "type": "integer", "description": "Used for future/backwards compatibility." },
                 { "name": "type", "$ref": "Type" },
                 { "name": "initialState", "$ref": "InitialState", "description": "JSON data of inital state of object before recording." },
-                { "name": "frames", "type": "array", "items": { "$ref": "Frame" }, "description": "JSON data of all object API calls." },
                 { "name": "data", "type": "array", "items": { "type": "any" }, "description": "Array of objects that can be referenced by index. Used to avoid duplicating objects." }
             ]
         }
@@ -3782,7 +3800,7 @@
 {
     "domain": "Timeline",
     "description": "Timeline provides its clients with instrumentation records that are generated during the page runtime. Timeline instrumentation can be started and stopped using corresponding commands. While timeline is started, it is generating timeline event records.",
-    "availability": "web",
+    "availability": ["web"],
     "types": [
         {
             "id": "EventType",
@@ -3900,7 +3918,7 @@
 ,
 {
     "domain": "Worker",
-    "availability": "web",
+    "availability": ["web"],
     "types": [],
     "commands": [
         {

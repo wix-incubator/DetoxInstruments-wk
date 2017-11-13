@@ -86,13 +86,13 @@ public:
     virtual void getStyleSheet(ErrorString&, const String& in_styleSheetId, RefPtr<Inspector::Protocol::CSS::CSSStyleSheetBody>& out_styleSheet) = 0;
     virtual void getStyleSheetText(ErrorString&, const String& in_styleSheetId, String* out_text) = 0;
     virtual void setStyleSheetText(ErrorString&, const String& in_styleSheetId, const String& in_text) = 0;
-    virtual void setStyleText(ErrorString&, const Inspector::InspectorObject& in_styleId, const String& in_text, RefPtr<Inspector::Protocol::CSS::CSSStyle>& out_style) = 0;
-    virtual void setRuleSelector(ErrorString&, const Inspector::InspectorObject& in_ruleId, const String& in_selector, RefPtr<Inspector::Protocol::CSS::CSSRule>& out_rule) = 0;
+    virtual void setStyleText(ErrorString&, const JSON::Object& in_styleId, const String& in_text, RefPtr<Inspector::Protocol::CSS::CSSStyle>& out_style) = 0;
+    virtual void setRuleSelector(ErrorString&, const JSON::Object& in_ruleId, const String& in_selector, RefPtr<Inspector::Protocol::CSS::CSSRule>& out_rule) = 0;
     virtual void createStyleSheet(ErrorString&, const String& in_frameId, String* out_styleSheetId) = 0;
     virtual void addRule(ErrorString&, const String& in_styleSheetId, const String& in_selector, RefPtr<Inspector::Protocol::CSS::CSSRule>& out_rule) = 0;
     virtual void getSupportedCSSProperties(ErrorString&, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::CSS::CSSPropertyInfo>>& out_cssProperties) = 0;
     virtual void getSupportedSystemFontFamilyNames(ErrorString&, RefPtr<Inspector::Protocol::Array<String>>& out_fontFamilyNames) = 0;
-    virtual void forcePseudoState(ErrorString&, int in_nodeId, const Inspector::InspectorArray& in_forcedPseudoClasses) = 0;
+    virtual void forcePseudoState(ErrorString&, int in_nodeId, const JSON::Array& in_forcedPseudoClasses) = 0;
 protected:
     virtual ~CSSBackendDispatcherHandler();
 };
@@ -142,18 +142,19 @@ public:
     virtual void getAccessibilityPropertiesForNode(ErrorString&, int in_nodeId, RefPtr<Inspector::Protocol::DOM::AccessibilityProperties>& out_properties) = 0;
     virtual void getOuterHTML(ErrorString&, int in_nodeId, String* out_outerHTML) = 0;
     virtual void setOuterHTML(ErrorString&, int in_nodeId, const String& in_outerHTML) = 0;
-    virtual void performSearch(ErrorString&, const String& in_query, const Inspector::InspectorArray* opt_in_nodeIds, String* out_searchId, int* out_resultCount) = 0;
+    virtual void insertAdjacentHTML(ErrorString&, int in_nodeId, const String& in_position, const String& in_html) = 0;
+    virtual void performSearch(ErrorString&, const String& in_query, const JSON::Array* opt_in_nodeIds, String* out_searchId, int* out_resultCount) = 0;
     virtual void getSearchResults(ErrorString&, const String& in_searchId, int in_fromIndex, int in_toIndex, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::DOM::NodeId>>& out_nodeIds) = 0;
     virtual void discardSearchResults(ErrorString&, const String& in_searchId) = 0;
     virtual void requestNode(ErrorString&, const String& in_objectId, int* out_nodeId) = 0;
-    virtual void setInspectModeEnabled(ErrorString&, bool in_enabled, const Inspector::InspectorObject* opt_in_highlightConfig) = 0;
-    virtual void highlightRect(ErrorString&, int in_x, int in_y, int in_width, int in_height, const Inspector::InspectorObject* opt_in_color, const Inspector::InspectorObject* opt_in_outlineColor, const bool* const opt_in_usePageCoordinates) = 0;
-    virtual void highlightQuad(ErrorString&, const Inspector::InspectorArray& in_quad, const Inspector::InspectorObject* opt_in_color, const Inspector::InspectorObject* opt_in_outlineColor, const bool* const opt_in_usePageCoordinates) = 0;
-    virtual void highlightSelector(ErrorString&, const Inspector::InspectorObject& in_highlightConfig, const String& in_selectorString, const String* const opt_in_frameId) = 0;
-    virtual void highlightNode(ErrorString&, const Inspector::InspectorObject& in_highlightConfig, const int* const opt_in_nodeId, const String* const opt_in_objectId) = 0;
-    virtual void highlightNodeList(ErrorString&, const Inspector::InspectorArray& in_nodeIds, const Inspector::InspectorObject& in_highlightConfig) = 0;
+    virtual void setInspectModeEnabled(ErrorString&, bool in_enabled, const JSON::Object* opt_in_highlightConfig) = 0;
+    virtual void highlightRect(ErrorString&, int in_x, int in_y, int in_width, int in_height, const JSON::Object* opt_in_color, const JSON::Object* opt_in_outlineColor, const bool* const opt_in_usePageCoordinates) = 0;
+    virtual void highlightQuad(ErrorString&, const JSON::Array& in_quad, const JSON::Object* opt_in_color, const JSON::Object* opt_in_outlineColor, const bool* const opt_in_usePageCoordinates) = 0;
+    virtual void highlightSelector(ErrorString&, const JSON::Object& in_highlightConfig, const String& in_selectorString, const String* const opt_in_frameId) = 0;
+    virtual void highlightNode(ErrorString&, const JSON::Object& in_highlightConfig, const int* const opt_in_nodeId, const String* const opt_in_objectId) = 0;
+    virtual void highlightNodeList(ErrorString&, const JSON::Array& in_nodeIds, const JSON::Object& in_highlightConfig) = 0;
     virtual void hideHighlight(ErrorString&) = 0;
-    virtual void highlightFrame(ErrorString&, const String& in_frameId, const Inspector::InspectorObject* opt_in_contentColor, const Inspector::InspectorObject* opt_in_contentOutlineColor) = 0;
+    virtual void highlightFrame(ErrorString&, const String& in_frameId, const JSON::Object* opt_in_contentColor, const JSON::Object* opt_in_contentOutlineColor) = 0;
     virtual void pushNodeByPathToFrontend(ErrorString&, const String& in_path, int* out_nodeId) = 0;
     virtual void pushNodeByBackendIdToFrontend(ErrorString&, int in_backendNodeId, int* out_nodeId) = 0;
     virtual void releaseBackendNodeIds(ErrorString&, const String& in_nodeGroup) = 0;
@@ -187,9 +188,9 @@ class JS_EXPORT_PRIVATE DOMStorageBackendDispatcherHandler {
 public:
     virtual void enable(ErrorString&) = 0;
     virtual void disable(ErrorString&) = 0;
-    virtual void getDOMStorageItems(ErrorString&, const Inspector::InspectorObject& in_storageId, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::DOMStorage::Item>>& out_entries) = 0;
-    virtual void setDOMStorageItem(ErrorString&, const Inspector::InspectorObject& in_storageId, const String& in_key, const String& in_value) = 0;
-    virtual void removeDOMStorageItem(ErrorString&, const Inspector::InspectorObject& in_storageId, const String& in_key) = 0;
+    virtual void getDOMStorageItems(ErrorString&, const JSON::Object& in_storageId, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::DOMStorage::Item>>& out_entries) = 0;
+    virtual void setDOMStorageItem(ErrorString&, const JSON::Object& in_storageId, const String& in_key, const String& in_value) = 0;
+    virtual void removeDOMStorageItem(ErrorString&, const JSON::Object& in_storageId, const String& in_key) = 0;
 protected:
     virtual ~DOMStorageBackendDispatcherHandler();
 };
@@ -202,7 +203,7 @@ public:
     class JS_EXPORT_PRIVATE ExecuteSQLCallback : public BackendDispatcher::CallbackBase {
     public:
         ExecuteSQLCallback(Ref<BackendDispatcher>&&, int id);
-        void sendSuccess(RefPtr<Inspector::Protocol::Array<String>>&& columnNames, RefPtr<Inspector::Protocol::Array<Inspector::InspectorValue>>&& values, RefPtr<Inspector::Protocol::Database::Error>&& sqlError);
+        void sendSuccess(RefPtr<Inspector::Protocol::Array<String>>&& columnNames, RefPtr<Inspector::Protocol::Array<JSON::Value>>&& values, RefPtr<Inspector::Protocol::Database::Error>&& sqlError);
     };
     virtual void executeSQL(ErrorString&, const String& in_databaseId, const String& in_query, Ref<ExecuteSQLCallback>&& callback) = 0;
 protected:
@@ -215,11 +216,11 @@ public:
     virtual void disable(ErrorString&) = 0;
     virtual void setAsyncStackTraceDepth(ErrorString&, int in_depth) = 0;
     virtual void setBreakpointsActive(ErrorString&, bool in_active) = 0;
-    virtual void setBreakpointByUrl(ErrorString&, int in_lineNumber, const String* const opt_in_url, const String* const opt_in_urlRegex, const int* const opt_in_columnNumber, const Inspector::InspectorObject* opt_in_options, String* out_breakpointId, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Debugger::Location>>& out_locations) = 0;
-    virtual void setBreakpoint(ErrorString&, const Inspector::InspectorObject& in_location, const Inspector::InspectorObject* opt_in_options, String* out_breakpointId, RefPtr<Inspector::Protocol::Debugger::Location>& out_actualLocation) = 0;
+    virtual void setBreakpointByUrl(ErrorString&, int in_lineNumber, const String* const opt_in_url, const String* const opt_in_urlRegex, const int* const opt_in_columnNumber, const JSON::Object* opt_in_options, String* out_breakpointId, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Debugger::Location>>& out_locations) = 0;
+    virtual void setBreakpoint(ErrorString&, const JSON::Object& in_location, const JSON::Object* opt_in_options, String* out_breakpointId, RefPtr<Inspector::Protocol::Debugger::Location>& out_actualLocation) = 0;
     virtual void removeBreakpoint(ErrorString&, const String& in_breakpointId) = 0;
     virtual void continueUntilNextRunLoop(ErrorString&) = 0;
-    virtual void continueToLocation(ErrorString&, const Inspector::InspectorObject& in_location) = 0;
+    virtual void continueToLocation(ErrorString&, const JSON::Object& in_location) = 0;
     virtual void stepOver(ErrorString&) = 0;
     virtual void stepInto(ErrorString&) = 0;
     virtual void stepOut(ErrorString&) = 0;
@@ -230,9 +231,9 @@ public:
     virtual void getFunctionDetails(ErrorString&, const String& in_functionId, RefPtr<Inspector::Protocol::Debugger::FunctionDetails>& out_details) = 0;
     // Named after parameter 'state' while generating command/event setPauseOnExceptions.
     enum class State {
-        None = 131,
-        Uncaught = 171,
-        All = 172,
+        None = 132,
+        Uncaught = 172,
+        All = 173,
     }; // enum class State
     virtual void setPauseOnExceptions(ErrorString&, const String& in_state) = 0;
     virtual void setPauseOnAssertions(ErrorString&, bool in_enabled) = 0;
@@ -278,7 +279,7 @@ public:
         RequestDataCallback(Ref<BackendDispatcher>&&, int id);
         void sendSuccess(RefPtr<Inspector::Protocol::Array<Inspector::Protocol::IndexedDB::DataEntry>>&& objectStoreDataEntries, bool hasMore);
     };
-    virtual void requestData(ErrorString&, const String& in_securityOrigin, const String& in_databaseName, const String& in_objectStoreName, const String& in_indexName, int in_skipCount, int in_pageSize, const Inspector::InspectorObject* opt_in_keyRange, Ref<RequestDataCallback>&& callback) = 0;
+    virtual void requestData(ErrorString&, const String& in_securityOrigin, const String& in_databaseName, const String& in_objectStoreName, const String& in_indexName, int in_skipCount, int in_pageSize, const JSON::Object* opt_in_keyRange, Ref<RequestDataCallback>&& callback) = 0;
     class JS_EXPORT_PRIVATE ClearObjectStoreCallback : public BackendDispatcher::CallbackBase {
     public:
         ClearObjectStoreCallback(Ref<BackendDispatcher>&&, int id);
@@ -325,13 +326,13 @@ class JS_EXPORT_PRIVATE NetworkBackendDispatcherHandler {
 public:
     virtual void enable(ErrorString&) = 0;
     virtual void disable(ErrorString&) = 0;
-    virtual void setExtraHTTPHeaders(ErrorString&, const Inspector::InspectorObject& in_headers) = 0;
+    virtual void setExtraHTTPHeaders(ErrorString&, const JSON::Object& in_headers) = 0;
     virtual void getResponseBody(ErrorString&, const String& in_requestId, String* out_body, bool* out_base64Encoded) = 0;
     virtual void setResourceCachingDisabled(ErrorString&, bool in_disabled) = 0;
     class JS_EXPORT_PRIVATE LoadResourceCallback : public BackendDispatcher::CallbackBase {
     public:
         LoadResourceCallback(Ref<BackendDispatcher>&&, int id);
-        void sendSuccess(const String& content, const String& mimeType, double status);
+        void sendSuccess(const String& content, const String& mimeType, int status);
     };
     virtual void loadResource(ErrorString&, const String& in_frameId, const String& in_url, Ref<LoadResourceCallback>&& callback) = 0;
     virtual void resolveWebSocket(ErrorString&, const String& in_requestId, const String* const opt_in_objectGroup, RefPtr<Inspector::Protocol::Runtime::RemoteObject>& out_object) = 0;
@@ -366,17 +367,17 @@ class JS_EXPORT_PRIVATE RuntimeBackendDispatcherHandler {
 public:
     virtual void parse(ErrorString&, const String& in_source, Inspector::Protocol::Runtime::SyntaxErrorType* out_result, Inspector::Protocol::OptOutput<String>* opt_out_message, RefPtr<Inspector::Protocol::Runtime::ErrorRange>& opt_out_range) = 0;
     virtual void evaluate(ErrorString&, const String& in_expression, const String* const opt_in_objectGroup, const bool* const opt_in_includeCommandLineAPI, const bool* const opt_in_doNotPauseOnExceptionsAndMuteConsole, const int* const opt_in_contextId, const bool* const opt_in_returnByValue, const bool* const opt_in_generatePreview, const bool* const opt_in_saveResult, RefPtr<Inspector::Protocol::Runtime::RemoteObject>& out_result, Inspector::Protocol::OptOutput<bool>* opt_out_wasThrown, Inspector::Protocol::OptOutput<int>* opt_out_savedResultIndex) = 0;
-    virtual void callFunctionOn(ErrorString&, const String& in_objectId, const String& in_functionDeclaration, const Inspector::InspectorArray* opt_in_arguments, const bool* const opt_in_doNotPauseOnExceptionsAndMuteConsole, const bool* const opt_in_returnByValue, const bool* const opt_in_generatePreview, RefPtr<Inspector::Protocol::Runtime::RemoteObject>& out_result, Inspector::Protocol::OptOutput<bool>* opt_out_wasThrown) = 0;
+    virtual void callFunctionOn(ErrorString&, const String& in_objectId, const String& in_functionDeclaration, const JSON::Array* opt_in_arguments, const bool* const opt_in_doNotPauseOnExceptionsAndMuteConsole, const bool* const opt_in_returnByValue, const bool* const opt_in_generatePreview, RefPtr<Inspector::Protocol::Runtime::RemoteObject>& out_result, Inspector::Protocol::OptOutput<bool>* opt_out_wasThrown) = 0;
     virtual void getPreview(ErrorString&, const String& in_objectId, RefPtr<Inspector::Protocol::Runtime::ObjectPreview>& out_preview) = 0;
     virtual void getProperties(ErrorString&, const String& in_objectId, const bool* const opt_in_ownProperties, const bool* const opt_in_generatePreview, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Runtime::PropertyDescriptor>>& out_result, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Runtime::InternalPropertyDescriptor>>& opt_out_internalProperties) = 0;
     virtual void getDisplayableProperties(ErrorString&, const String& in_objectId, const bool* const opt_in_generatePreview, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Runtime::PropertyDescriptor>>& out_properties, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Runtime::InternalPropertyDescriptor>>& opt_out_internalProperties) = 0;
     virtual void getCollectionEntries(ErrorString&, const String& in_objectId, const String* const opt_in_objectGroup, const int* const opt_in_startIndex, const int* const opt_in_numberToFetch, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Runtime::CollectionEntry>>& out_entries) = 0;
-    virtual void saveResult(ErrorString&, const Inspector::InspectorObject& in_value, const int* const opt_in_contextId, Inspector::Protocol::OptOutput<int>* opt_out_savedResultIndex) = 0;
+    virtual void saveResult(ErrorString&, const JSON::Object& in_value, const int* const opt_in_contextId, Inspector::Protocol::OptOutput<int>* opt_out_savedResultIndex) = 0;
     virtual void releaseObject(ErrorString&, const String& in_objectId) = 0;
     virtual void releaseObjectGroup(ErrorString&, const String& in_objectGroup) = 0;
     virtual void enable(ErrorString&) = 0;
     virtual void disable(ErrorString&) = 0;
-    virtual void getRuntimeTypesForVariablesAtOffsets(ErrorString&, const Inspector::InspectorArray& in_locations, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Runtime::TypeDescription>>& out_types) = 0;
+    virtual void getRuntimeTypesForVariablesAtOffsets(ErrorString&, const JSON::Array& in_locations, RefPtr<Inspector::Protocol::Array<Inspector::Protocol::Runtime::TypeDescription>>& out_types) = 0;
     virtual void enableTypeProfiler(ErrorString&) = 0;
     virtual void disableTypeProfiler(ErrorString&) = 0;
     virtual void enableControlFlowProfiler(ErrorString&) = 0;
@@ -399,7 +400,7 @@ public:
     virtual void start(ErrorString&, const int* const opt_in_maxCallStackDepth) = 0;
     virtual void stop(ErrorString&) = 0;
     virtual void setAutoCaptureEnabled(ErrorString&, bool in_enabled) = 0;
-    virtual void setInstruments(ErrorString&, const Inspector::InspectorArray& in_instruments) = 0;
+    virtual void setInstruments(ErrorString&, const JSON::Array& in_instruments) = 0;
 protected:
     virtual ~TimelineBackendDispatcherHandler();
 };
@@ -417,7 +418,7 @@ protected:
 class JS_EXPORT_PRIVATE ApplicationCacheBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<ApplicationCacheBackendDispatcher> create(BackendDispatcher&, ApplicationCacheBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void getFramesWithManifests(long requestId, RefPtr<InspectorObject>&& parameters);
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -437,7 +438,7 @@ private:
 class JS_EXPORT_PRIVATE CSSBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<CSSBackendDispatcher> create(BackendDispatcher&, CSSBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -469,7 +470,7 @@ private:
 class JS_EXPORT_PRIVATE CanvasBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<CanvasBackendDispatcher> create(BackendDispatcher&, CanvasBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -496,7 +497,7 @@ private:
 class JS_EXPORT_PRIVATE ConsoleBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<ConsoleBackendDispatcher> create(BackendDispatcher&, ConsoleBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -517,7 +518,7 @@ private:
 class JS_EXPORT_PRIVATE DOMBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<DOMBackendDispatcher> create(BackendDispatcher&, DOMBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void getDocument(long requestId, RefPtr<InspectorObject>&& parameters);
     void requestChildNodes(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -534,6 +535,7 @@ private:
     void getAccessibilityPropertiesForNode(long requestId, RefPtr<InspectorObject>&& parameters);
     void getOuterHTML(long requestId, RefPtr<InspectorObject>&& parameters);
     void setOuterHTML(long requestId, RefPtr<InspectorObject>&& parameters);
+    void insertAdjacentHTML(long requestId, RefPtr<InspectorObject>&& parameters);
     void performSearch(long requestId, RefPtr<InspectorObject>&& parameters);
     void getSearchResults(long requestId, RefPtr<InspectorObject>&& parameters);
     void discardSearchResults(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -571,7 +573,7 @@ private:
 class JS_EXPORT_PRIVATE DOMDebuggerBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<DOMDebuggerBackendDispatcher> create(BackendDispatcher&, DOMDebuggerBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void setDOMBreakpoint(long requestId, RefPtr<InspectorObject>&& parameters);
     void removeDOMBreakpoint(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -595,7 +597,7 @@ private:
 class JS_EXPORT_PRIVATE DOMStorageBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<DOMStorageBackendDispatcher> create(BackendDispatcher&, DOMStorageBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -616,7 +618,7 @@ private:
 class JS_EXPORT_PRIVATE DatabaseBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<DatabaseBackendDispatcher> create(BackendDispatcher&, DatabaseBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -636,7 +638,7 @@ private:
 class JS_EXPORT_PRIVATE DebuggerBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<DebuggerBackendDispatcher> create(BackendDispatcher&, DebuggerBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -673,7 +675,7 @@ private:
 class JS_EXPORT_PRIVATE HeapBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<HeapBackendDispatcher> create(BackendDispatcher&, HeapBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -698,7 +700,7 @@ private:
 class JS_EXPORT_PRIVATE IndexedDBBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<IndexedDBBackendDispatcher> create(BackendDispatcher&, IndexedDBBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -721,7 +723,7 @@ private:
 class JS_EXPORT_PRIVATE InspectorBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<InspectorBackendDispatcher> create(BackendDispatcher&, InspectorBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -740,7 +742,7 @@ private:
 class JS_EXPORT_PRIVATE LayerTreeBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<LayerTreeBackendDispatcher> create(BackendDispatcher&, LayerTreeBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -761,7 +763,7 @@ private:
 class JS_EXPORT_PRIVATE MemoryBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<MemoryBackendDispatcher> create(BackendDispatcher&, MemoryBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -782,7 +784,7 @@ private:
 class JS_EXPORT_PRIVATE NetworkBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<NetworkBackendDispatcher> create(BackendDispatcher&, NetworkBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -805,7 +807,7 @@ private:
 class JS_EXPORT_PRIVATE PageBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<PageBackendDispatcher> create(BackendDispatcher&, PageBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -838,7 +840,7 @@ private:
 class JS_EXPORT_PRIVATE RuntimeBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<RuntimeBackendDispatcher> create(BackendDispatcher&, RuntimeBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void parse(long requestId, RefPtr<InspectorObject>&& parameters);
     void evaluate(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -872,7 +874,7 @@ private:
 class JS_EXPORT_PRIVATE ScriptProfilerBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<ScriptProfilerBackendDispatcher> create(BackendDispatcher&, ScriptProfilerBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void startTracking(long requestId, RefPtr<InspectorObject>&& parameters);
     void stopTracking(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -890,7 +892,7 @@ private:
 class JS_EXPORT_PRIVATE TimelineBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<TimelineBackendDispatcher> create(BackendDispatcher&, TimelineBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void start(long requestId, RefPtr<InspectorObject>&& parameters);
     void stop(long requestId, RefPtr<InspectorObject>&& parameters);
@@ -910,7 +912,7 @@ private:
 class JS_EXPORT_PRIVATE WorkerBackendDispatcher final : public SupplementalBackendDispatcher {
 public:
     static Ref<WorkerBackendDispatcher> create(BackendDispatcher&, WorkerBackendDispatcherHandler*);
-    void dispatch(long requestId, const String& method, Ref<InspectorObject>&& message) override;
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
 private:
     void enable(long requestId, RefPtr<InspectorObject>&& parameters);
     void disable(long requestId, RefPtr<InspectorObject>&& parameters);
