@@ -305,6 +305,11 @@ public:
     virtual void startTracking(long callId, const bool* const in_includeSamples) = 0;
     virtual void stopTracking(long callId) = 0;
 };
+class AlternateServiceWorkerBackendDispatcher : public AlternateBackendDispatcher {
+public:
+    virtual ~AlternateServiceWorkerBackendDispatcher() { }
+    virtual void getInitializationInfo(long callId) = 0;
+};
 class AlternateTimelineBackendDispatcher : public AlternateBackendDispatcher {
 public:
     virtual ~AlternateTimelineBackendDispatcher() { }

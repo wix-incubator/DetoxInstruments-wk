@@ -4,13 +4,13 @@ set -e
 if [ ! -d "wk-svn" ]; then
 	# svn checkout https://svn.webkit.org/repository/webkit/branches/safari-604.3.5.1-branch wk-svn
 	git clone git://git.webkit.org/WebKit.git wk-svn
+
+	patch -p1 < ../wk.diff
 fi
 
 rm -fr DTX_JSC.framework
 
 cd wk-svn
-
-# patch -p1 < ../wk.diff
 
 xcodebuild -project Source/bmalloc/bmalloc.xcodeproj -scheme bmalloc -configuration Debug  -sdk iphonesimulator -derivedDataPath ./DTXJSCBuild
 xcodebuild -project Source/WTF/WTF.xcodeproj -scheme WTF -configuration Debug  -sdk iphonesimulator -derivedDataPath ./DTXJSCBuild

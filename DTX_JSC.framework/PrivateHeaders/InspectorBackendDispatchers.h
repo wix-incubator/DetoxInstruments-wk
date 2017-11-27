@@ -61,6 +61,7 @@ class AlternateNetworkBackendDispatcher;
 class AlternatePageBackendDispatcher;
 class AlternateRuntimeBackendDispatcher;
 class AlternateScriptProfilerBackendDispatcher;
+class AlternateServiceWorkerBackendDispatcher;
 class AlternateTimelineBackendDispatcher;
 class AlternateWorkerBackendDispatcher;
 #endif // ENABLE(INSPECTOR_ALTERNATE_DISPATCHERS)
@@ -393,6 +394,13 @@ public:
     virtual void stopTracking(ErrorString&) = 0;
 protected:
     virtual ~ScriptProfilerBackendDispatcherHandler();
+};
+
+class JS_EXPORT_PRIVATE ServiceWorkerBackendDispatcherHandler {
+public:
+    virtual void getInitializationInfo(ErrorString&, RefPtr<Inspector::Protocol::ServiceWorker::InitializationInfo>& out_info) = 0;
+protected:
+    virtual ~ServiceWorkerBackendDispatcherHandler();
 };
 
 class JS_EXPORT_PRIVATE TimelineBackendDispatcherHandler {
@@ -887,6 +895,23 @@ private:
 private:
     ScriptProfilerBackendDispatcher(BackendDispatcher&, ScriptProfilerBackendDispatcherHandler*);
     ScriptProfilerBackendDispatcherHandler* m_agent { nullptr };
+};
+
+class JS_EXPORT_PRIVATE ServiceWorkerBackendDispatcher final : public SupplementalBackendDispatcher {
+public:
+    static Ref<ServiceWorkerBackendDispatcher> create(BackendDispatcher&, ServiceWorkerBackendDispatcherHandler*);
+    void dispatch(long requestId, const String& method, Ref<JSON::Object>&& message) override;
+private:
+    void getInitializationInfo(long requestId, RefPtr<InspectorObject>&& parameters);
+#if ENABLE(INSPECTOR_ALTERNATE_DISPATCHERS)
+public:
+    void setAlternateDispatcher(AlternateServiceWorkerBackendDispatcher* alternateDispatcher) { m_alternateDispatcher = alternateDispatcher; }
+private:
+    AlternateServiceWorkerBackendDispatcher* m_alternateDispatcher { nullptr };
+#endif
+private:
+    ServiceWorkerBackendDispatcher(BackendDispatcher&, ServiceWorkerBackendDispatcherHandler*);
+    ServiceWorkerBackendDispatcherHandler* m_agent { nullptr };
 };
 
 class JS_EXPORT_PRIVATE TimelineBackendDispatcher final : public SupplementalBackendDispatcher {

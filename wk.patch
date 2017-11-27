@@ -218,10 +218,10 @@ index 4755a9364..397081a8b 100644
          JS_EXPORT_PRIVATE String toString() const;
  
 diff --git a/Source/JavaScriptCore/runtime/InternalFunction.cpp b/Source/JavaScriptCore/runtime/InternalFunction.cpp
-index 3d3fd1abc..537f2120b 100644
+index 7b664385f..9e383729a 100644
 --- a/Source/JavaScriptCore/runtime/InternalFunction.cpp
 +++ b/Source/JavaScriptCore/runtime/InternalFunction.cpp
-@@ -68,6 +68,16 @@ const String& InternalFunction::name()
+@@ -74,6 +74,16 @@ const String& InternalFunction::name()
      return name;
  }
  
@@ -238,8 +238,8 @@ index 3d3fd1abc..537f2120b 100644
  const String InternalFunction::displayName(VM& vm)
  {
      JSValue displayName = getDirect(vm, vm.propertyNames->displayName);
-@@ -84,6 +94,16 @@ CallType InternalFunction::getCallData(JSCell*, CallData&)
-     return CallType::None;
+@@ -101,6 +111,16 @@ ConstructType InternalFunction::getConstructData(JSCell* cell, ConstructData& co
+     return ConstructType::Host;
  }
  
 +const std::string InternalFunction::calculatedDisplayName_unsafe(__unused VM& vm)
@@ -256,10 +256,10 @@ index 3d3fd1abc..537f2120b 100644
  {
      const String explicitName = displayName(vm);
 diff --git a/Source/JavaScriptCore/runtime/InternalFunction.h b/Source/JavaScriptCore/runtime/InternalFunction.h
-index 3a8f22eb8..bdfbf82b0 100644
+index ec42bb8e2..cb14111c0 100644
 --- a/Source/JavaScriptCore/runtime/InternalFunction.h
 +++ b/Source/JavaScriptCore/runtime/InternalFunction.h
-@@ -39,7 +39,9 @@ public:
+@@ -42,7 +42,9 @@ public:
      JS_EXPORT_PRIVATE static void visitChildren(JSCell*, SlotVisitor&);
  
      JS_EXPORT_PRIVATE const String& name();
@@ -270,7 +270,7 @@ index 3a8f22eb8..bdfbf82b0 100644
  
      static Structure* createStructure(VM& vm, JSGlobalObject* globalObject, JSValue proto)
 diff --git a/Source/JavaScriptCore/runtime/JSFunction.cpp b/Source/JavaScriptCore/runtime/JSFunction.cpp
-index f863d0e1a..4d3220b7f 100644
+index 3686ff3bc..bbe787670 100644
 --- a/Source/JavaScriptCore/runtime/JSFunction.cpp
 +++ b/Source/JavaScriptCore/runtime/JSFunction.cpp
 @@ -175,6 +175,16 @@ String JSFunction::name(VM& vm)
@@ -311,7 +311,7 @@ index f863d0e1a..4d3220b7f 100644
  const String JSFunction::calculatedDisplayName(VM& vm)
  {
      const String explicitName = displayName(vm);
-@@ -596,6 +620,15 @@ ConstructType JSFunction::getConstructData(JSCell* cell, ConstructData& construc
+@@ -603,6 +627,15 @@ ConstructType JSFunction::getConstructData(JSCell* cell, ConstructData& construc
      return ConstructType::JS;
  }
  
@@ -328,7 +328,7 @@ index f863d0e1a..4d3220b7f 100644
  {
      if (JSFunction* function = jsDynamicCast<JSFunction*>(vm, object))
 diff --git a/Source/JavaScriptCore/runtime/JSFunction.h b/Source/JavaScriptCore/runtime/JSFunction.h
-index 4794502e1..cc24f5860 100644
+index 041ef3117..b4a5bc3ea 100644
 --- a/Source/JavaScriptCore/runtime/JSFunction.h
 +++ b/Source/JavaScriptCore/runtime/JSFunction.h
 @@ -51,6 +51,7 @@ class Signature;

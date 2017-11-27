@@ -225,6 +225,10 @@ class Samples;
 enum class EventType;
 } // ScriptProfiler
 
+namespace ServiceWorker {
+class InitializationInfo;
+} // ServiceWorker
+
 namespace Timeline {
 class TimelineEvent;
 enum class EventType;
@@ -9320,6 +9324,83 @@ public:
 };
 
 } // ScriptProfiler
+
+namespace ServiceWorker {
+/* ServiceWorker metadata and initial state. */
+class InitializationInfo : public JSON::ObjectBase {
+public:
+    enum {
+        NoFieldsSet = 0,
+        TargetIdSet = 1 << 0,
+        SecurityOriginSet = 1 << 1,
+        UrlSet = 1 << 2,
+        AllFieldsSet = (TargetIdSet | SecurityOriginSet | UrlSet)
+    };
+
+    template<int STATE>
+    class Builder {
+    private:
+        RefPtr<JSON::Object> m_result;
+
+        template<int STEP> Builder<STATE | STEP>& castState()
+        {
+            return *reinterpret_cast<Builder<STATE | STEP>*>(this);
+        }
+
+        Builder(Ref</*InitializationInfo*/JSON::Object>&& object)
+            : m_result(WTFMove(object))
+        {
+            COMPILE_ASSERT(STATE == NoFieldsSet, builder_created_in_non_init_state);
+        }
+        friend class InitializationInfo;
+    public:
+
+        Builder<STATE | TargetIdSet>& setTargetId(const String& value)
+        {
+            COMPILE_ASSERT(!(STATE & TargetIdSet), property_targetId_already_set);
+            m_result->setString(ASCIILiteral("targetId"), value);
+            return castState<TargetIdSet>();
+        }
+
+        Builder<STATE | SecurityOriginSet>& setSecurityOrigin(const String& value)
+        {
+            COMPILE_ASSERT(!(STATE & SecurityOriginSet), property_securityOrigin_already_set);
+            m_result->setString(ASCIILiteral("securityOrigin"), value);
+            return castState<SecurityOriginSet>();
+        }
+
+        Builder<STATE | UrlSet>& setUrl(const String& value)
+        {
+            COMPILE_ASSERT(!(STATE & UrlSet), property_url_already_set);
+            m_result->setString(ASCIILiteral("url"), value);
+            return castState<UrlSet>();
+        }
+
+        Ref<InitializationInfo> release()
+        {
+            COMPILE_ASSERT(STATE == AllFieldsSet, result_is_not_ready);
+            COMPILE_ASSERT(sizeof(InitializationInfo) == sizeof(JSON::Object), cannot_cast);
+
+            Ref<JSON::Object> result = m_result.releaseNonNull();
+            return WTFMove(*reinterpret_cast<Ref<InitializationInfo>*>(&result));
+        }
+    };
+
+    /*
+     * Synthetic constructor:
+     * Ref<InitializationInfo> result = InitializationInfo::create()
+     *     .setTargetId(...)
+     *     .setSecurityOrigin(...)
+     *     .setUrl(...)
+     *     .release();
+     */
+    static Builder<NoFieldsSet> create()
+    {
+        return Builder<NoFieldsSet>(JSON::Object::create());
+    }
+};
+
+} // ServiceWorker
 
 namespace Timeline {
 /* Timeline record type. */

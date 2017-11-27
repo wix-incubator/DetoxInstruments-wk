@@ -186,8 +186,8 @@ extern const JSC::ConstructAbility s_asyncFromSyncIteratorPrototypeAsyncFromSync
     macro(next, asyncFromSyncIteratorPrototypeNext, 1) \
     macro(return, asyncFromSyncIteratorPrototypeReturn, 1) \
     macro(throw, asyncFromSyncIteratorPrototypeThrow, 1) \
-    macro(createAsyncFromSyncIterator, asyncFromSyncIteratorPrototypeCreateAsyncFromSyncIterator, 1) \
-    macro(AsyncFromSyncIteratorConstructor, asyncFromSyncIteratorPrototypeAsyncFromSyncIteratorConstructorConstructor, 1) \
+    macro(createAsyncFromSyncIterator, asyncFromSyncIteratorPrototypeCreateAsyncFromSyncIterator, 2) \
+    macro(AsyncFromSyncIteratorConstructor, asyncFromSyncIteratorPrototypeAsyncFromSyncIteratorConstructorConstructor, 2) \
 
 /* AsyncFunctionPrototype */
 extern const char* s_asyncFunctionPrototypeAsyncFunctionResumeCode;

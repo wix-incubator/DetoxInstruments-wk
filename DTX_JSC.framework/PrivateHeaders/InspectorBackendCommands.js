@@ -415,6 +415,10 @@ InspectorBackend.registerCommand("ScriptProfiler.startTracking", [{"name": "incl
 InspectorBackend.registerCommand("ScriptProfiler.stopTracking", [], []);
 InspectorBackend.activateDomain("ScriptProfiler");
 
+// ServiceWorker.
+InspectorBackend.registerCommand("ServiceWorker.getInitializationInfo", [], ["info"]);
+InspectorBackend.activateDomain("ServiceWorker", ["service-worker"]);
+
 // Timeline.
 InspectorBackend.registerTimelineDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "Timeline");
 InspectorBackend.registerEnum("Timeline.EventType", {EventDispatch: "EventDispatch", ScheduleStyleRecalculation: "ScheduleStyleRecalculation", RecalculateStyles: "RecalculateStyles", InvalidateLayout: "InvalidateLayout", Layout: "Layout", Paint: "Paint", Composite: "Composite", RenderingFrame: "RenderingFrame", TimerInstall: "TimerInstall", TimerRemove: "TimerRemove", TimerFire: "TimerFire", EvaluateScript: "EvaluateScript", TimeStamp: "TimeStamp", Time: "Time", TimeEnd: "TimeEnd", FunctionCall: "FunctionCall", ProbeSample: "ProbeSample", ConsoleProfile: "ConsoleProfile", RequestAnimationFrame: "RequestAnimationFrame", CancelAnimationFrame: "CancelAnimationFrame", FireAnimationFrame: "FireAnimationFrame"});
