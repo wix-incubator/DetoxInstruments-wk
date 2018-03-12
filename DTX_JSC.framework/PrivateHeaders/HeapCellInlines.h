@@ -63,7 +63,15 @@ ALWAYS_INLINE VM* HeapCell::vm() const
 {
     if (isLargeAllocation())
         return largeAllocation().vm();
-    return markedBlock().vm();
+	
+	MarkedBlock* mbUnsafe = &markedBlock();
+	
+	if(__dtx_isPtrSafe(mbUnsafe, sizeof(MarkedBlock)) == false)
+	{
+		return nullptr;
+	}
+	
+    return mbUnsafe->vm();
 }
     
 ALWAYS_INLINE size_t HeapCell::cellSize() const

@@ -105,7 +105,9 @@ public:
         void dump(PrintStream&, Indenter, std::function<void(PrintStream&)> prefix) const;
 
     private:
-        Frame() { }
+        Frame() {
+			printf("");
+		}
         ~Frame() { }
 
         void retrieveExpressionInfo(int& divot, int& startOffset, int& endOffset, unsigned& line, unsigned& column) const;

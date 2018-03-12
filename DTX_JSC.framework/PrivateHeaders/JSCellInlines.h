@@ -123,6 +123,18 @@ inline void JSCell::visitChildren(JSCell* cell, SlotVisitor& visitor)
 inline void JSCell::visitOutputConstraints(JSCell*, SlotVisitor&)
 {
 }
+	
+ALWAYS_INLINE bool ExecState::hasVm() const
+{
+	JSCell* callee = this->callee().asCell();
+	
+	if(!callee || callee->isLargeAllocation() || !callee->vm())
+	{
+		return false;
+	}
+	
+	return true;
+}
 
 ALWAYS_INLINE VM& ExecState::vm() const
 {
@@ -291,8 +303,10 @@ ALWAYS_INLINE const ClassInfo* JSCell::classInfo(VM& vm) const
     // destructing the object. The GC thread or JIT threads, unlike the mutator thread, are able to access classInfo
     // independent of whether the mutator thread is sweeping or not. Hence, we also check for !currentThreadIsHoldingAPILock()
     // to allow the GC thread or JIT threads to pass this assertion.
-    ASSERT(vm.heap.mutatorState() != MutatorState::Sweeping || !vm.currentThreadIsHoldingAPILock());
-    return structure(vm)->classInfo();
+	
+//    ASSERT(vm.heap.mutatorState() != MutatorState::Sweeping || !vm.currentThreadIsHoldingAPILock());
+	
+	return structure(vm)->classInfo();
 }
 
 inline bool JSCell::toBoolean(ExecState* exec) const

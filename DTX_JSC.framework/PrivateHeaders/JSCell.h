@@ -302,6 +302,18 @@ inline To jsCast(JSValue from)
 }
 
 template<typename To, typename From>
+inline To jsCast_unsafe(From* from)
+{
+	return static_cast<To>(from);
+}
+
+template<typename To>
+inline To jsCast_unsafe(JSValue from)
+{
+	return static_cast<To>(from.asCell());
+}
+	
+template<typename To, typename From>
 inline To jsDynamicCast(VM& vm, From* from)
 {
     if (LIKELY(from->JSCell::inherits(vm, std::remove_pointer<To>::type::info())))

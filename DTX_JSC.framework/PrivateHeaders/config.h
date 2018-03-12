@@ -32,3 +32,16 @@
 #endif
 
 #include <wtf/DisallowCType.h>
+
+#ifndef __DTX_ISPTRSAFE
+#define __DTX_ISPTRSAFE
+#include <mach/mach_init.h>
+#include <mach/vm_map.h>
+#ifdef __cplusplus
+
+extern void __dtx_enablePtrSafe(void);
+extern void __dtx_disablePtrSafe(void);
+bool __dtx_isPtrSafe(void* ptr, size_t size);
+
+#endif
+#endif

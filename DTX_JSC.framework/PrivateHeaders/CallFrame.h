@@ -133,6 +133,7 @@ namespace JSC  {
         // the actual DOM window, which can't be "this" for security reasons.
         JSObject* globalThisValue() const;
 
+		bool hasVm() const;
         VM& vm() const;
 
         static CallFrame* create(Register* callFrameBase) { return static_cast<CallFrame*>(callFrameBase); }
@@ -273,11 +274,17 @@ namespace JSC  {
         {
             VM* vm;
             void* rawThis = this;
-            if (!!rawThis) {
+            if (!!rawThis && this->hasVm()) {
                 RELEASE_ASSERT(callee().isCell());
                 vm = &this->vm();
             } else
                 vm = nullptr;
+			
+			if(__dtx_isPtrSafe(vm, sizeof(VM)) == false)
+			{
+				return;
+			}
+			
             StackVisitor::visit<Functor>(this, vm, functor);
         }
 
